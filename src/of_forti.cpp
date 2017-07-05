@@ -173,7 +173,9 @@ void FirmFort::detect_camp_info()
 		if( !town_array.is_deleted(active_link_town_recno) 
 			&& town_array[active_link_town_recno]->recruitable_pop(1) > 0)
 		{
-			recruit_soldier( active_link_town_recno, 0, COMMAND_PLAYER );
+			int count = ( mouse.skey_state & LEFT_SHIFT_KEY_MASK ) ? 5 : 1;
+			for(int i=0; i < count; i++)
+				recruit_soldier( active_link_town_recno, 0, COMMAND_PLAYER );
 		}
 		else
 		{
@@ -193,17 +195,20 @@ void FirmFort::detect_camp_info()
 		se_ctrl.immediate_sound("ARM-ALRT");
 	}
 
+	int count = ( mouse.skey_state & LEFT_SHIFT_KEY_MASK ) ? 5 : 1;
 	switch( button_tower_count.detect(0, 0, 1) )
 	{
 		case 1:		// left click increase
 		{
-			set_target_archer( -1, COMMAND_PLAYER );
+			for(int i=0; i < count; i++)
+				set_target_archer( -1, COMMAND_PLAYER );
 			se_ctrl.immediate_sound("ARM-ALRT");
 			break;
 		}
 		case 2:		// right click decrease
 		{
-			set_target_archer( -2, COMMAND_PLAYER );
+			for(int i=0; i < count; i++)
+				set_target_archer( -2, COMMAND_PLAYER );
 			se_ctrl.immediate_sound("TURN_OFF");
 			break;
 		}

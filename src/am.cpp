@@ -467,7 +467,9 @@ int main(int argc, char **argv)
 			i++;
 		}
 	}
-
+	
+	SDL_SetRelativeMouseMode((SDL_bool)1);
+	
 	if( !sys.init() )
 		return FALSE;
 

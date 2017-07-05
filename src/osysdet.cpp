@@ -50,6 +50,10 @@
 #include <oun_grp.h>
 #include <ot_gmenu.h>
 
+#include <of_magi.h>
+#include <opower.h>
+#include <ose.h>
+#include <of_fort.h>
 
 //------- Define static functions -----------//
 
@@ -68,6 +72,8 @@ static void locate_free_item(int checkExplore=1);
 typedef int (*FilterUnitFunc)(Unit *unitPtr, int para1);
 static int filter_unit_id(Unit *unitPtr, int para1);
 static int	filter_unit( FilterUnitFunc filterFunc, int para1, int negate=0);
+
+static void select_full_magic_tower(int nationRecno);
 
 //-------- Begin of function Sys::detect --------//
 //
@@ -207,34 +213,28 @@ void Sys::process_key(unsigned scanCode, unsigned skeyState)
 void Sys::detect_letter_key(unsigned scanCode, unsigned skeyState)
 {
 	int keyCode;
-
+	
 	//------ key for formation -------//
 
 	if((keyCode = mouse.is_key(scanCode, skeyState, (WORD) 0, 0)))
 	{
-		if( unit_array.selected_recno &&
-			 keyCode >= '0' && keyCode <= '0' + MAX_FORMATION )
+		static int lastPress=0;
+		static int lastKeyCode=0;
+		// new recalling group commands are just number (1-9) since recalling groups are much more useful than formations
+		if( keyCode >= '1' && keyCode <= '9' )
 		{
-			if( unit_array.selected_recno )
-			{
-				Unit* unitPtr = unit_array[unit_array.selected_recno];
-
-				if( unitPtr->team_info )
-				{
-					// ###### begin Gilbert 25/2 #######//
-					// do not set formation_id here, let unit_group.formation set it (for multiplayer game)
-//					unitPtr->team_info->formation_id = keyCode-'0';
-//					if( keyCode > '0' )		// '0' resets formation
-//					{
-//						unit_group.set( unitPtr->team_info->member_unit_array, unitPtr->team_info->member_count );
-//						unit_group.formation(unitPtr->team_info->formation_id, COMMAND_PLAYER);
-//					}
-					unit_group.set( unitPtr->team_info->member_unit_array, unitPtr->team_info->member_count );
-					unit_group.formation(keyCode-'0', COMMAND_PLAYER);
-					// ###### end Gilbert 25/2 #######//
+			unit_group_array[keyCode-'1'].validate_unit_array(nation_array.player_recno);
+			unit_group_array[keyCode-'1'].select_all();		// unit_group_array[] start with 0, it is not a DynArray
+			if(unit_array.selected_recno) {
+				if(misc.get_time() - lastPress < 500 && lastKeyCode == keyCode) {
+					Unit* unitPtr = unit_array[unit_array.selected_recno];
+					world.go_loc(unitPtr->next_x_loc(), unitPtr->next_y_loc());
+					lastPress = 0;
+				} else {
+					lastPress = misc.get_time();
+					lastKeyCode = keyCode;
 				}
 			}
-
 			return;
 		}
 	} 
@@ -352,10 +352,20 @@ void Sys::detect_letter_key(unsigned scanCode, unsigned skeyState)
 
 	if((keyCode = mouse.is_key(scanCode, skeyState, (WORD) 0, K_IS_ALT)))
 	{
-		if( keyCode >= '1' && keyCode <= '9' )
+		// unit formations now with ALT+num
+		if( unit_array.selected_recno && keyCode >= '0' && keyCode <= '0' + MAX_FORMATION )
 		{
-			unit_group_array[keyCode-'1'].validate_unit_array(nation_array.player_recno);
-			unit_group_array[keyCode-'1'].select_all();		// unit_group_array[] start with 0, it is not a DynArray
+			if( unit_array.selected_recno )
+			{
+				Unit* unitPtr = unit_array[unit_array.selected_recno];
+
+				if( unitPtr->team_info )
+				{
+					unit_group.set( unitPtr->team_info->member_unit_array, unitPtr->team_info->member_count );
+					unit_group.formation(keyCode-'0', COMMAND_PLAYER);
+				}
+			}
+
 			return;
 		}
 	}
@@ -419,7 +429,31 @@ void Sys::detect_letter_key(unsigned scanCode, unsigned skeyState)
 				locate_firm_id(firmIdString, nation_array.player_recno);
 			}
 			break;
+		case 'F':		// fortify all forts with arrows
+			{
+				int done = 0;
+				for( int i=0 ; i <= firm_array.size() ; i++ ) {
+					
+					if( firm_array.is_deleted(i) )
+						continue;
 
+					Firm* firmPtr = firm_array[i];
+					
+					if( FIRM_FORT == (char)firmPtr->firm_id
+						&& !firmPtr->under_construction
+						&& firmPtr->nation_recno == nation_array.player_recno) {
+						FirmFort* fortPtr = firmPtr->cast_to_FirmFort();
+						if( fortPtr->target_archer_count < MAX_FORT_ARCHER ) {
+							for(int i=0; i < 5; i++)
+								fortPtr->set_target_archer( -1, COMMAND_PLAYER );
+							done = 1;
+						}
+					}
+				}
+				if(done)
+					se_ctrl.immediate_sound("ARM-ALRT");
+			}
+			break;
 		case 'f':		// search camp, fort, lair, grokken fortress
 			{
 				char firmIdString[] = { FIRM_FORT, FIRM_CAMP, FIRM_LAIR, FIRM_FORTRESS, 0 };
@@ -467,12 +501,17 @@ void Sys::detect_letter_key(unsigned scanCode, unsigned skeyState)
 			}
 			break;
 
-		case 'n':		// search offensive structure magic tor, lishorrs
+		case 'N':		// search offensive structure magic tor, lishorrs
 			{
 				char firmIdString[] = { FIRM_MAGIC, FIRM_LISHORR,
 					FIRM_OFFENSIVE_BUILDING_1, FIRM_OFFENSIVE_BUILDING_2,
 					FIRM_OFFENSIVE_BUILDING_3, FIRM_OFFENSIVE_BUILDING_4,	0 };
 				locate_firm_id(firmIdString, nation_array.player_recno);
+			}
+			break;
+		case 'n':		// search magic full tors
+			{
+				select_full_magic_tower(nation_array.player_recno);
 			}
 			break;
 
@@ -492,6 +531,26 @@ void Sys::detect_letter_key(unsigned scanCode, unsigned skeyState)
 			}
          break;
 
+		case 'R': // set repair to all structures that needs repairing
+			{
+				bool repaired=false;
+				for(int i=1; i < firm_array.size(); i++) {
+					
+					if(firm_array.is_deleted(i)) continue;
+					Firm* firmPtr = firm_array[i];
+					if( firmPtr->nation_recno == nation_array.player_recno &&
+						!(firmPtr->under_construction || firmPtr->repair_flag) &&
+						firmPtr->hit_points != firmPtr->max_hit_points() && 
+						firmPtr->firm_id != FIRM_LISHORR ) {
+						
+						firmPtr->set_repair_flag(1,0);
+						if(!repaired) repaired = true;
+					}
+				}
+				if(repaired)
+					se_ctrl.immediate_sound("REPAIR");
+			}
+			break;
 		case 'r':
 			locate_royal();
 			break;
@@ -499,7 +558,26 @@ void Sys::detect_letter_key(unsigned scanCode, unsigned skeyState)
       case 's':	//---- keys for saving and loading game -----//
          save_game();
          break;
-
+		case 'T':		// Repair And Fortify all towns
+			{
+				int done = 0;
+				for(int i=0; i <= town_array.size(); i++) {
+					if(town_array.is_deleted(i)) continue;
+					Town *townPtr = town_array[i];
+					if(townPtr->nation_recno == nation_array.player_recno && !townPtr->under_construction) {
+					   if(townPtr->target_wall_level < 2 && !townPtr->repair_flag) {
+							townPtr->set_target_wall_level( townPtr->target_wall_level+1, COMMAND_PLAYER );
+							done = 1;
+					   } else if(townPtr->hit_points < townPtr->max_hit_points() and !townPtr->repair_flag ) {
+						   townPtr->repair_flag = 1;
+						   done = 1;
+					   }
+					}
+				}
+				if(done)
+					se_ctrl.immediate_sound("TURN_ON");
+			}
+			break;
 		case 't':		// search tower of science
 			{
 				char firmIdString[] = { FIRM_RESEARCH, 0 };
@@ -2114,6 +2192,61 @@ static void locate_firm_id(char *firmIdString, int nationRecno)
 	}
 }
 // -------- end of function locate_firm_id -------//
+
+// -------- begin of function select_full_magic_tower -------//
+//
+// [int] nationRecno			- nation to be selected, -1 for all
+//
+
+/*
+	Transformation matrix for transforming from rectangle to diamond vector space
+	[  0.559 1.118
+	   -0.559 1.118 ]
+ */
+#define v1 5590/10000
+#define v2 11180/10000
+static void select_full_magic_tower(int nationRecno)
+{
+	int firmRecno = firm_array.selected_recno;
+	int lastGood = 0;
+	int min_range = 99999;
+	int x,y;
+	x = world.zoom_matrix->get_base_x();
+	y = world.zoom_matrix->get_base_y();
+	int tx = (x*v1+y*v2) >> 5;
+	int ty = (-x*v1+y*v2) >> 5;
+	
+	for( int i=firm_array.size() ; i>0 ; i-- )
+	{
+		if( ++firmRecno > firm_array.size() )
+			firmRecno = 1;
+
+		if( firm_array.is_deleted(firmRecno) )
+			continue;
+
+		Firm* firmPtr = firm_array[firmRecno];
+		
+		if( FIRM_MAGIC == (char)firmPtr->firm_id  
+			&& firmPtr->nation_recno == nationRecno )
+		{
+			int range;
+			if(((FirmMagic*)firmPtr)->cast_delay == MAX_CAST_MAGIC_DELAY 
+				&& (range = misc.points_distance(tx,ty,firmPtr->center_x,firmPtr->center_y)) < min_range ) {
+				lastGood = firmPtr->firm_recno;
+				
+				//printf("%d %d - %d %d <=> %d %d\n",x,y,firmPtr->loc_x1,firmPtr->loc_y1, tx, ty);
+				min_range = range;
+			}
+		}
+	}
+	
+	if(lastGood) {
+		power.reset_selection();
+		firm_array.selected_recno = lastGood;
+	}
+}
+// -------- end of function select_full_magic_tower -------//
+
 
 
 // ------- begin of function filter_unit_id --------//

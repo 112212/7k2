@@ -434,33 +434,41 @@ void FirmWar::detect_build_menu()
 		}
 
 		//------- process the action --------//
-
+		
 		if( rc > 0 )
 		{
+			int count = (mouse.skey_state & LEFT_SHIFT_KEY_MASK) ? 5 : 1;
 			if( rc==1 )		// left button
 			{
 				if( remote.is_enable() )
 				{
+					for(int i=0; i < count; i++) {
 					// packet structure : <firm recno> <unit Id>
 					short *shortPtr = (short *)remote.new_send_queue_msg(MSG_F_WAR_BUILD_WEAPON, 2*sizeof(short) );
 					shortPtr[0] = firm_recno;
 					shortPtr[1] = unitId;
+					}
 				}
-				else
-					add_queue(unitId);
+				else {
+					for(int i=0; i < count; i++)
+						add_queue(unitId);
+				}
 				se_ctrl.immediate_sound("TURN_ON");
 			}
 			else 				// right button - remove queue
 			{
 				if( remote.is_enable() )
 				{
+					for(int i=0; i < count; i++) {
 					// packet structure : <firm recno> <unit Id>
 					short *shortPtr = (short *)remote.new_send_queue_msg(MSG_F_WAR_CANCEL_WEAPON, 2*sizeof(short) );
 					shortPtr[0] = firm_recno;
 					shortPtr[1] = unitId;
+					}
 				}
 				else
-					remove_queue(unitId);
+					for(int i=0; i < count; i++)
+						remove_queue(unitId);
 				se_ctrl.immediate_sound("TURN_OFF");
 			}
 

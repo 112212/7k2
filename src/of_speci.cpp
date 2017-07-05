@@ -32,6 +32,7 @@
 #include <otown.h>
 #include <ose.h>
 #include <oseres.h>
+#include <omouse.h> // shift key mask
 
 static Button3D button_train;
 
@@ -111,11 +112,14 @@ void FirmSpecial::detect_firm_info()
 	if( rc )
 	{
 		cur_train_type = TRAIN_UNIT_SPECIAL;
-
+		
 		if( !town_array.is_deleted(active_link_town_recno) 
 			&& town_array[active_link_town_recno]->recruitable_pop(1) > 0)
 		{
-			recruit_trainee( active_link_town_recno, cur_train_type, COMMAND_PLAYER );
+			int count = (mouse.skey_state & LEFT_SHIFT_KEY_MASK) ? 8 : 1;
+			for(int i=0; i < count; i++) {
+				recruit_trainee( active_link_town_recno, cur_train_type, COMMAND_PLAYER );
+			}
 		}
 		else
 		{
@@ -126,7 +130,10 @@ void FirmSpecial::detect_firm_info()
 			if( rc == 1 && raceCount == 1 )
 			{
 				err_when( !townRecnoArray[0] );
-				recruit_trainee(townRecnoArray[0], cur_train_type, COMMAND_PLAYER );
+				int count = (mouse.skey_state & LEFT_SHIFT_KEY_MASK) ? 8 : 1;
+				for(int i=0; i < count; i++) {
+					recruit_trainee( townRecnoArray[0], cur_train_type, COMMAND_PLAYER );
+				}
 			}
 			else if( rc == 2 || rc == 1 && raceCount > 1 )
 			{

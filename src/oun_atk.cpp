@@ -881,7 +881,7 @@ int Unit::validate_attack_target()
 			//-----------------------------------------------------//
 
 			if( original_target_x_loc >= 0 &&
-				 (get_behavior_mode() == UNIT_AGGRESSIVE || unit_mode) )
+				 (get_behavior_mode() == UNIT_AGGRESSIVE || unit_mode || get_behavior_mode() == UNIT_DEFENSIVE) )
 			{
 				//--- only chase in aggressive mode or in special mode like defending and rebel ----//
 

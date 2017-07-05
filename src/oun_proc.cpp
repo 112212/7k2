@@ -133,7 +133,7 @@ void Unit::next_day()
 
 	//-------- if aggresive_mode is 1 --------//
 
-	if( is_visible() )
+	if( is_visible() && behavior_mode != UNIT_DEFENSIVE)
 		think_aggressive_action();
 
 	// --------- process item -------//

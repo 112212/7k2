@@ -172,6 +172,12 @@ void FirmLair::detect_camp_info()
 
 			if( rc==1 )                            // left button
 			{	
+				if( mouse.skey_state & LEFT_SHIFT_KEY_MASK) {
+					recruit_soldier( COMMAND_PLAYER );
+					recruit_soldier( COMMAND_PLAYER );
+					recruit_soldier( COMMAND_PLAYER );
+					recruit_soldier( COMMAND_PLAYER );
+				}
 				recruit_soldier( COMMAND_PLAYER );
 			//	se_ctrl.immediate_sound("TURN_ON");
 				se_ctrl.immediate_sound("ARM-ALRT");

@@ -84,8 +84,8 @@ static void set_source_panning(ALuint source, int panning)
    panning = MAX(panning, -10000);
    panning = MIN(panning, 10000);
 
-   alSource3f(source, AL_POSITION,
-	      PANNING_MAX_X * panning / 10000.f, 0, PANNING_Z);
+   alSource3f(source, AL_POSITION, PANNING_MAX_X * panning / 10000.f, 0, PANNING_Z);
+   //alSource3f(source, AL_POSITION, 0, 0, 0);
 }
 
 /* volume is in [-10,000; 0] */
@@ -658,8 +658,7 @@ DsVolume OpenALAudio::get_loop_wav_volume(int id)
    if (sc->fade_frames != 0)
       gain *= 1.f - float(sc->fade_frames_played) / sc->fade_frames;
 
-   return DsVolume(ratio_to_millibels(gain),
-		   (position[0] / PANNING_MAX_X) * 10000.f + .5f);
+   return DsVolume(ratio_to_millibels(gain), (position[0] / PANNING_MAX_X) * 10000.f + .5f);
 }
 
 int OpenALAudio::is_loop_wav_fading(int id)

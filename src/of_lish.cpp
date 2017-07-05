@@ -390,7 +390,7 @@ void FirmLishorr::process_monster_firm()
 	if( hit_points < max_hit_points() )
 	{
 		if (weather.cloud())
-			hit_points += (REPAIR_POINTS_PER_DAY/2);
+			hit_points += (REPAIR_POINTS_PER_DAY/4);
 		else
 			hit_points += (REPAIR_POINTS_PER_DAY/8);
 	}
