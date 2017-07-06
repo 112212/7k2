@@ -998,8 +998,10 @@ int MouseSDL::poll_event()
 			if(vga.is_input_grabbed()) {
 				
 #ifdef MOUSE_ACCEL
-				cur_x += micky_to_displacement(event.motion.xrel);
-				cur_y += micky_to_displacement(event.motion.yrel);
+				// cur_x += micky_to_displacement(event.motion.xrel);
+				// cur_y += micky_to_displacement(event.motion.yrel);
+				cur_x += event.motion.xrel;
+				cur_y += event.motion.yrel;
 #else
 				cur_x += event.motion.xrel;
 				cur_y += event.motion.yrel;
