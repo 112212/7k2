@@ -971,6 +971,7 @@ int MouseSDL::release_click(int buttonId)
 //--------- End of MouseSDL::release_click --------------//
 
 #include <iostream>
+
 //--------- Begin of MouseSDL::poll_event ----------//
 //
 // Poll mouse and keyboard events.
@@ -1111,6 +1112,7 @@ int MouseSDL::poll_event()
 			}
 			if (!bypass) {
 				update_skey_state();
+				// arrow_key_state = 0;
 				if (event.key.keysym.sym == SDLK_LEFT)
 					arrow_key_state |= ARROW_LEFT_KEY_MASK;
 				else if (event.key.keysym.sym == SDLK_RIGHT)
@@ -1119,14 +1121,23 @@ int MouseSDL::poll_event()
 					arrow_key_state |= ARROW_UP_KEY_MASK;
 				else if (event.key.keysym.sym == SDLK_DOWN)
 					arrow_key_state |= ARROW_DOWN_KEY_MASK;
-				add_key_event(event.key.keysym.sym,
-					      misc.get_time());
+				add_key_event(event.key.keysym.sym, misc.get_time());
+				// std::cout << "arrow key pressed: " << event.key.keysym.sym << " : " << misc.get_time() << "\n";
 			}
 			rc = 1;
 			break;
 		}
 		case SDL_KEYUP:
 			update_skey_state();
+			if (event.key.keysym.sym == SDLK_LEFT)
+				arrow_key_state &= ~ARROW_LEFT_KEY_MASK;
+			else if (event.key.keysym.sym == SDLK_RIGHT)
+				arrow_key_state &= ~ARROW_RIGHT_KEY_MASK;
+			else if (event.key.keysym.sym == SDLK_UP)
+				arrow_key_state &= ~ARROW_UP_KEY_MASK;
+			else if (event.key.keysym.sym == SDLK_DOWN)
+				arrow_key_state &= ~ARROW_DOWN_KEY_MASK;
+			// std::cout << "arrow key up: " << event.key.keysym.sym << " : " << misc.get_time() << "\n";
 			break;
 		case SDL_TEXTINPUT:
 			// Not interested.
@@ -1210,7 +1221,7 @@ int MouseSDL::wait_press(int timeOutSecond)
 		if( timeOutSecond && misc.get_time() > timeOutTime )
 			break;
 	}
-
+	
 	while( mouse.left_press || mouse.any_click() || mouse.key_code )		// avoid repeat clicking
 	{
 		sys.yield();
@@ -1345,7 +1356,7 @@ void MouseSDL::update_skey_state()
 
 	// -------- get initial arrow key state ----------//
 
-	arrow_key_state = 0;
+	// arrow_key_state = 0;
 }
 //--------- End of MouseSDL::update_skey_state ----------//
 
