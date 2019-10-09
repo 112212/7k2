@@ -33,8 +33,8 @@
 
 // ------------ Define constant -------- // 
 
-#define MAX_VGA_WIDTH 1024
-#define MAX_VGA_HEIGHT 768
+#define MAX_VGA_WIDTH 1600
+#define MAX_VGA_HEIGHT 900
 
 
 //------------ Define cursor id. ----------//

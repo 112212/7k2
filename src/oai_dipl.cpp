@@ -884,7 +884,7 @@ int Nation::think_demand_tribute_aid()
 								(100-pref_peacefulness)/3;
 
 			if( cash < fixedExpense && fixedExpense != 0 )
-				requestRating -= int( (float) requestRating * cash / fixedExpense);
+				requestRating -= int( (float) requestRating - (float)requestRating * cash / fixedExpense);
 
 		}
 		else
@@ -959,7 +959,7 @@ int Nation::think_demand_tribute_aid()
 				tributeAmount = 500;
 
 			//------ stop in here if in tutorial mode -----//
-			if( game.game_mode != GAME_TUTORIAL )
+			if( game.game_mode == GAME_TUTORIAL )
 			{	
 				cash += tributeAmount;
 				return 0;
