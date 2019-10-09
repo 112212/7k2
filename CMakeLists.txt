@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 2.8)
+project(7K2)
+set(CMAKE_MODULE_PATH ${CMAKE_HOME_DIRECTORY}/cmake/modules)
+
+if(${MSVC})
+  if(NOT ${CMAKE_PREFIX_PATH})
+    set(CMAKE_PREFIX_PATH ""
+        CACHE PATH "Path to 3rd party libraries")
+  endif()
+  add_definitions(/D_CRT_SECURE_NO_WARNINGS /DWIN32_LEAN_AND_MEAN)
+  find_path(HAVE_STDINT_H stdint.h)
+  if(NOT ${HAVE_STDINT_H})
+    include_directories(${CMAKE_HOME_DIRECTORY}/cmake/include)
+  endif()
+endif()
+add_definitions(-DUSE_OPENAL)
+
+set(CMAKE_CXX_FLAGS "-g")
+
+find_package(ENet REQUIRED)
+find_package(JPEG REQUIRED)
+find_package(OpenAL REQUIRED)
+find_package(SDL2 REQUIRED)
+
+add_subdirectory(src)
+add_subdirectory(src/imgfun)
+
+include_directories(/usr/include/SDL2)
