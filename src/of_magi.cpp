@@ -45,12 +45,12 @@ int FirmMagic::teleport_unit_recno;
 MagicInfo FirmMagic::magic_info_array[MAGIC_COUNT] = 
 {
 //   magic id                tech_id/                     life point/cost/delay/effect/range/speed/radius/cost per range/
-	{ MAGIC_DESTROY_BUILDING, TECH_MAGIC_DAMAGE_BUILDING,         30,    0,   100,    50,   20,   30,     0,    5, 0  },	// 50% of max hp
+	{ MAGIC_DESTROY_BUILDING, TECH_MAGIC_DAMAGE_BUILDING,         40,    0,   100,    50,   20,   30,     0,    11, 0  },	// 50% of current hp
 // ##### patch begin Gilbert 13/7 ######// 
 	{ MAGIC_FREEZE_UNIT,      TECH_MAGIC_FREEZE_UNIT    ,         30,		0,	  30,  FRAMES_PER_DAY*9, // 15,
 																														20,   30,     3,    4, 0  },	// 20 frames
 // ##### patch end Gilbert 13/7 ######// 
-	{ MAGIC_DAMAGE_AREA,      TECH_MAGIC_DAMAGE_AREA    ,        100,		0,	  20,   100,    8,   30,	  3,    6, 0  },	// 20 hit points
+	{ MAGIC_DAMAGE_AREA,      TECH_MAGIC_DAMAGE_AREA    ,        100,		0,	  20,   100,    8,   30,	  3,    14, 0  },	// 20 hit points
 	{ MAGIC_TELEPORT,         TECH_MAGIC_TELEPORT       ,         15,		0,	   5,     0,   50,    2,     0,    1, 0  },	// no effect
 	{ MAGIC_FREEZE_LASER,		0								 ,				0,	 120,	  50,	  200,	 0,   30,    10,    0, 0  },	// 
 	{ MAGIC_GOD_POWER,			0								 ,				0,	 140,	  50,   100,	20,   30,     3,    0, 5  },	// 
@@ -615,7 +615,7 @@ int FirmMagic::process_delayed_magic(int magicId, int targetXLoc, int targetYLoc
 				Firm *firmPtr = firm_array[locPtr->firm_recno()];
 				if( nation_array.should_attack( nation_recno, firmPtr->nation_recno) )
 				{
-					firmPtr->hit_points  -= float(firmPtr->max_hit_points() * magicInfo->effect / 100);
+					firmPtr->hit_points  -= float(firmPtr->hit_points * magicInfo->effect / 100);
 					if( firmPtr->hit_points < 0.0f )
 						firmPtr->hit_points = 0.0f; 
 						// 0.01f to pass the alreadyKilled checking in BaseObj::being_attack_hit
@@ -654,12 +654,14 @@ int FirmMagic::process_delayed_magic(int magicId, int targetXLoc, int targetYLoc
 					townPtr->being_attack_hit( this, 0.0f );		// trigger being attack
 
 					// kill people here
-
+					
+					/*
 					int peopleKill = townPtr->population * effectCent / 100;
 					for( ; townPtr->population > 0 && peopleKill > 0; --peopleKill )
 					{
 						townPtr->kill_town_people(0);
 					}
+					*/
 
 					rc = 1;
 				}

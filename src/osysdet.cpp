@@ -2186,6 +2186,7 @@ static void locate_firm_id(char *firmIdString, int nationRecno)
 		if( strchr(firmIdString, (char)firmPtr->firm_id) 
 			&& (nationRecno == -1 || firmPtr->nation_recno == nationRecno) )
 		{
+			firm_array.selected_recno = firmRecno;
 			world.go_loc(firmPtr->center_x, firmPtr->center_y, GO_LOC_SELECT_FIRM );
 			return;
 		}

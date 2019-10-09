@@ -579,7 +579,7 @@ void MouseSDL::set_boundary(int x1, int y1, int x2, int y2, int boundType)
 			// U = (a/2)I + (b/2)J
 			// V = (-a/2)I + (b/2)J
 			// => aI = U-V		 bJ = U+V
-			// cur_x, cur_Y is limited to ±U/2 and ±V/2
+			// cur_x, cur_Y is limited to Â±U/2 and Â±V/2
 			//
 			// let dx = (cur_x - (bound_x1+bound_y2))/2
 			// let dy = (cur_y - (bound_y1+bound_y2))/2
@@ -970,7 +970,7 @@ int MouseSDL::release_click(int buttonId)
 }
 //--------- End of MouseSDL::release_click --------------//
 
-
+#include <iostream>
 //--------- Begin of MouseSDL::poll_event ----------//
 //
 // Poll mouse and keyboard events.
@@ -995,21 +995,30 @@ int MouseSDL::poll_event()
 
 		switch (event.type) {
 		case SDL_MOUSEMOTION:
+			/*
 			if(vga.is_input_grabbed()) {
-				
-#ifdef MOUSE_ACCEL
-				// cur_x += micky_to_displacement(event.motion.xrel);
-				// cur_y += micky_to_displacement(event.motion.yrel);
-				cur_x += event.motion.xrel;
-				cur_y += event.motion.yrel;
-#else
-				cur_x += event.motion.xrel;
-				cur_y += event.motion.yrel;
-#endif
+				cur_x += micky_to_displacement(event.motion.xrel);
+				cur_y += micky_to_displacement(event.motion.yrel);
 			} else {
 				cur_x = event.motion.x;
 				cur_y = event.motion.y;
 			}
+			*/
+			if(!vga.focused) continue;
+			static int last_x, last_y;
+			static double d_cur_x, d_cur_y;
+			d_cur_x += (event.motion.x - last_x) * 1.5;
+			d_cur_y += (event.motion.y - last_y) * 1.5;
+			// d_cur_x += (event.motion.xrel) * 1.5;
+			// d_cur_y += (event.motion.yrel) * 1.5;
+			last_x = event.motion.x;
+			last_y = event.motion.y;
+			d_cur_x = std::min<double>(MOUSE_X2, std::max<double>(MOUSE_X1, d_cur_x));
+			d_cur_y = std::min<double>(MOUSE_Y2, std::max<double>(MOUSE_Y1, d_cur_y));
+			cur_x = d_cur_x;
+			cur_y = d_cur_y;
+			// std::cout << cur_x << ", " << cur_y << "\n";
+			
 			switch( bound_type ) {
 			case 0:		// rectangular boundary
 				if(cur_x < bound_x1)

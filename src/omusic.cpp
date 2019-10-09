@@ -31,7 +31,8 @@
 // -------- define constant --------//
 // random select 2 - 8 for background music
 #define LOW_RANDOM_SONG 6
-#define HIGH_RANDOM_SONG 12//8
+// #define HIGH_RANDOM_SONG 12//8
+#define HIGH_RANDOM_SONG 6//8
 
 // -------- define song name --------//
 
@@ -55,20 +56,36 @@ static const char *music_file[] =
 
 #else
 
+// static const char *music_file[] =
+// {
+	// "CBRIEF.WAV",		// opening
+	// "CFRYWIN.WAV",
+	// "MENU.WAV",
+	// "LOSE.WAV",
+	// "WIN.WAV",
+	// "BKMUSIC1.WAV",
+	// "BKMUSIC2.WAV",
+	// "BKMUSIC3.WAV",
+	// "BKMUSIC4.WAV",
+	// "BKMUSIC5.WAV",
+	// "BKMUSIC6.WAV",
+	// "BKMUSIC7.WAV",
+// };
+
 static const char *music_file[] =
 {
-	"CBRIEF.WAV",		// opening
-	"CFRYWIN.WAV",
-	"MENU.WAV",
-	"LOSE.WAV",
-	"WIN.WAV",
-	"BKMUSIC1.WAV",
-	"BKMUSIC2.WAV",
-	"BKMUSIC3.WAV",
-	"BKMUSIC4.WAV",
-	"BKMUSIC5.WAV",
-	"BKMUSIC6.WAV",
-	"BKMUSIC7.WAV",
+	"cbrief.ogg",		// opening
+	"cfrywin.ogg",
+	"menu.ogg",
+	"lose.ogg",
+	"win.ogg",
+	"bkmusic1.ogg",
+	"bkmusic2.ogg",
+	"bkmusic3.ogg",
+	"bkmusic4.ogg",
+	"bkmusic5.ogg",
+	"bkmusic6.ogg",
+	"bkmusic7.ogg",
 };
 
 #endif
@@ -180,12 +197,14 @@ int Music::play(int songId, int playType)
 			if( playType & MUSIC_PLAY_LOOPED )
                         {
                                 AbsVolume absv(config.wav_music_volume,0);
-                                music_channel = audio.play_loop_wav(waveFileStr, 0, absv );
+                                // music_channel = audio.play_loop_wav(waveFileStr, 0, absv );
+                                music_channel = audio.play_loop_ogg(waveFileStr, 0, absv );
                         }
 			else
                         {
                                 AbsVolume absv(config.wav_music_volume,0);
-                                music_channel = audio.play_long_wav(waveFileStr, absv );
+                                // music_channel = audio.play_long_wav(waveFileStr, absv );
+                                music_channel = audio.play_long_ogg(waveFileStr, absv );
                         }
 			play_type = playType;
 			song_id = songId;

@@ -1109,7 +1109,7 @@ int Nation::consider_accept_surrender_request(TalkMsg* talkMsg)
 			break;
 	}
 
-	return surrenderToRating > acceptRating;
+	return surrenderToRating > acceptRating && weakNation;
 }
 //------ End of function Nation::consider_accept_surrender_request ------//
 

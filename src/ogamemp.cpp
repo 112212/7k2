@@ -192,8 +192,8 @@ struct MpStructBase
 
 struct MpStructSeed : public MpStructBase
 {
-	long	seed;
-	MpStructSeed(long s) : MpStructBase(MPMSG_RANDOM_SEED), seed(s) {}
+	int32_t	seed;
+	MpStructSeed(int32_t s) : MpStructBase(MPMSG_RANDOM_SEED), seed(s) {}
 };
 
 struct MpStructSeedStr : public MpStructBase
@@ -208,7 +208,7 @@ struct MpStructSeedStr : public MpStructBase
 			seed_str[0] = '\0';
 	}
 
-	MpStructSeedStr(long l) : MpStructBase(MPMSG_RANDOM_SEED_STR)
+	MpStructSeedStr(int32_t l) : MpStructBase(MPMSG_RANDOM_SEED_STR)
 	{
 		ltoa(l, seed_str, 10);
 	}
@@ -381,9 +381,9 @@ struct MpStructPlayerUnready : public MpStructBase
 struct MpStructSetGemStones : public MpStructBase
 {
 	PID_TYPE player_id;
-	long	total_gem_stones;
+	int32_t	total_gem_stones;
 	short use_gem_stones;
-	MpStructSetGemStones(PID_TYPE p, short useGemStones, long totalGemStones) : MpStructBase(MPMSG_SET_GEM_STONE),
+	MpStructSetGemStones(PID_TYPE p, short useGemStones, int32_t totalGemStones) : MpStructBase(MPMSG_SET_GEM_STONE),
 		player_id(p),
 		use_gem_stones(useGemStones),
 		total_gem_stones(totalGemStones) {}
@@ -398,12 +398,12 @@ struct MpStructLoadGameNewPlayer : public MpStructBase
 	short color_scheme_id;
 	short race_id;
 	DWORD frame_count;			// detail to test save game from the same game
-	long	random_seed;
+	int32_t	random_seed;
 	short player_balance;
 	char  name[MP_FRIENDLY_NAME_LEN+1];
 	char  pass[MP_FRIENDLY_NAME_LEN+1];
 
-	MpStructLoadGameNewPlayer(Nation *n, DWORD frame, long seed, short bal, char *name, char *pass) :
+	MpStructLoadGameNewPlayer(Nation *n, DWORD frame, int32_t seed, short bal, char *name, char *pass) :
 		MpStructBase(MPMSG_LOAD_GAME_NEW_PLAYER), game_version(GAME_VERSION),
 		debug_version( debug_version_flag() ),
 		nation_recno(n->nation_recno), color_scheme_id(n->color_scheme_id),
@@ -1504,7 +1504,7 @@ int Game::mp_select_session()
 		return 1;
 	}
 
-	unsigned long refreshTime;
+	uint32_t refreshTime;
 	int refreshFlag = SSOPTION_ALL;
 	int choice = 0;
 	SessionIdType sessionGuid;
@@ -1514,7 +1514,7 @@ int Game::mp_select_session()
 	int maxPage = 1;
 	int flashingJoin = 0;
 
-	unsigned long pollTime = 1000;
+	uint32_t pollTime = 1000;
 
 	VgaFrontLock vgaLock;
 
@@ -1801,7 +1801,7 @@ int Game::mp_join_session(int session_id, char *player_name)
 	const int box_button_margin = 32; // BOX_BUTTON_MARGIN
 	SessionDesc *session;
 	char password[MP_FRIENDLY_NAME_LEN+1];
-	unsigned long wait_time;
+	uint32_t wait_time;
 	int sysMsg;
 	bool joinSessionInitiated = false;
 
@@ -1903,7 +1903,7 @@ void Game::mp_close_session()
 	Button buttonCancel;
 	int width;
 	const int box_button_margin = 32; // BOX_BUTTON_MARGIN
-	unsigned long wait_time;
+	uint32_t wait_time;
 
 	pending = mp_obj.close_session();
 	if (!pending)
@@ -2095,7 +2095,7 @@ int Game::mp_select_option(NewNationPara *nationPara, int *mpPlayerCount)
 #ifdef MAX_GEM_STONES
 	short useGemStones[MAX_NATION];
 	memset( useGemStones, 0, sizeof(useGemStones) );
-	long totalGemStones[MAX_NATION];
+	int32_t totalGemStones[MAX_NATION];
 	memset( totalGemStones, 0, sizeof(totalGemStones) );
 #endif
 #ifdef APPLY_RANKING
@@ -4629,7 +4629,7 @@ int Game::mp_select_option(NewNationPara *nationPara, int *mpPlayerCount)
 		nation_array.zap();
 			
 		int trial;
-		unsigned long startTime;
+		uint32_t startTime;
 		int playerCount = 0;
 
 		if( remote.is_host )
@@ -4948,7 +4948,7 @@ int Game::mp_select_load_option(char *fileName)
 #ifdef MAX_GEM_STONES
 	short useGemStones[MAX_NATION];
 	memset( useGemStones, 0, sizeof(useGemStones) );
-	long totalGemStones[MAX_NATION];
+	int32_t totalGemStones[MAX_NATION];
 	memset( totalGemStones, 0, sizeof(totalGemStones) );
 #endif
 #ifdef APPLY_RANKING
@@ -5011,8 +5011,8 @@ int Game::mp_select_load_option(char *fileName)
 	int w, h;
 	int cx, cy;
 	String str;
-	long refreshFlag = SGOPTION_ALL;
-	long mRefreshFlag = MGOPTION_ALL;
+	int32_t refreshFlag = SGOPTION_ALL;
+	int32_t mRefreshFlag = MGOPTION_ALL;
 	int retFlag = 0;
 
 	// randomly select a race
@@ -6934,7 +6934,7 @@ int Game::mp_select_load_option(char *fileName)
 		mp_obj.disable_new_connections();
 
 		int trial;
-		unsigned long startTime;
+		uint32_t startTime;
 		int playerCount = 0;
 
 		if( &config != &tempConfig )

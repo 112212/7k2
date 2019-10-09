@@ -923,11 +923,11 @@ int Misc::atoi( char *str, int strLen )
 //
 // <int> x = the value for calculating its square root
 //
-int Misc::sqrt(long x)
+int Misc::sqrt(int32_t x)
 {
    err_when( x < 0 );
 
-   long OddInt, OldArg, FirstSqrt;
+   int32_t OddInt, OldArg, FirstSqrt;
 
    OddInt=1;
    OldArg=x;
@@ -988,7 +988,7 @@ int Misc::points_distance(int x1, int y1, int x2, int y2)
 
 //------- Begin of function Misc::get_random_seed --------//
 //
-long Misc::get_random_seed()
+int32_t Misc::get_random_seed()
 {
    return random_seed;
 }
@@ -1006,7 +1006,7 @@ void Misc::randomize()
 
 //------- Begin of function Misc::set_random_seed --------//
 //
-void Misc::set_random_seed(long randomSeed)
+void Misc::set_random_seed(int32_t randomSeed)
 {
 	// ###### begin Gilbert 19/6 ######//
 	err_when( is_seed_locked() );
@@ -1368,7 +1368,7 @@ char* Misc::num_th(int inNum)
 
 //------- Begin of function Misc::get_time ---------//
 //
-unsigned long Misc::get_time()
+uint32_t Misc::get_time()
 {
 #ifndef NO_WINDOWS
 	return GetTickCount();

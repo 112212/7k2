@@ -853,10 +853,10 @@ int Sys::is_mp_sync( int *unreadyPlayerFlag)
          DEBUG_LOG("first send sucess" );
          remote.init_send_queue(frame_count+1, nation_array.player_recno);    // frame_count, initialize for next frame's send queue
          // sent random seed
-         char *p = (char *)remote.new_send_queue_msg(MSG_TELL_RANDOM_SEED, sizeof(short)+sizeof(long));
+         char *p = (char *)remote.new_send_queue_msg(MSG_TELL_RANDOM_SEED, sizeof(short)+sizeof(int32_t));
          *(short *)p = nation_array.player_recno;
          p += sizeof(short);
-         *(long *)p = misc.get_random_seed();
+         *(int32_t *)p = misc.get_random_seed();
       }
       else
       {
@@ -880,10 +880,10 @@ int Sys::is_mp_sync( int *unreadyPlayerFlag)
          DEBUG_LOG("resending ok");
          remote.init_send_queue(frame_count+1, nation_array.player_recno);    // frame_count, initialize for next frame's send queue
          // sent random seed
-         char *p = (char *)remote.new_send_queue_msg(MSG_TELL_RANDOM_SEED, sizeof(short)+sizeof(long));
+         char *p = (char *)remote.new_send_queue_msg(MSG_TELL_RANDOM_SEED, sizeof(short)+sizeof(int32_t));
          *(short *)p = nation_array.player_recno;
          p += sizeof(short);
-         *(long *)p = misc.get_random_seed();
+         *(int32_t *)p = misc.get_random_seed();
       }
       else
       {

@@ -91,6 +91,7 @@ public:
 
    // functions on long wave
    int	play_long_wav(const char*, const DsVolume &);
+   int  play_long_ogg(const char *file_name, const DsVolume &vol);
    int	stop_long_wav(int);
    int	is_long_wav_playing(int);
    void	volume_long_wav(int ch, const DsVolume &);
@@ -99,6 +100,7 @@ public:
 
    // return channel no.
    int	play_loop_wav(const char *, int repeatOffset, const DsVolume &);
+   int play_loop_ogg(const char *, int repeatOffset, const DsVolume &);
    void	stop_loop_wav(int ch);
    void	volume_loop_wav(int ch, const DsVolume &);
    void	fade_out_loop_wav(int ch, int fadeRate);
@@ -110,6 +112,7 @@ public:
    void	stop_mid();
    void	stop_wav();             // and stop also long wav
    void	stop_cd();
+   void stop_ogg();
 
    int	is_mid_playing();
    int	is_wav_playing();

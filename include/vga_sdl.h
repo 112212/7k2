@@ -50,7 +50,7 @@ public:
 	int		pixel_format_flag;				// see IMGFUN.H	// new for 16-bit
 	short *		default_remap_table;				// new for 16-bit
 	short *		default_blend_table;				// new for 16-bit
-
+	bool focused;
 public:
 	VgaSDL();
 	~VgaSDL();

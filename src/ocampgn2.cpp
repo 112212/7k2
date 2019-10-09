@@ -5423,13 +5423,22 @@ void Campaign::play_speech(const char* fileName)
 
 	String str;
 	str  = DIR_CAMPAIGN;
-	str += "SOUND"PATH_DELIM;
+	str += "SOUND" PATH_DELIM;
+	// str = "campaign/sound/";
 	strcat(str, fileName);
+	
+	char* c = str;
+	while(*c) { *c = tolower(*c); c++; }
+	c = strrchr(str, '.');
+	strcpy(c+1, "ogg");
 
+	// printf("PLAY: %s\n", str);
+	
 	if( !misc.is_file_exist(str) )
 		return;
 	
-	curSpeechWavId = audio.play_long_wav(str, DEF_REL_VOLUME);		// cur_speech_wav_id is the WAV id that is needed for stopping playing of the WAV file
+	curSpeechWavId = audio.play_long_ogg(str, DEF_REL_VOLUME);		// cur_speech_wav_id is the WAV id that is needed for stopping playing of the WAV file
+	// curSpeechWavId = audio.play_long_wav(str, DEF_REL_VOLUME);
 }
 //----------- End of function Campaign::play_speech ------------//
 

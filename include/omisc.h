@@ -94,7 +94,7 @@ public:
    int   key_pressed();
    int   is_touch(int,int,int,int,int,int,int,int);
 
-   int   sqrt(long);
+   int   sqrt(int32_t);
 	int   diagonal_distance(int,int,int,int);
 	int   points_distance(int,int,int,int);
 	int	area_distance(int,int,int,int, int,int,int,int );
@@ -103,11 +103,11 @@ public:
    float round_dec(float);
 
 	void  delay(float wait);
-	unsigned long get_time();
+	uint32_t get_time();
 
    void  randomize();
-   void  set_random_seed(long);
-   long  get_random_seed();
+   void  set_random_seed(int32_t);
+   int32_t  get_random_seed();
    int   rand();
    int   random(int);
 	int	rand_long();

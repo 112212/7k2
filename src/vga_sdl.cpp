@@ -478,7 +478,7 @@ void VgaSDL::update_screen()
 {
    static Uint32 ticks = 0;
    Uint32 cur_ticks = SDL_GetTicks();
-   if (cur_ticks > ticks + 25 || cur_ticks < ticks) {
+   if (cur_ticks > ticks + 20 || cur_ticks < ticks) {
       ticks = cur_ticks;
       SDL_BlitSurface(screen, NULL, target, NULL);
       SDL_UpdateTexture(texture, NULL, target->pixels, window_pitch);
@@ -513,12 +513,14 @@ void VgaSDL::handle_messages()
 	   SDL_SetModState(KMOD_NONE);
 	   mouse.update_skey_state();
 	   SDL_ShowCursor(SDL_DISABLE);
+	   focused=true;
 	}
 	else if (event.window.event == SDL_WINDOWEVENT_LEAVE ||
 	         event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
 	{
 //	   sys.active_flag = 0;
 //	   sys.pause();
+		focused=false;
 	   SDL_ShowCursor(SDL_ENABLE);
 	}
 	else if (event.window.event == SDL_WINDOWEVENT_EXPOSED)

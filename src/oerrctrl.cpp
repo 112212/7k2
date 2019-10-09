@@ -57,6 +57,8 @@ void ErrorControl::deinit()
 {
 }
 
+// TODO: WTF IS THIS?
+// -----------------------------
 void ErrorControl::set_dp_id(char ecPlayerId, long unsigned int dpPlayerId )
 {
 	if( ecPlayerId != self_ec_player_id )
@@ -89,6 +91,7 @@ char ErrorControl::get_ec_player_id( long unsigned int dpPlayerId )
 	}
 	return 0;
 }
+// ---------------------------
 
 // return 1 on success, -1 if queue is_full, 0 for other failure
 int ErrorControl::send(char ecPlayerId, void *dataPtr, long unsigned int dataLen)
@@ -121,6 +124,7 @@ int ErrorControl::send(char ecPlayerId, void *dataPtr, long unsigned int dataLen
 		char *ecMsg = sq.reserve( sizeof(EcMsgHeader) + dataLen + CRC_LEN );
 		((EcMsgHeader *)ecMsg)->init( FIRST_SEND, self_ec_player_id, frameId );
 		memcpy( ecMsg + sizeof(EcMsgHeader), dataPtr, dataLen );
+		
 		*((CRC_TYPE *) (ecMsg + sizeof(EcMsgHeader) + dataLen) ) = crc8((unsigned char *)ecMsg, sizeof(EcMsgHeader) + dataLen);
 
 		// ------- clear all ack flags of that frame --------//
@@ -655,6 +659,7 @@ void ErrorControl::clear_recv_flag(char ecPlayerId, char frameId)
 {
 	recv_flag[ecPlayerId-1][frameId] = 0;
 }
+
 
 
 void ErrorControl::re_transmit(int promptFactor)
