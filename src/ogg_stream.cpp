@@ -40,54 +40,43 @@ DBGLOG_DEFAULT_CHANNEL(Audio);
 OggStream::OggStream() {
 	file = 0;
 	cursor = 0;
-	frames = 0;
 	info = 0;
 }
 
 OggStream::~OggStream() {
 	this->close();
-	if(info) delete info;
-	if(frames) delete[] frames;
+	if(file) sf_close(file);
 }
 
 bool OggStream::open(const char *file_name) {
 	info = new SF_INFO;
 	file = sf_open(file_name, SFM_READ, info);
-	// printf("reading %d frames\n", info->frames);
-	// read all frames
 	if(!file) {
 		printf("FAILED TO OPEN %s\n", file_name);
 		return false;
 	}
 	
-	frames = new short[info->frames * info->channels];
-	sf_readf_short(file, frames, info->frames);
 	cursor = 0;
-	
-	sf_close(file);
 	return true;
 }
 
 
 bool OggStream::seek(size_t frame_no) {
-	// return sf_seek(file, frame_no, SEEK_SET);
+	return sf_seek(file, frame_no, SEEK_SET);
 	cursor = frame_no;
 	return true;
 }
 
 void OggStream::close() {
-	// if(file) { sf_close(file); delete info; }
-	file = 0;
+	if(file) { 
+		sf_close(file); 
+		if(info) delete info;
+	}
 }
 
 long OggStream::read(void *buffer, size_t frame_count) {
-	// return sf_readf_short(file, (short*)buffer, frame_count);
 	long num_frames = std::min<long>(frame_count, info->frames - cursor);
-	if(num_frames <= 0) return 0;
-	
-	memcpy( buffer, frames + cursor * info->channels, num_frames * sizeof(short) * info->channels);
-	cursor += num_frames;
-	return num_frames;
+	return num_frames <= 0 ? 0 : sf_readf_short(file, (short*)buffer, num_frames);
 }
 
 int32_t OggStream::frame_rate() const {
