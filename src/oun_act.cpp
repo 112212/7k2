@@ -50,7 +50,7 @@ void Unit::pre_process()
 
 	//------ process unit_mode -------//
 #ifdef DEBUG
-	long startTime;
+	int32_t startTime;
 #endif
 
 	switch( unit_mode )

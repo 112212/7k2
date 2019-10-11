@@ -70,7 +70,7 @@ class UnitGroup : public DynArray
 {
 public:
 	char 			mobile_type;		// for passing vars between functions
-	int			formation_mode;
+	int32_t			formation_mode;
 
 public:
 	UnitGroup();

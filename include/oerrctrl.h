@@ -60,10 +60,10 @@ private:
 	char	send_tail;		// queue_tail == queue_head -1, full
 	VLenQueue	send_queue[MAX_QUEUE];			// include EcMsgHeader and 8-bit CRC
 	char	ack_flag[MAX_QUEUE][MAX_PLAYER];
-	unsigned long	send_time[MAX_QUEUE];
-	unsigned long	re_send_after[MAX_QUEUE];
+	uint32_t	send_time[MAX_QUEUE];
+	uint32_t	re_send_after[MAX_QUEUE];
 
-	unsigned long	dp_id[MAX_PLAYER];		// directPlay playerid, 0 if not valid
+	uint32_t	dp_id[MAX_PLAYER];		// directPlay playerid, 0 if not valid
 	char	wait_to_receive[MAX_PLAYER];
 	char	recv_flag[MAX_PLAYER][MAX_QUEUE];
 	// char	next_send[MAX_PLAYER];
@@ -92,7 +92,7 @@ private:
 
 	int	is_recv_empty();
 	int	is_recv_full();
-	void	en_recv_queue(void *dataPtr, unsigned long dataLen);
+	void	en_recv_queue(void *dataPtr, uint32_t dataLen);
 	int	recv_queue_space();
 
 	// functions on ack_flag
@@ -107,17 +107,17 @@ private:
 	void	set_recv_flag(char ecPlayerId, char frameId);
 	void	clear_recv_flag(char ecPlayerId, char frameId);
 
-	void	mark_send_time(char frameId, unsigned long duration);
+	void	mark_send_time(char frameId, uint32_t duration);
 	int	need_re_send(char frameId, int promptFactor);
 
 public:
 	void	init(MultiPlayer *mp, char ecPlayerId );
 	void	deinit();
-	void	set_dp_id(char ecPlayerId, unsigned long dpPlayerId );
-	char	get_ec_player_id( unsigned long dpPlayerId );
+	void	set_dp_id(char ecPlayerId, uint32_t dpPlayerId );
+	char	get_ec_player_id( uint32_t dpPlayerId );
 
-	int	send(char ecPlayerId, void *dataPtr, unsigned long dataLen);
-	char *receive(char *sendEcPlayerId, unsigned long *dataLen);
+	int	send(char ecPlayerId, void *dataPtr, uint32_t dataLen);
+	char *receive(char *sendEcPlayerId, uint32_t *dataLen);
 	void	de_recv_queue();			// get the content from recv_queue[recv_head] before de_recv_queue
 
 	int	is_player_valid(char ecPlayerId);

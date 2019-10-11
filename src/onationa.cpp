@@ -45,10 +45,10 @@
 #ifdef DEBUG
 #include <ofont.h>
 
-static unsigned long	last_nation_ai_profile_time = 0L;
-static unsigned long	nation_ai_profile_time = 0L;
-static unsigned long	last_nation_profile_time = 0L;
-static unsigned long	nation_profile_time = 0L;
+static uint32_t	last_nation_ai_profile_time = 0L;
+static uint32_t	nation_ai_profile_time = 0L;
+static uint32_t	last_nation_profile_time = 0L;
+static uint32_t	nation_profile_time = 0L;
 #endif
 
 
@@ -116,12 +116,12 @@ void NationArray::deinit()
 // <int>  nationType  		   = NATION_OWN, NATION_AI, or NATION_REMOTE
 // <int>  raceId      		   = id. of the race
 // <int>  colorSchemeId 		= the color scheme id. of the nation
-// [unsigned long] dpPlayerId = DirectPlayer player id. (only for multiplayer game)
+// [uint32_t] dpPlayerId = DirectPlayer player id. (only for multiplayer game)
 //
 //
 // return : <int> nationRecno = the recno. of the newly added nation
 //
-int NationArray::new_nation(int nationClassId, int nationType, int raceId, int colorSchemeId, unsigned long dpPlayerId)
+int NationArray::new_nation(int nationClassId, int nationType, int raceId, int colorSchemeId, uint32_t dpPlayerId)
 {
 	//--------------------------------------------------------//
 
@@ -376,7 +376,7 @@ void NationArray::process()
 		if( i%FRAMES_PER_DAY == int(sys.frame_count%FRAMES_PER_DAY) )	// only process each firm once per day
 		{
 			#ifdef DEBUG
-			unsigned long profileStartTime = misc.get_time();
+			uint32_t profileStartTime = misc.get_time();
 			#endif
 
 			LOG_MSG(i);
@@ -395,7 +395,7 @@ void NationArray::process()
 			if( nationPtr->nation_type == NATION_AI && !config.disable_ai_flag )
 			{
 				#ifdef DEBUG
-				unsigned long profileAiStartTime = misc.get_time();
+				uint32_t profileAiStartTime = misc.get_time();
 				#endif
 
 				LOG_MSG( "begin process_ai");
@@ -1252,7 +1252,7 @@ Nation* NationArray::operator~()
 void NationArray::draw_profile()
 {
 #ifdef DEBUG
-	static unsigned long lastDrawTime = misc.get_time();
+	static uint32_t lastDrawTime = misc.get_time();
 
 	if(misc.get_time() >= lastDrawTime + 1000)
 	{

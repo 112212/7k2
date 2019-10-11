@@ -522,9 +522,9 @@ RaceInfo* RaceRes::operator[](int raceId)
 
 // ----------- begin of function RaceRes::sum_name_used ------//
 // for sum of name_used_array, checking
-long RaceRes::sum_name_used()
+int32_t RaceRes::sum_name_used()
 {
-	long sum = 0;
+	int32_t sum = 0;
 	for( int i = 0; i < name_count; ++i )
 	{
 		if( name_used_array[i] < 0 )		// skip negative value

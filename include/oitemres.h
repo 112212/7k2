@@ -46,7 +46,7 @@ struct ItemInfo
 	const char	item_name[ITEM_NAME_LEN+1];
 
 	char	rare;				// 0=ordinary, 1+ rare
-	long	cost;				// cost added to inn hire cost
+	int32_t	cost;				// cost added to inn hire cost
 
 	int	ability_type;
 	int	ability_value;

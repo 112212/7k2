@@ -68,7 +68,7 @@ void Misc::delay(float wait)
 {
    clock_t stopTime;
 
-   stopTime = (long) (clock() + (wait * CLOCKS_PER_SEC));
+   stopTime = (int32_t) (clock() + (wait * CLOCKS_PER_SEC));
 
    while( clock() < stopTime );
 }
@@ -919,7 +919,7 @@ int Misc::atoi( char *str, int strLen )
 
 //------- Begin of function Misc::sqrt ---------//
 //
-// Find the square root of an long integer
+// Find the square root of an int32_t integer
 //
 // <int> x = the value for calculating its square root
 //
@@ -1019,7 +1019,7 @@ void Misc::set_random_seed(int32_t randomSeed)
 //------- Begin of function Misc::random ---------//
 //
 // <int> maxNum = maximum random number, it must <= 0x7FFF
-//                in 32 bit compiler <int> = <long>
+//                in 32 bit compiler <int> = <int32_t>
 //
 // return : <int> the random number
 //
@@ -1066,9 +1066,9 @@ int Misc::rand()
 
 //------- Begin of function Misc::rand_long ---------//
 //
-// Return a random long number
+// Return a random int32_t number
 //
-// return : <int> a random long number
+// return : <int> a random int32_t number
 //
 int Misc::rand_long()
 {
@@ -1554,9 +1554,9 @@ void Misc::construct_move_around_table()
 
 
 //-------- Begin of function Misc::set_surround_bit -------//
-void Misc::set_surround_bit(long int& flag, int bitNo)
+void Misc::set_surround_bit(int32_t& flag, int bitNo)
 {
-	static long int bitFlag[20] = {0x000001, 0x000002, 0x000004, 0x000008, 0x000010, 0x000020, 0x000040, 0x000080,
+	static int32_t bitFlag[20] = {0x000001, 0x000002, 0x000004, 0x000008, 0x000010, 0x000020, 0x000040, 0x000080,
 											 0x000100, 0x000200, 0x000400, 0x000800, 0x001000, 0x002000, 0x004000, 0x008000,
 											 0x010000, 0x020000, 0x040000, 0x080000};
 

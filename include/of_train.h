@@ -72,8 +72,8 @@ public:
 	//------- static member -------//
 
 	static char	firm_menu_mode;
-	static int	cur_train_type;
-	static int	required_linked_firm[TRAIN_UNIT_TYPE_MAX];
+	static int32_t	cur_train_type;
+	static int32_t	required_linked_firm[TRAIN_UNIT_TYPE_MAX];
 
 public:
 	FirmTrain();

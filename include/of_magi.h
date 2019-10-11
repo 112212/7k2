@@ -59,17 +59,17 @@ enum
 #pragma pack(1)
 struct MagicInfo
 {
-	int magic_id;
-	int tech_id;
-	int min_live_point;					// cost if within cast_range
-	int min_cost;							// cost if within cast_range
-	int cast_delay;
-	int effect;
-	int cast_range;
-	int bullet_speed;
-	int cast_radius;
-	int live_point_extra_range;		// if cast outside cast_range, cost on min_live_point per distance
-	int cost_extra_range;				// if cast outside cast_range, cost on min_live_point per distance
+	int32_t magic_id;
+	int32_t tech_id;
+	int32_t min_live_point;					// cost if within cast_range
+	int32_t min_cost;							// cost if within cast_range
+	int32_t cast_delay;
+	int32_t effect;
+	int32_t cast_range;
+	int32_t bullet_speed;
+	int32_t cast_radius;
+	int32_t live_point_extra_range;		// if cast outside cast_range, cost on min_live_point per distance
+	int32_t cost_extra_range;				// if cast outside cast_range, cost on min_live_point per distance
 };
 #pragma pack()
 
@@ -80,7 +80,7 @@ class FirmMagic : public Firm
 public:
 	short	cast_delay;
 	short cast_delay_max;
-	int	casting_magic_id;		// for bullet function
+	int32_t	casting_magic_id;		// for bullet function
 
 	short	delayed_magic_count;
 	short	delayed_magic_id;
@@ -88,15 +88,15 @@ public:
 	short	delayed_magic_y_loc;
 	short delayed_magic_unit_recno;
 	
-	static int teleport_unit_recno;
+	static int32_t teleport_unit_recno;
 	static MagicInfo magic_info_array[MAGIC_COUNT];
 	
-	int		animation_offset;
+	int32_t		animation_offset;
 	short		base_firm_build_id;
-	int		firm_attack_delay;
+	int32_t		firm_attack_delay;
 
-	int		magic_id_lower_limit;
-	int		magic_id_upper_limit;
+	int32_t		magic_id_lower_limit;
+	int32_t		magic_id_upper_limit;
 	short		delay_again_flag;
 	
 public:

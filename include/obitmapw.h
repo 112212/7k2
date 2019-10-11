@@ -23,7 +23,7 @@
 
 #ifndef __OBITMAPW_H
 #define __OBITMAPW_H
-
+#include <stdint.h>
 class BitmapW
 {
 public:
@@ -45,10 +45,10 @@ public:
 	short *get_ptr() { return bitmap; }
 	short *get_ptr(short x, short y);
 
-	long	size();
+	int32_t	size();
 
 	static BitmapW *mem_add_bitmap(short w, short h);		// same parameter as init
-	static long size(short w, short h);		// same parameter as init
+	static int32_t size(short w, short h);		// same parameter as init
 };
 
 #endif

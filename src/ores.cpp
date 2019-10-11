@@ -34,10 +34,10 @@
 // <int>  = no. of data records in this RES file
 //
 // Index area
-// <long> = offset of corresponding data unit in this file
+// <int32_t> = offset of corresponding data unit in this file
 //   .
 //   .
-// <long> = the last index is a virtual index which is used to calculate
+// <int32_t> = the last index is a virtual index which is used to calculate
 //          the size of the last data unit
 //
 // Data area
@@ -64,7 +64,7 @@ void Resource::init(char* resName, int readAll, int useCommonBuf)
 
    //-------------------------------------------//
 
-   long dataSize;
+   int32_t dataSize;
 
    file_open(resName);
 

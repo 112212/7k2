@@ -251,7 +251,7 @@ int Nation::consider_trade_treaty(int withNationRecno)
 
 	NationRelation* nationRelation = get_relation(withNationRecno);
 
-	//---- don't accept new trade treaty soon when the trade treaty was terminated not too long ago ----//
+	//---- don't accept new trade treaty soon when the trade treaty was terminated not too int32_t ago ----//
 
 	if( info.game_date < nationRelation->never_accept_until_date_array[TALK_END_TRADE_TREATY-1] )
 		return 0;

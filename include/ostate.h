@@ -24,7 +24,7 @@
 
 #ifndef __OSTATE_H
 #define __OSTATE_H
-
+#include <stdint.h>
 // ------- define constant ------//
 
 #define MAX_STATE_MAP_WIDTH 100
@@ -64,18 +64,18 @@ public:
 
 	// ------- adjacent state bit -------//
 
-	unsigned long	adj_offset_bit;
+	uint32_t	adj_offset_bit;
 
 	// ------ for generate only -------//
 
 	short		o_center_x;		// center for calc dist_func
 	short		o_center_y;
 
-	long		strength_x1;
-	long		strength_x2;
-	long		strength_y1;
-	long		strength_y2;
-	long		strength_xy;
+	int32_t		strength_x1;
+	int32_t		strength_x2;
+	int32_t		strength_y1;
+	int32_t		strength_y2;
+	int32_t		strength_xy;
 
 	short		west_bound_count;
 	short		north_bound_count;
@@ -111,16 +111,16 @@ public:
 class StateArray
 {
 public:
-	int		init_flag;
+	int32_t		init_flag;
 
-	int		max_x_loc;
-	int		max_y_loc;
+	int32_t		max_x_loc;
+	int32_t		max_y_loc;
 	StateLocation*	loc_matrix;
 
 	int		size()			{ return state_count; }
 
 private:
-	int			state_count;
+	int32_t			state_count;
 	StateInfo*	state_info_array;
 
 static unsigned char fill_state_recno;		// only for fill_state
@@ -161,7 +161,7 @@ private:
 	// -------- private function used in generate map -------//
 
 	void		fill_state( int x, int y );	// set fill_state_recno before call
-	unsigned long	random( unsigned long );
+	uint32_t	random( uint32_t );
 };
 
 

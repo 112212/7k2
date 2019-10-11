@@ -722,7 +722,7 @@ void MultiPlayerDP::disable_join_session()
 // create a local player
 //
 // <char *> friendlyName          short name of the player, best to be one word only
-// [char *] formalName            long name of the player, take friendlyName if NULL (default: NULL)
+// [char *] formalName            int32_t name of the player, take friendlyName if NULL (default: NULL)
 // [void *] lpData, [DWORD] dataSize    pointer and size of any data sent the remote (default: NULL, 0)
 // [DWORD] flags                  not use reserved (default:0)
 //

@@ -74,7 +74,7 @@ private:
 	char	cur_cloud_str;			// 0 (shine) to 10 (dark)
 	char	cur_cloud_len;
 	char	cur_cloud_type;		// type of cloud
-	int	quake_frequency;
+	int32_t	quake_frequency;
 
 public:
 	short	quake_center_x;					// center of quake, generated on the day of quake

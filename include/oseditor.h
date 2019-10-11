@@ -130,7 +130,7 @@ public:
 
 	// ------- define mode data -------//
 
-//	long		nation_area[MAX_NATION];
+//	int32_t		nation_area[MAX_NATION];
 //	int		area_brush_size;
 //	int		area_brush_nation;
 

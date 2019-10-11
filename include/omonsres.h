@@ -126,7 +126,7 @@ public:
 	WORD			get_new_name_id();
 	void			free_name_id(WORD nameId);
 	void			use_name_id(WORD nameId);
-	long			sum_name_used();		// for sum of name_used_array, checking
+	int32_t			sum_name_used();		// for sum of name_used_array, checking
 
 	int 			write_file(File* filePtr);
 	int			read_file(File* filePtr);

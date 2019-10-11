@@ -169,7 +169,7 @@ int Slider::detect()
 		sys.yield();
 		mouse.get_event();
 
-		*var_ptr = (long)(mouse.cur_x-slider_x1-2) * max_value / bar_width;
+		*var_ptr = (int32_t)(mouse.cur_x-slider_x1-2) * max_value / bar_width;
 
 		if( *var_ptr < 0 )
 			*var_ptr = 0;

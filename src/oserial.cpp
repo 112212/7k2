@@ -34,7 +34,7 @@ SerialRepository::SerialRepository( int maxHistorySize, const char *fileName )
 	cur_history_size = 0;
 
 	if( maxHistorySize > 0 )
-		history_array = (long *) mem_add( sizeof(long) * maxHistorySize );
+		history_array = (int32_t *) mem_add( sizeof(int32_t) * maxHistorySize );
 	else
 		history_array = NULL;
 
@@ -131,7 +131,7 @@ int SerialRepository::load()
 
 	last_serial_id = file.file_get_long();
 	max_history = file.file_get_long();
-	history_array = (long *)mem_resize( history_array, sizeof(history_array[0]) * max_history );
+	history_array = (int32_t *)mem_resize( history_array, sizeof(history_array[0]) * max_history );
 
 	cur_history_size = file.file_get_long();
 	(void) file.file_get_long();		// dummy
@@ -150,7 +150,7 @@ int SerialRepository::load()
 
 // ------ begin of function SerialRepository::get_serial_number --------//
 //
-long SerialRepository::get_serial_number()
+int32_t SerialRepository::get_serial_number()
 {
 	++last_serial_id;
 
@@ -163,7 +163,7 @@ long SerialRepository::get_serial_number()
 
 // ------ begin of function SerialRepository::add --------//
 //
-void SerialRepository::add(long num)
+void SerialRepository::add(int32_t num)
 {
 	if( max_history <= 0 )
 		return;
@@ -185,7 +185,7 @@ void SerialRepository::add(long num)
 
 // ------ begin of function SerialRepository::add_unique --------//
 // return true if newly added
-int SerialRepository::add_unique(long num)
+int SerialRepository::add_unique(int32_t num)
 {
 	if( max_history <= 0 )
 		return 0;
@@ -205,12 +205,12 @@ int SerialRepository::add_unique(long num)
 
 // ------ begin of function SerialRepository::is_exist --------//
 //
-bool SerialRepository::is_exist(long num)
+bool SerialRepository::is_exist(int32_t num)
 {
 	if( max_history <= 0 )
 		return 0;
 
-	register long i;
+	register int32_t i;
 	for( i = cur_history_size-1; i >= 0 && history_array[i] != num; --i );
 
 	return i >= 0;
@@ -220,10 +220,10 @@ bool SerialRepository::is_exist(long num)
 
 // ------ begin of function SerialRepository::count --------//
 //
-long SerialRepository::count(long num)
+int32_t SerialRepository::count(int32_t num)
 {
-	long c = 0;
-	for( register long i = cur_history_size-1; i >= 0 ; --i )
+	int32_t c = 0;
+	for( register int32_t i = cur_history_size-1; i >= 0 ; --i )
 	{
 		if( history_array[i] == num )
 			++c;
@@ -236,14 +236,14 @@ long SerialRepository::count(long num)
 
 // ------ begin of function SerialRepository::remove --------//
 //
-bool SerialRepository::remove(long num)
+bool SerialRepository::remove(int32_t num)
 {
 	if( max_history <= 0 )
 		return false;
 
 	bool flag = false;
 
-	for( register long i = cur_history_size-1; i >= 0 ; --i )
+	for( register int32_t i = cur_history_size-1; i >= 0 ; --i )
 	{
 		if( history_array[i] == num )
 		{
@@ -263,12 +263,12 @@ bool SerialRepository::remove(long num)
 
 // ------ begin of function SerialRepository::remove_first --------//
 //
-bool SerialRepository::remove_first(long num)
+bool SerialRepository::remove_first(int32_t num)
 {
 	if( max_history <= 0 )
 		return false;
 
-	for( register long i = 0; i < cur_history_size; ++i )
+	for( register int32_t i = 0; i < cur_history_size; ++i )
 	{
 		if( history_array[i] == num )
 		{
@@ -287,12 +287,12 @@ bool SerialRepository::remove_first(long num)
 
 // ------ begin of function SerialRepository::remove_last --------//
 //
-bool SerialRepository::remove_last(long num)
+bool SerialRepository::remove_last(int32_t num)
 {
 	if( max_history <= 0 )
 		return false;
 
-	for( register long i = cur_history_size-1; i >= 0 ; --i )
+	for( register int32_t i = cur_history_size-1; i >= 0 ; --i )
 	{
 		if( history_array[i] == num )
 		{

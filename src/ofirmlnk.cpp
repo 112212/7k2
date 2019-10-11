@@ -559,7 +559,7 @@ int Firm::scan_best_recruitable_town(short *townRecnoArray, int raceId, int requ
 
 	short mostSuitableTown[MAX_RACE];
 	memset( mostSuitableTown, 0, sizeof(mostSuitableTown) );
-	long valueTown[MAX_RACE];
+	int32_t valueTown[MAX_RACE];
 	memset( valueTown, 0, sizeof(valueTown) );
 
 	//-------- adjust raceId ---------//
@@ -574,7 +574,7 @@ int Firm::scan_best_recruitable_town(short *townRecnoArray, int raceId, int requ
 		if( !can_train_from_town(townPtr->town_recno, requiredLinkedFirmId) )
 			continue;
 
-		long value = ((long)townPtr->loyalty - MIN_RECRUIT_LOYALTY);
+		int32_t value = ((int32_t)townPtr->loyalty - MIN_RECRUIT_LOYALTY);
 
 		if( value > valueTown[townPtr->race_id-1] )
 		{
@@ -585,7 +585,7 @@ int Firm::scan_best_recruitable_town(short *townRecnoArray, int raceId, int requ
 
 	//------------------------------------//
 
-	long raceCount = 0;
+	int32_t raceCount = 0;
 
 	for( i = 0; i < MAX_RACE; ++i )
 	{

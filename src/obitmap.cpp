@@ -61,7 +61,7 @@ unsigned char *Bitmap::get_ptr(short x, short y)
 
 // ------ begin of function Bitmap::size ------//
 
-long Bitmap::size()
+int32_t Bitmap::size()
 {
 	return sizeof(width_field)+sizeof(height_field)+ width_field*height_field*sizeof(*bitmap);
 }
@@ -70,7 +70,7 @@ long Bitmap::size()
 
 // ------ begin of function Bitmap::size ------//
 
-long Bitmap::size(short w, short h)
+int32_t Bitmap::size(short w, short h)
 {
 	return sizeof(short)+sizeof(short)+ w*h;
 }

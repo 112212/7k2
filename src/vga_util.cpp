@@ -69,7 +69,7 @@ VgaUtil::~VgaUtil()
 void VgaUtil::blt_buf(int x1, int y1, int x2, int y2, int putBackCursor)
 {
 #ifdef DEBUG
-	unsigned long startTime = misc.get_time();
+	uint32_t startTime = misc.get_time();
 #endif
 
    if( putBackCursor )

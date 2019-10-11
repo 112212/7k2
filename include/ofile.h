@@ -50,9 +50,9 @@ public:
 	int   file_create(const char*, int=1, int=0);
 	void  file_close();
 
-	long  file_size();
-	long  file_seek(long, int = SEEK_SET);
-	long  file_pos();
+	int32_t  file_size();
+	int32_t  file_seek(int32_t, int = SEEK_SET);
+	int32_t  file_pos();
 
 	int   file_read(void*, unsigned);
 	int   file_write(void*, unsigned);

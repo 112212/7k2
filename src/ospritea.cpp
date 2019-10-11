@@ -204,7 +204,7 @@ void SpriteArray::process()
 		err_when(!spritePtr->sprite_info->need_turning && spritePtr->cur_dir!=spritePtr->final_dir);
 
 		#ifdef DEBUG
-			unsigned long profileStartTime = misc.get_time();
+			uint32_t profileStartTime = misc.get_time();
 		#endif
 
 		spritePtr->pre_process();		// it's actually calling Unit::pre_process() and other derived Unit classes
@@ -231,7 +231,7 @@ void SpriteArray::process()
 		//--------------------------------------//
 
 		#ifdef DEBUG
-			long startTime;
+			int32_t startTime;
 		#endif
 
 		#ifdef DEBUG

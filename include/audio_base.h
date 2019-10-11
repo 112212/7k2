@@ -62,7 +62,7 @@ public:
    virtual int	stop_wav(int) = 0;
    virtual int	is_wav_playing(int) = 0;
 
-   // functions on long wave
+   // functions on int32_t wave
    virtual int	play_long_wav(const char *, const DsVolume &) = 0;
    virtual int	stop_long_wav(int) = 0;
    virtual int	is_long_wav_playing(int) = 0;
@@ -80,7 +80,7 @@ public:
    virtual int	play_cd(int, int retVolume) = 0;
 
    virtual void	stop_mid() = 0;
-   virtual void	stop_wav() = 0;             // and stop also long wav
+   virtual void	stop_wav() = 0;             // and stop also int32_t wav
    virtual void	stop_cd() = 0;
 
    virtual int	is_mid_playing() = 0;

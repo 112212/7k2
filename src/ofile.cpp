@@ -56,7 +56,7 @@ int File::file_open(const char* fileName, int handleError, int fileType)
 	int size = strlen(fileName);
 
 	if(strlen(fileName) > MAX_PATH)
-		err.run("File : file name is too long.");
+		err.run("File : file name is too int32_t.");
 
 	if (file_handle != NULL)
 		file_close();
@@ -113,7 +113,7 @@ int File::file_open(const char* fileName, int handleError, int fileType)
 int File::file_create(const char* fileName, int handleError, int fileType)
 {
 	if(strlen(fileName) > MAX_PATH)
-		err.run("File : file name is too long.");
+		err.run("File : file name is too int32_t.");
 
 	strcpy(file_name, fileName);
 	// FIXME: this fileName handling is broken
@@ -376,23 +376,23 @@ int32_t File::file_get_long()
 //---------- Start of function File::file_seek ---------//
 // whence = SEEK_SET, SEEK_CUR, SEEK_END (default: SEEK_SET)
 // return : new offset from the file beginning.
-long File::file_seek(long offset, int whence)
+int32_t File::file_seek(int32_t offset, int whence)
 {
 	fseek(file_handle, offset, whence);
 	return ftell(file_handle);
 }
 
-long File::file_pos()
+int32_t File::file_pos()
 {
 	return ftell(file_handle);
 }
 
-long File::file_size()
+int32_t File::file_size()
 {
-	long actual = ftell(file_handle);
+	int32_t actual = ftell(file_handle);
 	fseek(file_handle, 0, SEEK_END);
 
-	long size = ftell(file_handle);
+	int32_t size = ftell(file_handle);
 
 	fseek(file_handle, actual, SEEK_SET);
 	return size;

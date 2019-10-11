@@ -174,7 +174,7 @@ struct AttackCamp
 	short firm_recno;
 	short combat_level;
 	short distance;
-	int   patrol_date;
+	int32_t   patrol_date;
 };
 #pragma pack()
 

@@ -74,8 +74,8 @@ void OggStream::close() {
 	}
 }
 
-long OggStream::read(void *buffer, size_t frame_count) {
-	long num_frames = std::min<long>(frame_count, info->frames - cursor);
+int32_t OggStream::read(void *buffer, size_t frame_count) {
+	int32_t num_frames = std::min<int32_t>(frame_count, info->frames - cursor);
 	return num_frames <= 0 ? 0 : sf_readf_short(file, (short*)buffer, num_frames);
 }
 

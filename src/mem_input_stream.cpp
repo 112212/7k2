@@ -40,9 +40,9 @@ void MemInputStream::open(void *data, size_t length, bool own_data)
    this->own_data = own_data;
 }
 
-long MemInputStream::read(void *buffer, long length)
+int32_t MemInputStream::read(void *buffer, int32_t length)
 {
-   long read_count;
+   int32_t read_count;
 
    if (this->data == NULL)
       return 0;
@@ -54,9 +54,9 @@ long MemInputStream::read(void *buffer, long length)
    return read_count;
 }
 
-bool MemInputStream::seek(long offset, int whence)
+bool MemInputStream::seek(int32_t offset, int whence)
 {
-   long target;
+   int32_t target;
 
    switch (whence)
    {
@@ -73,7 +73,7 @@ bool MemInputStream::seek(long offset, int whence)
    return true;
 }
 
-long MemInputStream::tell()
+int32_t MemInputStream::tell()
 {
    return this->pos;
 }

@@ -33,7 +33,7 @@
 class Place : public BaseObj
 {
 public:
-	int	setup_date;					// the setup date of this town
+	int32_t	setup_date;					// the setup date of this town
 	char* setup_years_str(int=0); // return the no. of years this firm has been setup in string
 
 	virtual int	majority_race()			{ return race_id; }

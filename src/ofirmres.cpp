@@ -144,7 +144,7 @@ void FirmRes::load_firm_bitmap()
 	FirmBitmapRec  *firmBitmapRec;
 	FirmBitmap     *firmBitmap;
 	int      		i;
-//	long				bitmapOffset;
+//	int32_t				bitmapOffset;
 	Database 		*dbFirmBitmap;
 	
 	if (config.building_size == 1)
@@ -317,8 +317,8 @@ void FirmRes::load_firm_build()
 //			firmBuild->palw_ptr = NULL;
 //		else
 //		{
-//			long paletteOffset;
-//			memcpy(&paletteOffset, firmBuildRec->pal_offset, sizeof(long));
+//			int32_t paletteOffset;
+//			memcpy(&paletteOffset, firmBuildRec->pal_offset, sizeof(int32_t));
 //			BYTE *palPtr = 8+(BYTE *)res_pal.read_imported(paletteOffset);	// skip 8 bytes header
 //			firmBuild->palw_ptr = (short *)mem_add( 0x100 * sizeof(short) );
 //

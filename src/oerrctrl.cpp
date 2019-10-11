@@ -59,7 +59,7 @@ void ErrorControl::deinit()
 
 // TODO: WTF IS THIS?
 // -----------------------------
-void ErrorControl::set_dp_id(char ecPlayerId, long unsigned int dpPlayerId )
+void ErrorControl::set_dp_id(char ecPlayerId, uint32_t dpPlayerId )
 {
 	if( ecPlayerId != self_ec_player_id )
 	{
@@ -80,7 +80,7 @@ void ErrorControl::set_dp_id(char ecPlayerId, long unsigned int dpPlayerId )
 }
 
 // return ec_player_id, 0 for not found (can't found own dpPlayerId)
-char ErrorControl::get_ec_player_id( long unsigned int dpPlayerId )
+char ErrorControl::get_ec_player_id( uint32_t dpPlayerId )
 {
 	if( dpPlayerId == BROADCAST_PID || dpPlayerId == 0)
 		return 0;
@@ -94,7 +94,7 @@ char ErrorControl::get_ec_player_id( long unsigned int dpPlayerId )
 // ---------------------------
 
 // return 1 on success, -1 if queue is_full, 0 for other failure
-int ErrorControl::send(char ecPlayerId, void *dataPtr, long unsigned int dataLen)
+int ErrorControl::send(char ecPlayerId, void *dataPtr, uint32_t dataLen)
 {
 	if( connecting_player_count == 0)
 		return 1;
@@ -174,7 +174,7 @@ int ErrorControl::send(char ecPlayerId, void *dataPtr, long unsigned int dataLen
 	return 1;
 }
 
-char *ErrorControl::receive(char *sendEcPlayerId, long unsigned int *dataLen)
+char *ErrorControl::receive(char *sendEcPlayerId, uint32_t *dataLen)
 {
 	// ----- draw the head of recv_queue ----- //
 
@@ -489,7 +489,7 @@ void ErrorControl::yield()
 					mp_ptr->send( dp_id[senderId-1], replyMsg, sizeof(replyMsg) );
 				}
 #if (defined(DEBUG) && DEBUG_LOG_LEVEL >= 2)
-				DEBUG_LOG("ec_remote : long packet corrupted" );
+				DEBUG_LOG("ec_remote : int32_t packet corrupted" );
 #endif
 			}
 			else
@@ -569,7 +569,7 @@ int ErrorControl::recv_queue_space()
 }
 
 
-void ErrorControl::en_recv_queue(void *dataPtr, long unsigned int dataLen)
+void ErrorControl::en_recv_queue(void *dataPtr, uint32_t dataLen)
 {
 	if( is_recv_full() )
 	{
@@ -608,7 +608,7 @@ void ErrorControl::clear_ack(char frameId)
 	memset( ack_flag[frameId], 0, MAX_PLAYER );
 }
 
-void ErrorControl::mark_send_time(char frameId, long unsigned int duration)
+void ErrorControl::mark_send_time(char frameId, uint32_t duration)
 {
 	send_time[frameId] = misc.get_time();
 	re_send_after[frameId] = duration;

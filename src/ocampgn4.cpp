@@ -2403,7 +2403,7 @@ void Campaign::create_royal_units(int campaignNationRecno)
 				}
 				else
 				{
-					xLoc= kingXLoc;		// no long kingXLoc -r, prefer at the bottom of fort
+					xLoc= kingXLoc;		// no int32_t kingXLoc -r, prefer at the bottom of fort
 					yLoc= kingYLoc;     // xLoc & yLoc are used for returning results
 				}
 			

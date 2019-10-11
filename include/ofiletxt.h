@@ -48,7 +48,7 @@ private:
    char *data_buf;
    char token_buf[MAX_TOKEN_LEN];
 
-   long file_length;
+   int32_t file_length;
 
 public:
 	FileTxt(char* fileName);
@@ -64,7 +64,7 @@ public:
    void   read_line(char*,int);
    int    read_paragraph(char*,int);
 
-   long   file_size()   { return file_length; }
+   int32_t   file_size()   { return file_length; }
    int    is_eof()      { return *data_ptr == CHAR_EOF; }
 };
 

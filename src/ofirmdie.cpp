@@ -113,7 +113,7 @@ void FirmDieRes::load_bitmap_info()
 	FirmBitmapRec  *firmBitmapRec;
 	FirmDieBitmap	*firmBitmap;
 	int      		i;
-//	long				bitmapOffset;
+//	int32_t				bitmapOffset;
 	Database 		*dbFirmBitmap = game_set.open_db(FIRM_BITMAP_DB);
 
 	firm_bitmap_count = (short) dbFirmBitmap->rec_count();
@@ -129,7 +129,7 @@ void FirmDieRes::load_bitmap_info()
 		firmBitmap    = firm_bitmap_array+i;
 
 		memcpy( &firmBitmap->bitmap_ptr, firmBitmapRec->bitmap_ptr, sizeof(uint32_t) );
-	//	memcpy( &bitmapOffset, firmBitmapRec->bitmap_ptr, sizeof(long) );
+	//	memcpy( &bitmapOffset, firmBitmapRec->bitmap_ptr, sizeof(int32_t) );
 	//	firmBitmap->bitmap_ptr = NULL;
 
 		firmBitmap->width  	  = misc.atoi( firmBitmapRec->width, firmBitmapRec->LOC_LEN );

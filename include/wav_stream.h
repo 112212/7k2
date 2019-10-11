@@ -32,7 +32,7 @@ private:
    int32_t fram_rate;    /* in PCM frames per second */
    uint32_t data_length; /* in PCM frames */
    uint32_t data_left;   /* in PCM frames */
-   long data_offset;     /* in bytes from beginning of file */
+   int32_t data_offset;     /* in bytes from beginning of file */
    uint8_t bytes;        /* bytes per sample */
    int chans;            /* number of channels */
    bool good;
@@ -47,7 +47,7 @@ public:
    bool open(InputStream *in);
    bool open(const char *file_name);
    void close();
-   long read(void *buffer, size_t frame_count);
+   int32_t read(void *buffer, size_t frame_count);
    bool seek(size_t frame_no);
    int32_t frame_rate() const;
    int channels() const;

@@ -1284,10 +1284,10 @@ void MouseSDL::reset_click()
 
 
 // ------ Begin of MouseSDL::mickey_to_displacment -------//
-long MouseSDL::micky_to_displacement(DWORD w)
+int32_t MouseSDL::micky_to_displacement(DWORD w)
 {
-	long d = (long)w ;
-	// long a = abs(d);
+	int32_t d = (int32_t)w ;
+	// int32_t a = abs(d);
 	// return a >= double_speed_threshold ? (a >= triple_speed_threshold ? 3 * d : 2 * d) : d;
 	return abs(d) >= double_speed_threshold ? d+d : d;
 }

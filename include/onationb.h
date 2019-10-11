@@ -111,7 +111,7 @@ struct NationRelation			// many-to-many relationships between nations
 
 	int	is_friendly()		{ return status >= RELATION_FRIENDLY && status <= RELATION_ALLIANCE; }
 
-	int	last_change_status_date;
+	int32_t	last_change_status_date;
 
 	char* status_duration_str();
 
@@ -119,7 +119,7 @@ struct NationRelation			// many-to-many relationships between nations
 	char	ai_secret_attack;
 	char	ai_demand_trade_treaty;
 
-	float good_relation_duration_rating;		// a rating indicate how long does a good relation (friendly/alliance) lasts
+	float good_relation_duration_rating;		// a rating indicate how int32_t does a good relation (friendly/alliance) lasts
 	short	started_war_on_us_count;				// how many times this nation has started a war with us, the more the times the worse this nation is.
 
 	float cur_year_import[IMPORT_TYPE_COUNT];
@@ -129,9 +129,9 @@ struct NationRelation			// many-to-many relationships between nations
 	float import_365days(int importType)	{ return last_year_import[importType]*(365-info.year_day)/365 +
 															cur_year_import[importType]; }
 
-	int	last_talk_reject_date_array[MAX_TALK_TYPE];		// the date which the last diplomatic request was rejected.
-	int 	never_accept_until_date_array[MAX_TALK_TYPE];
-	int	last_military_aid_date;
+	int32_t	last_talk_reject_date_array[MAX_TALK_TYPE];		// the date which the last diplomatic request was rejected.
+	int32_t never_accept_until_date_array[MAX_TALK_TYPE];
+	int32_t	last_military_aid_date;
 	char	ai_never_consider[MAX_TALK_TYPE];		// if this is 1, the AI will never consider this diplomatic option
 
 	void	set_never_accept_until_date(int talkId, int dayCount);
@@ -139,7 +139,7 @@ struct NationRelation			// many-to-many relationships between nations
 	void 	set_ai_never_consider(short* neverConsiderArray);
 	void	reset_ai_never_consider(short* neverConsiderArray=NULL);
 
-	int	last_give_gift_date;				// the last date which the current nation give tribute, aid or technology to this nation
+	int32_t	last_give_gift_date;				// the last date which the current nation give tribute, aid or technology to this nation
 	short total_given_gift_amount;		// the total amount of gift the current nation has given to this nation
 
 	char	contact_msg_flag;										// used only in multiplayer
@@ -186,16 +186,16 @@ public:
 	short last_caravan_id;				// id. of the nation's caravan.
 
 	short	nation_firm_count;			// total no. of firms the nation has built
-	int   last_build_firm_date;
+	int32_t  last_build_firm_date;
 
 	char	know_base_array[MAX_RACE];		// whether the unit knows how to constructure seat of power or not
 	char	base_count_array[MAX_RACE];   // no. of seat of power this nation has
 
 	char	is_at_war_today;
 	char	is_at_war_yesterday;
-	int	last_war_date;
+	int32_t	last_war_date;
 	short last_attacker_obj_recno;
-	int	last_independent_unit_join_date;
+	int32_t	last_independent_unit_join_date;
 
 	int	peaceful_days()			{ return info.game_date - last_war_date; }
 	char*	peace_duration_str();
@@ -358,19 +358,19 @@ public:
 
 	//---------- statistic ------------//
 
-	int  		 total_population;
-	int		 total_jobless_population;
-	int		 all_population()				{ return total_population + total_human_count + total_monster_count; }
+	int32_t  	 total_population;
+	int32_t		 total_jobless_population;
+	int32_t		 all_population()				{ return total_population + total_human_count + total_monster_count; }
 
-	int		 total_unit_count;
-	int		 total_human_count;
-	int		 total_monster_count;
-	int		 total_general_count;
-	int		 total_weapon_count;
-	int		 total_ship_count;
-	int		 total_firm_count;
-	int		 total_spy_count;
-	int		 total_ship_combat_level;
+	int32_t		 total_unit_count;
+	int32_t		 total_human_count;
+	int32_t		 total_monster_count;
+	int32_t		 total_general_count;
+	int32_t		 total_weapon_count;
+	int32_t		 total_ship_count;
+	int32_t		 total_firm_count;
+	int32_t		 total_spy_count;
+	int32_t		 total_ship_combat_level;
 
 	short		 largest_town_recno;		// the recno of the biggest town of this nation
 	short		 largest_town_pop;
@@ -384,10 +384,10 @@ public:
 
 	//--------- rank ratings ---------//
 
-	int		 population_rating;
-	int		 military_rating;
-	int		 economic_rating;
-   int		 overall_rating;
+	int32_t	 population_rating;
+	int32_t	 military_rating;
+	int32_t	 economic_rating;
+	int32_t  overall_rating;
 
 	void		 update_nation_rating();
 
@@ -404,18 +404,18 @@ public:
 
 	//------ additional statistic ------//
 
-	int		 enemy_soldier_killed;
-	int		 own_soldier_killed;
-	int		 enemy_frythan_killed;
-	int		 own_frythan_killed;
-	int		 enemy_civilian_killed;
-	int		 own_civilian_killed;
-	int		 enemy_weapon_destroyed;
-	int		 own_weapon_destroyed;
-	int		 enemy_ship_destroyed;
-	int		 own_ship_destroyed;
-	int		 enemy_firm_destroyed;
-	int		 own_firm_destroyed;
+	int32_t		 enemy_soldier_killed;
+	int32_t		 own_soldier_killed;
+	int32_t		 enemy_frythan_killed;
+	int32_t		 own_frythan_killed;
+	int32_t		 enemy_civilian_killed;
+	int32_t		 own_civilian_killed;
+	int32_t		 enemy_weapon_destroyed;
+	int32_t		 own_weapon_destroyed;
+	int32_t		 enemy_ship_destroyed;
+	int32_t		 own_ship_destroyed;
+	int32_t		 enemy_firm_destroyed;
+	int32_t		 own_firm_destroyed;
 
 	//---------- functions -------------//
 
@@ -501,7 +501,7 @@ public:
 
 	//--------- file functions -----------//
 
-	int 		write_file(File* filePtr);
+	int 	write_file(File* filePtr);
 	int		read_file(File* filePtr);
 
 	//--------- multiplayer checking codes ---------//

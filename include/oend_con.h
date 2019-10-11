@@ -23,7 +23,7 @@
 
 #ifndef __OEND_CON_H
 #define __OEND_CON_H
-
+#include <stdint.h>
 // ------ define condition_id ----------//
 
 enum
@@ -97,15 +97,15 @@ struct EndCondition
 {
 public:
 	enum { CONDITION_STR_LEN=100 };
-	int	condition_id;
-	int	para1;
-	int	para2;
-	int	time_limit;
+	int32_t	condition_id;
+	int32_t	para1;
+	int32_t	para2;
+	int32_t	time_limit;
 	char	player_only;			// this condition only applies to the player
 	char	cond_str[CONDITION_STR_LEN+1];
 	char	result_str[CONDITION_STR_LEN+1];
 
-	int	para1_unique_id;		// unique id of unit whose unit_recno is para1
+	int32_t	para1_unique_id;		// unique id of unit whose unit_recno is para1
 	union
 	{
 		char	para1_unit_killed;
@@ -116,11 +116,11 @@ public:
 	void	init( int condId, int playerOnly, int p1, int p2, int yearLimit, int loseCond );
 	int	is_condition_true(int nationRecno);
 //	char* condition_true_str(int nationRecno);
-	int	update_condition_on_killed(long uniqueId);		// check unit killed
-	int	update_condition_on_mobilize(int newUnitRecno, long uniqueId);		// check unit re-mobilized
+	int	update_condition_on_killed(int32_t uniqueId);		// check unit killed
+	int	update_condition_on_mobilize(int newUnitRecno, int32_t uniqueId);		// check unit re-mobilized
 	int	update_condition_site_taken(int siteRecno, int nationRecno );
 	int	update_condition_item_acquired(short itemId, int nationRecno );
-	int	is_unit_in_condition(long uniqueId);
+	int	is_unit_in_condition(int32_t uniqueId);
 
 	void	update_strings(int loseCond);
 

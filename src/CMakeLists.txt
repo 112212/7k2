@@ -463,13 +463,8 @@ include_directories(SYSTEM
 						)
 
 include_directories(${7K2_SOURCE_DIR}/include)
-# set(MOUSE_ACCEL 0)
-option(MOUSE_ACCEL "mouse acceleration" OFF)
 
 add_definitions(-DOPENAL_AL_H=<al.h> -DOPENAL_ALC_H=<alc.h>)
-if(MOUSE_ACCEL)
-	add_definitions(-DMOUSE_ACCEL)
-endif()
 add_library(7k2_lib STATIC ${7k2_SOURCES})
 
 add_executable(7k2 WIN32 am.cpp)
@@ -477,6 +472,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   set(EXTRA_LIBS "ws2_32;winmm;imm32;version;mingw32;sndfile;-static-libstdc++;-static-libgcc;")
 endif()
 target_link_libraries(7k2 7k2_lib cimgfun ${ENET_LIBRARIES} ${JPEG_LIBRARIES} ${OPENAL_LIBRARY} ${EXTRA_LIBS} ${SDL2_LIBRARY} -lsndfile) # -s
+
 set_target_properties(7k2 PROPERTIES COMPILE_DEFINITIONS "USE_FLIP")
 set_target_properties(7k2 PROPERTIES COMPILE_DEFINITIONS_DEBUG "DEBUG")
 if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Windows")

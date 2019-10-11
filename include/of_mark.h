@@ -97,8 +97,8 @@ public:
 
 	//------------ ai vars -----------//
 
-	int			 no_linked_town_since_date;
-	int			 last_import_new_goods_date;
+	int32_t			 no_linked_town_since_date;
+	int32_t			 last_import_new_goods_date;
 
 public:
 	FirmMarket();

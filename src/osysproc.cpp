@@ -74,7 +74,7 @@
 
 //----------- Define static variables ------------//
 
-static unsigned long last_frame_time=0, last_resend_time=0;
+static uint32_t last_frame_time=0, last_resend_time=0;
 static char          remote_send_success_flag=1;
 
 //-------- Begin of function Sys::run --------//
@@ -261,7 +261,7 @@ void Sys::main_loop(int isLoadedGame)
 	// skipFrameMax : 0 for disable skip frame, // at most skip 1 frame
 	int	skipFrameMax = remote.is_enable() ? 1 : 0;	
 	int	skipFrameCount = skipFrameMax;	// so disp frame for the first frame
-	unsigned long exceededDispTime = 0;
+	uint32_t exceededDispTime = 0;
 
 	DWORD firstUnreadyTime = 0;
 
@@ -287,8 +287,8 @@ void Sys::main_loop(int isLoadedGame)
 		// ####### end Gilbert 11/5 #######//
 		{
 #ifdef DEBUG
-			static unsigned long lastStartTime, lastEndTime, startTime;
-			unsigned long processTime = 0;
+			static uint32_t lastStartTime, lastEndTime, startTime;
+			uint32_t processTime = 0;
 			lastStartTime = startTime;
 			startTime = misc.get_time();
 #endif
@@ -401,7 +401,7 @@ void Sys::main_loop(int isLoadedGame)
 					// acculumate the exceeded time
 					// if the acculumated time exceeded time of one frame (1000/config.frame_speed),
 					// skip frame
-					unsigned long targetFrameTime = config.frame_speed > 0 ? (1000/config.frame_speed) : 1000;
+					uint32_t targetFrameTime = config.frame_speed > 0 ? (1000/config.frame_speed) : 1000;
 
 					if( skipFrameCount >= skipFrameMax
 						|| exceededDispTime < targetFrameTime )
@@ -410,7 +410,7 @@ void Sys::main_loop(int isLoadedGame)
 						disp_frame();
 						misc.unlock_seed();
 
-						unsigned long dispFrameTime = misc.get_time();
+						uint32_t dispFrameTime = misc.get_time();
 						if( dispFrameTime - lastDispFrameTime >= targetFrameTime )
 						{
 							// excess time, accumulate into exceededDispTime
@@ -535,10 +535,10 @@ void Sys::main_loop(int isLoadedGame)
 			}
 
 #ifdef DEBUG
-			unsigned long interLoopTime = startTime - lastEndTime;	// we may also interested in this timing
+			uint32_t interLoopTime = startTime - lastEndTime;	// we may also interested in this timing
 
 			lastEndTime = misc.get_time();
-			unsigned long loopTime = lastEndTime - startTime;
+			uint32_t loopTime = lastEndTime - startTime;
 			loopTime = 0;		// set break point here
 #endif
 
@@ -701,12 +701,12 @@ void Sys::yield()
 	// ###### begin Gilbert 11/2 #######//
 #ifdef DEBUG
 	const unsigned short remoteTimeGroup = 32;
-	static unsigned long remoteTimeFreq[remoteTimeGroup] = 
+	static uint32_t remoteTimeFreq[remoteTimeGroup] = 
 	{ 
 		0, 0, 0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0,
 	};
-	unsigned long remoteTime;
+	uint32_t remoteTime;
 #endif
 	// ###### end Gilbert 11/2 #######//
 
@@ -1191,7 +1191,7 @@ void Sys::process()
 
 	// moved to sys.main_loop
 //#ifdef DEBUG
-//	unsigned long dispFrameTime = misc.get_time();
+//	uint32_t dispFrameTime = misc.get_time();
 //#endif
 	//------ display the current frame ------//
 //	LOG_MSG("begin sys.disp_frame");

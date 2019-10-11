@@ -62,8 +62,8 @@ struct HallFame         // Hall of Fame
    char  race_id;
    short start_year;
    short end_year;
-   int   score;
-   int   population;
+   int32_t   score;
+   int32_t   population;
    short difficulty_rating;
 
 public:
@@ -89,13 +89,13 @@ public:
    char     race_id;
    char     nation_color;
 
-   int      game_date;      // the game date of the saved game
+   int32_t      game_date;      // the game date of the saved game
    FILETIME file_date;              // saving game date
    short    terrain_set;				// duplicate from config
-	int		display_mode_id;			// duplicate from config
+	int32_t		display_mode_id;			// duplicate from config
 	char		building_size;				// duplicate from config
 	char		scenario_cheat_flag;		// duplicate from sys
-	int		campaign_id;				// duplicate from game.cur_campaign->campaign_id or null if not campaign
+	int32_t		campaign_id;				// duplicate from game.cur_campaign->campaign_id or null if not campaign
 
    static   File* file_ptr;
 	static   char  last_read_success_flag;

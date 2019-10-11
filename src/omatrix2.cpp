@@ -38,9 +38,9 @@
 static short last_draw_state = -1;
 
 // slope_brightness_table must be array, cannot be pointer
-static long slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1];
+static int32_t slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1];
 
-static long full_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] = 
+static int32_t full_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] = 
 {
 	 0x0500, 0x0500, 0x0500, 0x0500, 0x0500, 0x0500, 0x0500, 0x0500,
 	 0x0400, 0x0400, 0x0400, 0x0400, 0x0400, 0x0400, 0x0400, 0x0400,
@@ -62,7 +62,7 @@ static long full_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] =
 };
 
 
-static long fog_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] = 
+static int32_t fog_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] = 
 {	// minus 600 from slope_brightness_table
 	-0x0100,-0x0100,-0x0100,-0x0100,-0x0100,-0x0100,-0x0100,-0x0100,
 	-0x0200,-0x0200,-0x0200,-0x0200,-0x0200,-0x0200,-0x0200,-0x0200,
@@ -83,7 +83,7 @@ static long fog_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] =
 	-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,
 };
 
-static long dark_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] = 
+static int32_t dark_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] = 
 {	// all dark
 	-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,
 	-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,
@@ -104,41 +104,41 @@ static long dark_slope_brightness_table[4 * MAX_BRIGHTNESS_ADJUST_DEGREE + 1] =
 	-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,-0x2000,
 };
 
-static long *slope_tables[3] = { dark_slope_brightness_table, fog_slope_brightness_table, full_slope_brightness_table };
+static int32_t *slope_tables[3] = { dark_slope_brightness_table, fog_slope_brightness_table, full_slope_brightness_table };
 
 #define SEA_COLOR 0xf0
 
 
 // ---------- define static variable used in rendering --------- //
 
-static long	c00, c10, c01, c20, c11, c02, c30, c21, c12, c03;
+static int32_t	c00, c10, c01, c20, c11, c02, c30, c21, c12, c03;
 
 // row a
-static long rowaZ, rowaDuZM2, rowaDuuZM2, DuuuZM4D3;
-static long rowaDvZM2, rowaDvvZM2, DvvvZM4D3, 		// for increase rowaZ
+static int32_t rowaZ, rowaDuZM2, rowaDuuZM2, DuuuZM4D3;
+static int32_t rowaDvZM2, rowaDvvZM2, DvvvZM4D3, 		// for increase rowaZ
 	rowaDuvZM4, DuvvZM4,			// for increase rowaDuZM2
 	DuuvZM4;	// for increase rowaDuuZM2
 
 // row b
-static long rowbZ, rowbDuZM2, rowbDuuZM2;
-static long rowbDvZM2, rowbDvvZM2,					// for increase rowbZ
+static int32_t rowbZ, rowbDuZM2, rowbDuuZM2;
+static int32_t rowbDvZM2, rowbDvvZM2,					// for increase rowbZ
 	rowbDuvZM4;						// for increase rowbDuZM2
 
 // variable for inner loop
 // row a
-static long aZ, aDuZM2, aDuuZM2;
+static int32_t aZ, aDuZM2, aDuuZM2;
 // row b
-static long bZ, bDuZM2, bDuuZM2;
+static int32_t bZ, bDuZM2, bDuuZM2;
 
 // loop counters
-static long vCount, uCount;
+static int32_t vCount, uCount;
 
 // remap table
 static unsigned short *remapTables;
 
 // for sea square
 static short seaAltitude;
-static long seaColor;
+static int32_t seaColor;
 
 
 // Source of rotl and rotr functions:
@@ -157,9 +157,9 @@ unsigned int rotr(const unsigned int value, int shift)
 	return (value >> shift) | (value << (sizeof(value) * 8 - shift));
 }
 
-long Location::evaluate_z(short x, short y)
+int32_t Location::evaluate_z(short x, short y)
 {
-	long z = ((c30 * x + c20) * x + c10) * x;
+	int32_t z = ((c30 * x + c20) * x + c10) * x;
 	z += ((c03 * y + c02) * y + c01) * y;
 	z += ((c21 * x + c12 * y) + c11) * x * y;
 	z = (z + c00) >> C_MULTIPLIER_SHIFT;
@@ -795,7 +795,7 @@ void LocationCorners::render_special(Blob2DW *blob, int effectId,
 	rowbZ = c00 + c01 + c10 + c20 + c11 + c02 + c30 + c21 + c12 + c03;
 	rowbDuZM2 = (c30*3 + c21*2 + c12 + c20*2 + c11 + c10) * 2;
 	rowbDuuZM2 = (c30*3 + c21 + c20) * 4;
-	// long rowxDuuuZM4D3 = c30 * 8;		// common for row a and b
+	// int32_t rowxDuuuZM4D3 = c30 * 8;		// common for row a and b
 	// for increase rowbZ
 	rowbDvZM2 = (c21 + c12*2 + c03*3 + c11 + c02*2 + c01) * 2;
 	rowbDvvZM2 = (c12 + c03*3 + c02) * 4;
@@ -843,9 +843,9 @@ void LocationCorners::render_special(Blob2DW *blob, int effectId,
 	{
 		unsigned short usColor;
 		usColor = vga.translate_color(color1);
-		color1 = ((unsigned long)usColor << 16) | usColor;
+		color1 = ((uint32_t)usColor << 16) | usColor;
 		usColor = vga.translate_color(color2);
-		color2 = ((unsigned long)usColor << 16) | usColor;
+		color2 = ((uint32_t)usColor << 16) | usColor;
 
 #ifdef ASM_FOR_MSVC
 	_asm
@@ -1864,7 +1864,7 @@ void LocationCorners::render_special(BitmapW *bitmapPtr, int effectId,
 	rowbZ = c00 + c01 + c10 + c20 + c11 + c02 + c30 + c21 + c12 + c03;
 	rowbDuZM2 = (c30*3 + c21*2 + c12 + c20*2 + c11 + c10) * 2;
 	rowbDuuZM2 = (c30*3 + c21 + c20) * 4;
-	// long rowxDuuuZM4D3 = c30 * 8;		// common for row a and b
+	// int32_t rowxDuuuZM4D3 = c30 * 8;		// common for row a and b
 	// for increase rowbZ
 	rowbDvZM2 = (c21 + c12*2 + c03*3 + c11 + c02*2 + c01) * 2;
 	rowbDvvZM2 = (c12 + c03*3 + c02) * 4;
@@ -1907,9 +1907,9 @@ void LocationCorners::render_special(BitmapW *bitmapPtr, int effectId,
 	{
 		unsigned short usColor;
 		usColor = vga.translate_color(color1);
-		color1 = ((unsigned long)usColor << 16) | usColor;
+		color1 = ((uint32_t)usColor << 16) | usColor;
 		usColor = vga.translate_color(color2);
-		color2 = ((unsigned long)usColor << 16) | usColor;
+		color2 = ((uint32_t)usColor << 16) | usColor;
 
 #ifdef ASM_FOR_MSVC
 	_asm
@@ -2200,7 +2200,7 @@ location_render_sp1_2bA:
 	{
 		unsigned short usColor;
 		usColor = vga.translate_color(color1);
-		color1 = ((unsigned long)usColor << 16) | usColor;
+		color1 = ((uint32_t)usColor << 16) | usColor;
 
 #ifdef ASM_FOR_MSVC
 	_asm
@@ -2428,7 +2428,7 @@ location_render_2a:
 		mov	ecx, fogMask
 		movzx	ecx, byte ptr [ecx]
 		add	fogMask, 2			; // add twice as we do two pixels together
-		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( long *)
+		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( int32_t *)
 		mov	ebx, [ecx + MAX_BRIGHTNESS_ADJUST_DEGREE*2*4 + ebx*4]
 		mov	ecx, remapTables
 		; // end fog
@@ -2507,7 +2507,7 @@ location_render_2b:
 		mov	ecx, fogMask
 		movzx	ecx, byte ptr [ecx]
 		add	fogMask, 2			; // add twice as we do two pixels together
-		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( long *)
+		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( int32_t *)
 		mov	ebx, [ecx + MAX_BRIGHTNESS_ADJUST_DEGREE*2*4 + ebx*4]
 		mov	ecx, remapTables
 		; // end fog
@@ -2698,7 +2698,7 @@ location_render_sea_2aA:
 		mov	ecx, fogMask
 		movzx	ecx, byte ptr [ecx]
 		add	fogMask, 2			; // add twice as we do two pixels together
-		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( long *)
+		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( int32_t *)
 		mov	ebx, [ecx + MAX_BRIGHTNESS_ADJUST_DEGREE*2*4 + ebx*4]
 		mov	ecx, remapTables
 		; // end fog
@@ -2778,7 +2778,7 @@ location_render_sea_2bA:
 		mov	ecx, fogMask
 		movzx	ecx, byte ptr [ecx]
 		add	fogMask, 2			; // add twice as we do two pixels together
-		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( long *)
+		mov	ecx, slope_tables[4*ecx]		// ecx * sizeof( int32_t *)
 		mov	ebx, [ecx + MAX_BRIGHTNESS_ADJUST_DEGREE*2*4 + ebx*4]
 		mov	ecx, remapTables
 		; // end fog
@@ -2924,7 +2924,7 @@ location_render_sea_2bB:
 			for( uCount = 0; uCount < LOCATE_WIDTH / 2; ++uCount )
 			{
 				int ebx = aDuZM2 >> (C_MULTIPLIER_SHIFT - MAX_BRIGHTNESS_SHIFT + 1);
-				long *ecx = slope_tables[*(reinterpret_cast<unsigned char *>(fogMask))];
+				int32_t *ecx = slope_tables[*(reinterpret_cast<unsigned char *>(fogMask))];
 				ebx = *(ecx + MAX_BRIGHTNESS_ADJUST_DEGREE * 2  + ebx);
 
 				eax = (eax & 0xFFFF0000) | *(reinterpret_cast<unsigned short *>(texturePtr));
@@ -2963,7 +2963,7 @@ location_render_sea_2bB:
 			for( uCount = 0; uCount < LOCATE_WIDTH / 2; ++uCount )
 			{
 				int ebx = bDuZM2 >> (C_MULTIPLIER_SHIFT - MAX_BRIGHTNESS_SHIFT + 1);
-				long *ecx = slope_tables[*(reinterpret_cast<unsigned char *>(fogMask))];
+				int32_t *ecx = slope_tables[*(reinterpret_cast<unsigned char *>(fogMask))];
 				ebx = *(ecx + MAX_BRIGHTNESS_ADJUST_DEGREE * 2  + ebx);
 
 				eax = (eax & 0xFFFF0000) | *(reinterpret_cast<unsigned short *>(texturePtr));

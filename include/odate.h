@@ -30,15 +30,15 @@ class DateInfo
 {
 public:
 
-   long  julian(int,int,int);
-   long  julian(char*);
+   int32_t  julian(int,int,int);
+   int32_t  julian(char*);
 
-   char* date_str(long,int=0);
+   char* date_str(int32_t,int=0);
    const char* month_str(int);
 
-   int   year(long julianDate)  { return get_date(julianDate,'Y'); }
-   int   month(long julianDate) { return get_date(julianDate,'M'); }
-   int   day(long julianDate)   { return get_date(julianDate,'D'); }
+   int   year(int32_t julianDate)  { return get_date(julianDate,'Y'); }
+   int   month(int32_t julianDate) { return get_date(julianDate,'M'); }
+   int   day(int32_t julianDate)   { return get_date(julianDate,'D'); }
 
    char* time_str(int);
    int   days_in_month(int);
@@ -49,9 +49,9 @@ public:
 	int	file_time_to_julian(FILETIME& fileTime);
 
 private:
-   long ytoj(int);
+   int32_t ytoj(int);
    int  month_day(int,int,int&,int&);
-   int  get_date(long,char);
+   int  get_date(int32_t,char);
 };
 
 extern DateInfo date;

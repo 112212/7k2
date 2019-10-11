@@ -112,13 +112,13 @@ char* ResourceDb::read(int recNo)
 {
    err_when( !init_flag || !db_obj );
 
-   long* indexFieldPtr;
+   int32_t* indexFieldPtr;
 	char* recPtr;
 
    if( (recPtr = db_obj->read(recNo)) == NULL )
       return NULL;
 
-   indexFieldPtr = (long*) (recPtr+index_field_offset);
+   indexFieldPtr = (int32_t*) (recPtr+index_field_offset);
 
    if( memcmp( indexFieldPtr, "    ", 4 ) == 0 )
       return NULL;      // no sample screen for this file
@@ -152,14 +152,14 @@ File* ResourceDb::get_file()
 {
    err_when( !init_flag || !db_obj );
 
-   long* indexFieldPtr;
+   int32_t* indexFieldPtr;
    char  emptyField[] = "        ";
    char* recPtr;
 
    if( (recPtr = db_obj->read()) == NULL )
       return NULL;
 
-   indexFieldPtr = (long*) (recPtr+index_field_offset);
+   indexFieldPtr = (int32_t*) (recPtr+index_field_offset);
 
    if( memcmp( indexFieldPtr, emptyField, 8 ) == 0 )
       return NULL;      // no sample screen for this file
@@ -223,12 +223,12 @@ void ResourceDb::init_imported(const char* resName, int readAll, int useCommonBu
 // If ResourceDb is initialized using init_imported(),
 // then use read_imported to read the record
 //
-// <long> offset = offset to the data in the resource file
+// <int32_t> offset = offset to the data in the resource file
 //
 // Return : <char*> data pointer
 //          NULL    if the record has not index to data
 //
-char* ResourceDb::read_imported(long offset)
+char* ResourceDb::read_imported(int32_t offset)
 {
 	err_when( !init_flag );
 
@@ -244,7 +244,7 @@ char* ResourceDb::read_imported(long offset)
 	{
 		//SXM: Remove the following line for Chinese Version, but it's a risk.
 		err_when( offset<0 || offset>=data_buf_size );
-		return data_buf + offset + sizeof(int32_t);  // by pass the long parameters which is the size of the data
+		return data_buf + offset + sizeof(int32_t);  // by pass the int32_t parameters which is the size of the data
 	}
 	// ##### end Gilbert 4/10 #######//
 

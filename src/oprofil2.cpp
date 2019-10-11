@@ -193,7 +193,7 @@ public:
 
 int PlayerProfile::register_menu()
 {
-	long refreshFlag = PPOPTION_ALL;
+	int32_t refreshFlag = PPOPTION_ALL;
 
 	// ------- set mouse cursor, useful when auto-launch ------//
 
@@ -217,7 +217,7 @@ int PlayerProfile::register_menu()
 		File f;
 		if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 		{
-			ERR("Path to the player profile too long.\n");
+			ERR("Path to the player profile too int32_t.\n");
 			return 0;
 		}
 		if( !misc.is_file_exist(full_path) || !f.file_open(full_path) || !reload() )
@@ -328,7 +328,7 @@ int PlayerProfile::register_menu()
 				Directory profileDir;
 				if( !misc.path_cat(full_path, sys.dir_config, "*.prf", MAX_PATH) )
 				{
-					ERR("Path to the config directory too long.\n");
+					ERR("Path to the config directory too int32_t.\n");
 					return 0;
 				}
 				profileDir.read( full_path, 1 );		// sort file name
@@ -662,7 +662,7 @@ int PlayerProfile::register_menu()
 					// remove backslash at the end
 					if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 					{
-						ERR("Path to the save game directory too long.\n");
+						ERR("Path to the save game directory too int32_t.\n");
 						return 0;
 					}
 					if( !misc.is_file_exist(full_path) )
@@ -681,7 +681,7 @@ int PlayerProfile::register_menu()
 					str += ".prf";
 					if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 					{
-						ERR("Path to the player profile too long.\n");
+						ERR("Path to the player profile too int32_t.\n");
 						return 0;
 					}
 					if( misc.is_file_exist(full_path) )
@@ -720,7 +720,7 @@ int PlayerProfile::register_menu()
 					str += save_dir;
 					if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 					{
-						ERR("Path to the save game directory too long.\n");
+						ERR("Path to the save game directory too int32_t.\n");
 						return 0;
 					}
 					if( misc.is_file_exist(full_path) )
@@ -757,7 +757,7 @@ int PlayerProfile::register_menu()
 
 					if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 					{
-						ERR("Path to the save game directory too long.\n");
+						ERR("Path to the save game directory too int32_t.\n");
 						return 0;
 					}
 					int dirCreated = misc.mkpath( full_path );
@@ -803,7 +803,7 @@ int PlayerProfile::register_menu()
 				str += ".prf";
 				if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 				{
-					ERR("Path to the player profile too long.\n");
+					ERR("Path to the player profile too int32_t.\n");
 					return 0;
 				}
 				remove( full_path );
@@ -815,7 +815,7 @@ int PlayerProfile::register_menu()
 				str += profileArray[selectedProfile-1].save_dir;
 				if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 				{
-					ERR("Path to the save game directory too long.\n");
+					ERR("Path to the save game directory too int32_t.\n");
 					return 0;
 				}
 				remove( full_path );
@@ -935,7 +935,7 @@ int PlayerProfile::load_count_profiles( PlayerProfile *profileArray, int maxLoad
 	Directory profileDir;
 	if( !misc.path_cat(full_path, sys.dir_config, "*.prf", MAX_PATH) )
 	{
-		ERR("Path to the config directory too long.\n");
+		ERR("Path to the config directory too int32_t.\n");
 		return 0;
 	}
 	profileDir.read( full_path, 1 );		// sort file name

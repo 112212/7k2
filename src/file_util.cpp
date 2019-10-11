@@ -22,10 +22,10 @@
 
 #include <file_util.h>
 
-bool seek(File *file, long off, int whence)
+bool seek(File *file, int32_t off, int whence)
 {
-   long target;
-   long pos;
+   int32_t target;
+   int32_t pos;
 
    switch (whence)
    {

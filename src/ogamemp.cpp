@@ -142,7 +142,7 @@ static int is_compatible_version(int remoteVersion, int debugVersion)
 	return 0;
 }
 
-
+char frameDelaySettingArray[3] = { 2, 4, 100 };		// corresponding process frame delay value
 
 enum
 {
@@ -2161,8 +2161,8 @@ int Game::mp_select_option(NewNationPara *nationPara, int *mpPlayerCount)
 	int w, h;
 	int cx, cy;
 	String str;
-	long refreshFlag = SGOPTION_ALL;
-	long mRefreshFlag = MGOPTION_ALL;
+	int32_t refreshFlag = SGOPTION_ALL;
+	int32_t mRefreshFlag = MGOPTION_ALL;
 	int retFlag = 0;
 
 	// randomly select a race
@@ -2318,7 +2318,7 @@ int Game::mp_select_option(NewNationPara *nationPara, int *mpPlayerCount)
 	// ----- initialize process frame delay group -------//
 
 	char frameDelayGroupSetting = 2;		// default to high
-	char frameDelaySettingArray[3] = { 2, 4, 5 };		// corresponding process frame delay value
+	
 	//char *frameDelayGroupStr[3] = { "Low", "Medium", "High" };
 	ButtonCustomGroup frameDelayGroup(3);
 
@@ -5155,7 +5155,6 @@ int Game::mp_select_load_option(char *fileName)
 	// ----- initialize process frame delay group -------//
 
 	char frameDelayGroupSetting = 2;		// default to high
-	char frameDelaySettingArray[3] = { 2, 4, 5 };		// corresponding process frame delay value
 	//char *frameDelayGroupStr[3] = { "Low", "Medium", "High" };
 	ButtonCustomGroup frameDelayGroup(3);
 

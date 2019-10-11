@@ -86,7 +86,7 @@ unsigned short BitMemStream::input_bits(unsigned stringLen)
 	int s = bit_offset % 8;
 	
 	// get longer bits
-	unsigned long ul = *(unsigned long *)p >> s;
+	uint32_t ul = *(uint32_t *)p >> s;
 
 	(void) BitStream::input_bits(stringLen);
 
@@ -101,11 +101,11 @@ void BitMemStream::output_bits(unsigned short stringCode, unsigned stringLen)
 	int s = bit_offset % 8;
 
 	// mask off unused bit
-	*(unsigned long *)p &= BITS_MASK[s];
+	*(uint32_t *)p &= BITS_MASK[s];
 	// stringCode &= bitMask[stringCode];
 
 	// shift stringCode and put them to outPtr
-	*(unsigned long *)p |= (unsigned long)stringCode << s;
+	*(uint32_t *)p |= (uint32_t)stringCode << s;
 
 	BitStream::output_bits(stringCode, stringLen);
 }
@@ -121,7 +121,7 @@ unsigned short BitFileRead::input_bits(unsigned stringLen)
 	if( bit_offset + stringLen > (last_offset+sizeof(residue))*8 )
 	{
 		// find byte to read
-		long byteFetch = bit_offset/8 - last_offset;
+		int32_t byteFetch = bit_offset/8 - last_offset;
 		if( byteFetch >= sizeof(residue) )		// residue >>= 32 does not change to 0
 			residue = 0;
 		else
@@ -132,7 +132,7 @@ unsigned short BitFileRead::input_bits(unsigned stringLen)
 
 	err_when( bit_offset + stringLen > (last_offset+sizeof(residue))*8 );
 	int s = bit_offset - last_offset*8;
-	unsigned long ul = residue >> s;
+	uint32_t ul = residue >> s;
 
 	(void) BitStream::input_bits(stringLen);
 
@@ -177,7 +177,7 @@ void BitFileWrite::output_bits(unsigned short stringCode, unsigned stringLen)
 		residue_len -= byteFlush * 8;
 	}
 	err_when( residue_len + stringLen > sizeof(residue)*8 );
-	residue |= (unsigned long) stringCode << residue_len;
+	residue |= (uint32_t) stringCode << residue_len;
 	residue_len += stringLen;
 
 	BitStream::output_bits(stringCode, stringLen);
@@ -245,35 +245,35 @@ void Lzw::initialize_dictionary()
 // --------- end of function Lzw::initialize_dictionary -------------//
 
 // nul output, to find output size in bits
-long Lzw::compress( unsigned char *inPtr, long inByteLen)
+int32_t Lzw::compress( unsigned char *inPtr, int32_t inByteLen)
 {
 	BitStream nulStream;
 	return basic_compress( inPtr, inByteLen, &nulStream);
 }
 
 // compressed data in memory
-long Lzw::compress( unsigned char *inPtr, long inByteLen, unsigned char *outPtr)
+int32_t Lzw::compress( unsigned char *inPtr, int32_t inByteLen, unsigned char *outPtr)
 {
 	BitMemStream memStream(outPtr);
 	return basic_compress( inPtr, inByteLen, &memStream);
 }
 
 // set outPtr to NULL to find the decompressed size
-long Lzw::expand( unsigned char *inPtr, long inBitLen, unsigned char *outPtr)
+int32_t Lzw::expand( unsigned char *inPtr, int32_t inBitLen, unsigned char *outPtr)
 {
 	BitMemStream memStream(inPtr);
 	return basic_expand( &memStream, outPtr );
 }
 
 // compressed data in file
-long Lzw::compress( unsigned char *inPtr, long inByteLen, File *outFile)
+int32_t Lzw::compress( unsigned char *inPtr, int32_t inByteLen, File *outFile)
 {
 	BitFileWrite fileStream(outFile);
 	return basic_compress( inPtr, inByteLen, &fileStream);
 }
 
 // set outPtr to NULL to find the decompressed size
-long Lzw::expand( File *inFile, unsigned char *outPtr)
+int32_t Lzw::expand( File *inFile, unsigned char *outPtr)
 {
 	BitFileRead fileStream(inFile);
 	return basic_expand( &fileStream, outPtr);
@@ -283,13 +283,13 @@ long Lzw::expand( File *inFile, unsigned char *outPtr)
 // --------- begin of function Lzw::basic_compress -------------//
 // compress a memory block to another memory block
 // <unsigned char *> inPtr           address of decompressed input data
-// <long> inByteLen                  length of input data (in byte)
+// <int32_t> inByteLen                  length of input data (in byte)
 // <BitStream *> outStream           output stream, BitMemStream or BitFileWrite
 //
 // return in no. of bits, the size of the compressed data
 // call free_storage after compress to free allocated space, if it will
 // not going to compress/decompress soon
-long Lzw::basic_compress( unsigned char *inPtr, long inByteLen, BitStream *outStream)
+int32_t Lzw::basic_compress( unsigned char *inPtr, int32_t inByteLen, BitStream *outStream)
 {
 	unsigned char character;
 	unsigned short stringCode;
@@ -352,14 +352,14 @@ long Lzw::basic_compress( unsigned char *inPtr, long inByteLen, BitStream *outSt
 // return the no. of byte of the decompressed data
 // call free_storage after decompress to free allocated space, if it will
 // not going to compress/decompress soon
-long Lzw::basic_expand( BitStream *inStream, unsigned char *outPtr)
+int32_t Lzw::basic_expand( BitStream *inStream, unsigned char *outPtr)
 {
 	unsigned short newCode;
 	unsigned short oldCode;
 	unsigned char character;
 	unsigned int count;
 
-	long outByteLen = 0;
+	int32_t outByteLen = 0;
 
 	initialize_storage();
 	for ( ; ; )
@@ -483,9 +483,9 @@ unsigned int Lzw::decode_string( unsigned int count, unsigned short code )
 // --------- begin of function Lzw::output_bits -------------//
 //
 // if outPtr is null to find the compressed length
-// make sure outPtr buffer is long enough
+// make sure outPtr buffer is int32_t enough
 //
-void Lzw::output_bits( unsigned char *outPtr, long &outLen, unsigned short stringCode, unsigned int stringLen )
+void Lzw::output_bits( unsigned char *outPtr, int32_t &outLen, unsigned short stringCode, unsigned int stringLen )
 {
 	// fill low bit first
 	if( outPtr )
@@ -495,11 +495,11 @@ void Lzw::output_bits( unsigned char *outPtr, long &outLen, unsigned short strin
 		int r = 8 - s;
 
 		// mask off unused bit
-		*(unsigned long *)outPtr &= bitMask[s];
+		*(uint32_t *)outPtr &= bitMask[s];
 		// stringCode &= bitMask[stringCode];
 
 		// shift stringCode and put them to outPtr
-		*(unsigned long *)outPtr |= (unsigned long)stringCode << s;
+		*(uint32_t *)outPtr |= (uint32_t)stringCode << s;
 	}
 	
 	outLen += stringLen;
@@ -508,13 +508,13 @@ void Lzw::output_bits( unsigned char *outPtr, long &outLen, unsigned short strin
 
 // --------- begin of function Lzw::input_bits -------------//
 // inPtr is allocated at least 32 bits longer than inCnt
-unsigned short Lzw::input_bits( unsigned char *inPtr, long &inCnt, unsigned int stringLen )
+unsigned short Lzw::input_bits( unsigned char *inPtr, int32_t &inCnt, unsigned int stringLen )
 {
 	inPtr += inCnt / 8;
 	int s = inCnt % 8;
 	
 	// get longer bits
-	unsigned long ul = *(unsigned long *)inPtr;
+	uint32_t ul = *(uint32_t *)inPtr;
 	ul >>= s;
 
 	inCnt += stringLen;

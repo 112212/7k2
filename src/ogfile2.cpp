@@ -1866,8 +1866,8 @@ int World::write_file(File* filePtr)
 		Rle rle;
 		Blob buffer(max_x_loc*max_y_loc);
 		Blob cBuffer(max_x_loc*max_y_loc + max_x_loc + max_y_loc );
-		long writeLen;
-		long i;
+		int32_t writeLen;
+		int32_t i;
 
 		register unsigned char *srcBytePtr, *destBytePtr;
 
@@ -2164,8 +2164,8 @@ int World::read_file(File* filePtr)
 		Rle rle;
 		Blob buffer(max_x_loc*max_y_loc);
 		Blob cBuffer(max_x_loc*max_y_loc + max_x_loc + max_y_loc );
-		long readLen;
-		long i;
+		int32_t readLen;
+		int32_t i;
 
 		register unsigned char *srcBytePtr, *destBytePtr;
 

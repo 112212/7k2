@@ -219,8 +219,8 @@ void SECtrl::clear()
 // Request to sound an effect
 //
 // <int> soundEffect        the id of the sound effect, return from SECtrl::search_effect_id
-// <long> vol               volume (0 - 100 max loudness)
-// <long> pan               pan (-10000 = full left; 10000 = full right)
+// <int32_t> vol               volume (0 - 100 max loudness)
+// <int32_t> pan               pan (-10000 = full left; 10000 = full right)
 // note the request is abolished if vol is 0 or soundEffect is 0
 //
 void SECtrl::request(int soundEffect, RelVolume relVolume)
@@ -460,7 +460,7 @@ int SECtrl::search_effect_id(const char *effectName, int len)
 
 const default_vol_limit = 20;
 const default_vol_drop = 100;
-long SECtrl::sound_volume(short locX, short locY)
+int32_t SECtrl::sound_volume(short locX, short locY)
 {
 	short dist = MAX( locX >= 0? locX : -locX, locY >= 0? locY:-locY);
 	err_when( default_vol_drop <= default_vol_limit);
@@ -472,7 +472,7 @@ long SECtrl::sound_volume(short locX, short locY)
 }
 
 
-long SECtrl::sound_volume(short locX, short locY, short limit, short drop)
+int32_t SECtrl::sound_volume(short locX, short locY, short limit, short drop)
 {
 	short dist = MAX( locX >= 0? locX : -locX, locY >= 0? locY:-locY);
 	err_when( drop <= limit);
@@ -494,7 +494,7 @@ long SECtrl::sound_volume(short locX, short locY, short limit, short drop)
 // 
 
 const default_pan_drop = 100;
-long SECtrl::sound_pan(short locX, short locY)
+int32_t SECtrl::sound_pan(short locX, short locY)
 {
 	if( locX >= default_pan_drop )
 		return 10000;
@@ -504,7 +504,7 @@ long SECtrl::sound_pan(short locX, short locY)
 }
 
 
-long SECtrl::sound_pan(short locX, short locY, short drop)
+int32_t SECtrl::sound_pan(short locX, short locY, short drop)
 {
 	if( locX >= drop )
 		return 10000;

@@ -54,7 +54,7 @@ public:
 	char  site_type;		// SITE_RAW, SITE_ARTIFACT or SITE_SCROLL
 
 	short object_id;		// id. of the object,
-	int   reserve_qty;	// for raw material only
+	int32_t   reserve_qty;	// for raw material only
 	char  has_mine;		// whether there is a mine on this site
 
 	short map_x_loc;

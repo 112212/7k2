@@ -240,7 +240,7 @@ int FirmMarket::think_del()
 	{
 		Nation* ownNation = nation_array[nation_recno];
 
-		//--- if the market has been sitting idle for too long, delete it ---//
+		//--- if the market has been sitting idle for too int32_t, delete it ---//
 
 		if( info.game_date < no_linked_town_since_date
 			 + 180 + 180 * ownNation->pref_trading_tendency / 100 )

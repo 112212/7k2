@@ -27,12 +27,12 @@
 #include <omouse.h>
 
 #define	MAX_SEED_TABLE_SIZE	10 * 4000
-static long	random_seed_backup_table[MAX_SEED_TABLE_SIZE];
+static int32_t	random_seed_backup_table[MAX_SEED_TABLE_SIZE];
 static int	random_seed_writen_pos;
 static int	random_seed_backup_pos;
 static int	random_seed_backup_table_data_size;
 static char file_opened_flag = 0;
-static long	match_seed;
+static int32_t	match_seed;
 
 //-------- Begin of function Sys::sp_create_seed_file --------//
 void Sys::sp_create_seed_file(const char *filename)
@@ -68,8 +68,8 @@ void Sys::sp_load_seed_file()
 	File headerFile;
 	headerFile.file_open("nhead.rs");
 
-	long firstSeed;
-	if(headerFile.file_size() >= sizeof(long)*2)
+	int32_t firstSeed;
+	if(headerFile.file_size() >= sizeof(int32_t)*2)
 	{
 		firstSeed = headerFile.file_get_long();
 		if(match_seed) // internal loading
@@ -168,7 +168,7 @@ void Sys::sp_compare_seed()
 	if(file_opened_flag==0)
 		return;
 
-	long	gameSeed, saveSeed;
+	int32_t	gameSeed, saveSeed;
 	
 	gameSeed = misc.get_random_seed();
 	saveSeed = random_seed_backup_table[random_seed_backup_pos];

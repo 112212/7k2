@@ -147,7 +147,7 @@ String& String::operator=(const char *s)
    return *this;
 }
 
-String& String::operator=(long value)
+String& String::operator=(int32_t value)
 {
    strncpy(str_buf, misc.format(value), MAX_STR_LEN );
    str_buf[MAX_STR_LEN] = '\0';
@@ -173,7 +173,7 @@ String& String::operator+=(const char *s)
    return *this;
 }
 
-String& String::operator+=(long value)
+String& String::operator+=(int32_t value)
 {
    strncat( str_buf, misc.format(value), MAX_STR_LEN );
    str_buf[MAX_STR_LEN] = '\0';

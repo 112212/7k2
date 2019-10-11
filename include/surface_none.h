@@ -59,7 +59,7 @@ public:
 	int	lock_buf()		{ return 0; }
 	int	unlock_buf()		{ return 0; }
 
-	void	set_buf_ptr(short* bufPtr, long pitch)	{ }
+	void	set_buf_ptr(short* bufPtr, int32_t pitch)	{ }
 	void	set_default_buf_ptr()	{ }
 
 	int 	write_bmp_file(char* fileName) { return 1; }

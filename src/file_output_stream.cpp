@@ -30,7 +30,7 @@ FileOutputStream::~FileOutputStream()
    this->close();
 }
 
-long FileOutputStream::write(const void *data, long length)
+int32_t FileOutputStream::write(const void *data, int32_t length)
 {
    if (this->file == NULL)
       return 0;
@@ -41,7 +41,7 @@ long FileOutputStream::write(const void *data, long length)
    return length;
 }
 
-bool FileOutputStream::seek(long offset, int whence)
+bool FileOutputStream::seek(int32_t offset, int whence)
 {
    if (this->file == NULL)
       return false;
@@ -49,7 +49,7 @@ bool FileOutputStream::seek(long offset, int whence)
    return ::seek(this->file, offset, whence);
 }
 
-long FileOutputStream::tell()
+int32_t FileOutputStream::tell()
 {
    if (this->file == NULL)
       return -1;

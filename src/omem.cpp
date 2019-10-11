@@ -557,7 +557,7 @@ char* mem_resize_keep_data(void *orgPtr, unsigned orgSize, unsigned newSize)
 // 7.    Memory leak detection:
 //
 // Memory "leaks" are areas that are allocated but never freed.  This can become
-// a major problem in programs that must run for long periods without interrup-
+// a major problem in programs that must run for int32_t periods without interrup-
 // tion (e.g. BBS's).  If there are leaks, eventually the program will run out
 // of memory and fail.
 //

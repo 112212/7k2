@@ -133,8 +133,8 @@ public:
 
 	CaravanStop stop_array[MAX_STOP_FOR_CARAVAN];	// an array of firm_recno telling train stop stations
 
-	int			last_set_stop_date;			// the date when stops were last set.
-   int			last_load_goods_date;		// the last date when the caravan load goods from a firm  
+	int32_t			last_set_stop_date;			// the date when stops were last set.
+	int32_t			last_load_goods_date;		// the last date when the caravan load goods from a firm  
 
 	//------ goods that the caravan carries -------//
 

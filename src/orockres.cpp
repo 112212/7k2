@@ -173,8 +173,8 @@ void RockRes::load_info()
 	//	}
 	//	else 
 	//	{
-	//		long paletteOffset;
-	//		memcpy( &paletteOffset, rockRec->pal_offset, sizeof(long) );
+	//		int32_t paletteOffset;
+	//		memcpy( &paletteOffset, rockRec->pal_offset, sizeof(int32_t) );
 	//		rockInfo->palw_ptr = res_pal.read_imported_pal(paletteOffset);
 	//	}
 	}
@@ -275,10 +275,10 @@ short RockRes::get_bitmap_recno(short rockId, char curFrame)
 // choose the next frame
 // <short> rockId        rock Id
 // <char> curFrame       the current frame no.
-// <long> path           a random number, related to the probability of choosing alt_next
+// <int32_t> path           a random number, related to the probability of choosing alt_next
 //                       eg. choose_next(..,.., misc.random(x)); prob of using alt_next is 1/x
 // return next frame no.
-char RockRes::choose_next(short rockId, char curFrame, long path)
+char RockRes::choose_next(short rockId, char curFrame, int32_t path)
 {
 #ifdef DEBUG
 	// -------- validate rockRecno ---------//

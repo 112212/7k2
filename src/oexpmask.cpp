@@ -66,7 +66,7 @@ void ExploredMask::init()
 	// ------- read into exploration remap bitmap ------//
 
 	String str;
-	long fileSize;
+	int32_t fileSize;
 
 	str = DIR_RES;
 	str += REMAP_FILENAME;

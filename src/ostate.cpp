@@ -288,9 +288,9 @@ void StateArray::generate( int stateCount )
 	//------- update center as centroid of each area --------//
 
 	{
-		long sumX[MAX_STATE];
-		long sumY[MAX_STATE];
-		long stateArea[MAX_STATE];
+		int32_t sumX[MAX_STATE];
+		int32_t sumY[MAX_STATE];
+		int32_t stateArea[MAX_STATE];
 		memset( sumX, 0, sizeof(sumX) );
 		memset( sumY, 0, sizeof(sumY) );
 		memset( stateArea, 0, sizeof(stateArea) );
@@ -521,7 +521,7 @@ int StateInfo::get_adjacent(unsigned char *stateRecnoArray)
 		return 0;
 
 	int stateCount = 0;
-	unsigned long bits = adj_offset_bit;
+	uint32_t bits = adj_offset_bit;
 	for( int s = 1; s <= MAX_STATE; ++s, bits >>= 1 )
 	{
 		if( bits & 1 )
@@ -645,7 +645,7 @@ void StateArray::fill_state(int x, int y)
 
 // --------- begin of function StateArray::random ---------//
 
-unsigned long StateArray::random( unsigned long  u)
+uint32_t StateArray::random( uint32_t  u)
 {
 	if( game.is_campaign_mode() )
 		return game.campaign()->random(u);

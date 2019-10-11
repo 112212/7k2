@@ -89,7 +89,7 @@ public:
    int	stop_wav(int);
    int	is_wav_playing(int);
 
-   // functions on long wave
+   // functions on int32_t wave
    int	play_long_wav(const char*, const DsVolume &);
    int  play_long_ogg(const char *file_name, const DsVolume &vol);
    int	stop_long_wav(int);
@@ -110,7 +110,7 @@ public:
    int	play_cd(int, int retVolume);
 
    void	stop_mid();
-   void	stop_wav();             // and stop also long wav
+   void	stop_wav();             // and stop also int32_t wav
    void	stop_cd();
    void stop_ogg();
 

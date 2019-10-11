@@ -256,7 +256,7 @@ public:
 	char 		mountain_layout[MOUNTAIN_LAYOUT_X_COUNT*MOUNTAIN_LAYOUT_Y_COUNT];
 	char		mountain_layout_enabled;
 
-	long		saved_random_seed;
+	int32_t		saved_random_seed;
 
 	//---- how many times a stage game or an event has been run ----//
 
@@ -309,7 +309,7 @@ public:
 	static ResourceIdx res_stage, res_event, res_plot;
 
 private:
-	unsigned long	random_seed;
+	uint32_t	random_seed;
 
 public:
 	Campaign();
@@ -337,7 +337,7 @@ public:
 	const char*	minister_name(int ministerId)
 						{ return get_nation(CAMPAIGN_PLAYER_NATION_RECNO)->minister_name(ministerId); }
 
-	unsigned long	random(unsigned long);
+	uint32_t	random(uint32_t);
 
 	int				is_nation_deleted(int nationRecno);
 	CampaignNation	*get_nation(int nationRecno);
@@ -395,7 +395,7 @@ protected:
 	//----- functions for generating random numbers -----//
 
 	double			randomf(double);
-	unsigned long	rand();
+	uint32_t	rand();
 
 	//--------- functions on nation --------------//
 

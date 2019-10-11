@@ -61,7 +61,7 @@ short *BitmapW::get_ptr(short x, short y)
 
 // ------ begin of function BitmapW::size ------//
 
-long BitmapW::size()
+int32_t BitmapW::size()
 {
 	return sizeof(width_field)+sizeof(height_field)+ width_field*height_field*sizeof(short);
 }
@@ -70,7 +70,7 @@ long BitmapW::size()
 
 // ------ begin of function BitmapW::size ------//
 
-long BitmapW::size(short w, short h)
+int32_t BitmapW::size(short w, short h)
 {
 	return sizeof(short)+sizeof(short)+ w*h*sizeof(short);
 }

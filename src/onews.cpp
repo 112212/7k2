@@ -276,7 +276,7 @@ int NewsArray::put(int detectAction)
 
 	if( !detectAction )
 	{
-		if( nation_array.player_recno )			// no news long if the player has been defeated
+		if( nation_array.player_recno )			// no news int32_t if the player has been defeated
 			image_icon.put_back(NEWS_X2+3, NEWS_Y2-17, "NEWS_LOG");	// news log report
 
 		if( dispCount > 0 )			// clear news button

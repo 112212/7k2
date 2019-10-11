@@ -535,8 +535,8 @@ private:
 class TownArray : public DynArrayB
 {
 public:
-	int   selected_recno;      // the firm current being selected
-	int	race_wander_pop_array[MAX_RACE];		// no. of wandering people of each race. They are people for setting up independent towns later
+	int32_t   selected_recno;      // the firm current being selected
+	int32_t	race_wander_pop_array[MAX_RACE];		// no. of wandering people of each race. They are people for setting up independent towns later
 
 public:
 	TownArray();

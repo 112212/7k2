@@ -42,7 +42,7 @@ protected:
 public:
 	BOOL						buf_locked;			// whether the and back buffers have been locked or not.
 	short*						cur_buf_ptr;
-	long						cur_pitch;			// buf_des.lPitch
+	int32_t						cur_pitch;			// buf_des.lPitch
 	char						is_front;			// whether it's the front buffer or not
 
 	// ------- temp_unlock --------- //
@@ -97,7 +97,7 @@ public:
 	void		temp_lock();
 	void		temp_restore_unlock();
 
-	void		set_buf_ptr(short* bufPtr, long pitch)	{ surface->set_buf_ptr(bufPtr, pitch); }
+	void		set_buf_ptr(short* bufPtr, int32_t pitch)	{ surface->set_buf_ptr(bufPtr, pitch); }
 	void		set_default_buf_ptr()			{ surface->set_default_buf_ptr(); }
 
 	int 		write_bmp_file(char* fileName)		{ return surface->write_bmp_file(fileName); }

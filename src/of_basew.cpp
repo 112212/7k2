@@ -130,7 +130,7 @@ void FirmBase::invoke_random_effect(int effectId, char remoteAction)
 
 	if( !effectId )
 	{
-		static long staticSumRare = 0;
+		static int32_t staticSumRare = 0;
 
 		// find staticSumRare
 
@@ -143,7 +143,7 @@ void FirmBase::invoke_random_effect(int effectId, char remoteAction)
 			err_when( staticSumRare > 0x7fff );	// larger the limit of misc.random
 		}
 
-		long sumRare = misc.random(staticSumRare);
+		int32_t sumRare = misc.random(staticSumRare);
 		for( effectId = 1; effectId <= MAX_WISH; ++effectId )
 		{
 			sumRare -= wish_info_array[effectId-1].rare;

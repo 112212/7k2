@@ -30,7 +30,7 @@
 class BulletProgram : public Bullet
 {
 public:
-	int delay_step;
+	int32_t delay_step;
 
 public:
 	BulletProgram();

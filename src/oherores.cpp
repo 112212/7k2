@@ -135,7 +135,7 @@ void HeroRes::generate_fictional_hero()
 	// ##### begin Gilbert 14/3 ########//
 	// ----- backup seed so all machine have same set of fictional hero (for multi-player game) ----//
 
-	long backupSeed = misc.get_random_seed();
+	int32_t backupSeed = misc.get_random_seed();
 	misc.set_random_seed(4);			// set a constant seed
 	// ##### end Gilbert 14/3 ########//
 
@@ -706,7 +706,7 @@ int HeroRes::induce_hero_join_nation(int nationRecno, int inducePower)
 int HeroRes::hire_cost(int combatLevel, int maxCombatLevel,
 							  int skillLevel, int spySkill, Item* itemPtr)
 {
-	long hireCost  = 0;
+	int32_t hireCost  = 0;
 
 	// --------- basic cost --------//
 

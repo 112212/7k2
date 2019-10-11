@@ -43,7 +43,7 @@ public:
    void init(char*,Database*,int,int=0);
    void deinit();
    void  init_imported(char*,int,int=0);
-	short* read_imported_pal(long);
+	short* read_imported_pal(int32_t);
 
 private:
 	void	generate_pal();

@@ -585,7 +585,7 @@ struct FontInfo	// info for each character
 	char				offset_y;
 	unsigned char	width;
 	unsigned char	height;
-	long				bitmap_offset;	// file offset relative to bitmap data
+	int32_t				bitmap_offset;	// file offset relative to bitmap data
 };
 
 //--------- Define macro constant ------------//

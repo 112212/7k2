@@ -96,10 +96,10 @@ public:
 
 	int	immediate_sound(const char *soundName, RelVolume=DEF_REL_VOLUME);	// mainly for button sound, interface
 
-//	static long sound_volume(short locX, short locY);
-//	static long sound_volume(short locX, short locY, short limit, short drop);
-//	static long sound_pan(short locX, short locY);
-//	static long sound_pan(short locX, short locY, short drop);
+//	static int32_t sound_volume(short locX, short locY);
+//	static int32_t sound_volume(short locX, short locY, short limit, short drop);
+//	static int32_t sound_pan(short locX, short locY);
+//	static int32_t sound_pan(short locX, short locY, short drop);
 
 private:
 	void	load_info();

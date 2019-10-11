@@ -49,7 +49,7 @@ public:
 
 	// -------- ai variable -------//
 
-	int	ai_para;			// custom variable used by ai
+	int32_t	ai_para;			// custom variable used by ai
 
 public:
 	UnitGod();

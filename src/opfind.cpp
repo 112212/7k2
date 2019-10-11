@@ -417,7 +417,7 @@ bool PathFinder::find_path(int sourceX, int sourceY, int destX, int destY,
 									int destRangeX1, int destRangeY1, int destRangeX2, int destRangeY2, bool raiseIt, bool raiseDest, int maxTries, int stopAtRange)
 {
 #ifdef DEBUG
-	unsigned long pathFinderStartTime = misc.get_time();
+	uint32_t pathFinderStartTime = misc.get_time();
 #endif
 
 	int i, j, unitRecno=0;
@@ -620,7 +620,7 @@ bool PathFinder::find_path2(int sourceX, int sourceY, int destX, int destY, int 
 //	sour_x = sourceX;
 //	sour_y = sourceY;
 
-	long yieldCount = 400;
+	int32_t yieldCount = 400;
 
 	//----- only try for MAX_TRIES times -------//
 
@@ -1372,7 +1372,7 @@ PathNode* PathFinder::get_closest_node()
 //					replaceFlag = false;
 //				else
 //					replaceFlag = H_TO_G_RATIO*dist+nodePointer->g < H_TO_G_RATIO*shortestDistance+shortestG;
-//				// avoid take a very long path to get only a little closer
+//				// avoid take a very int32_t path to get only a little closer
 //				// if one path take  2 steps to get distance 3
 //				// and one path take 7 steps to get distance 2
 //				// take the first one

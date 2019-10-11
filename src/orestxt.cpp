@@ -39,7 +39,7 @@
 //   char  title[INDEX_NAME_LEN+1];
 //   char  gif_name[PICT_NAME_LEN+1];
 //   short text_size;   // size of the text body
-//   long  file_pos;    // pointer to text body in the RTX file
+//   int32_t  file_pos;    // pointer to text body in the RTX file
 // }
 //
 //---------------------------------------------//

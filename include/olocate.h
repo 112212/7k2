@@ -150,8 +150,8 @@ public:
 	unsigned char visit_level;			// drop from FULL_VISIBILITY to 0
 
 	// terrain height polynomial coefficient
-	long		c00, c10, c01, c20, c11, c02;		// scaled up by C_MULTIPLIER or shift left by C_MULTIPLIER_SHIFT
-	long		c30, c21, c12, c03;
+	int32_t		c00, c10, c01, c20, c11, c02;		// scaled up by C_MULTIPLIER or shift left by C_MULTIPLIER_SHIFT
+	int32_t		c30, c21, c12, c03;
 
 	short		min_y, max_y;							// used in LocationCorners::render
 
@@ -337,7 +337,7 @@ public:
 	int	can_build_whole_harbor() { return loc_flag & LOCATE_HARBOR_BIT; }
 
 	//----------- evaluate z ----------//
-	long	evaluate_z(short subX, short subY);
+	int32_t	evaluate_z(short subX, short subY);
 };
 #pragma pack()
 

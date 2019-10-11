@@ -1003,7 +1003,7 @@ void HelpSaveScreen::save_scr(int x1, int y1, int x2, int y2, VgaBuf* vgaBuf )
 
 	err_when( x1>x2 || y1>y2 || x1<0 || y1<0 || x2>=VGA_WIDTH || y2>=VGA_HEIGHT );
 
-	long saveSize = (long)(x2-x1+1) * (y2-y1+1);
+	int32_t saveSize = (int32_t)(x2-x1+1) * (y2-y1+1);
 
 	err_when( saveSize > HELP_SCR_BUF_SIZE );
 

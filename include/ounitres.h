@@ -348,9 +348,9 @@ class UnitRes
 {
 public:
 	char           init_flag;
-	int				unit_class_count;
-	int            unit_info_count;
-	int            attack_info_count;
+	int32_t				unit_class_count;
+	int32_t            unit_info_count;
+	int32_t            attack_info_count;
 
 	UnitClassInfo* unit_class_array;
 	UnitInfo*      unit_info_array;

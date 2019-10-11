@@ -39,10 +39,10 @@
 
 #ifdef DEBUG
 #include <ofont.h>
-static unsigned long	last_town_ai_profile_time = 0L;
-static unsigned long	town_ai_profile_time = 0L;
-static unsigned long	last_town_profile_time = 0L;
-static unsigned long	town_profile_time = 0L;
+static uint32_t	last_town_ai_profile_time = 0L;
+static uint32_t	town_ai_profile_time = 0L;
+static uint32_t	last_town_profile_time = 0L;
+static uint32_t	town_profile_time = 0L;
 #endif
 
 //---------- define constant ------------//
@@ -251,7 +251,7 @@ void TownArray::process()
 				#endif
 				{
 					#ifdef DEBUG
-					unsigned long profileStartTime = misc.get_time();
+					uint32_t profileStartTime = misc.get_time();
 					#endif
 
 					townPtr->process_ai();
@@ -268,7 +268,7 @@ void TownArray::process()
 			err_when( townPtr->town_recno==0 );
 
 			#ifdef DEBUG
-			unsigned long profileStartTime = misc.get_time();
+			uint32_t profileStartTime = misc.get_time();
 			#endif
 
 			townPtr->next_day();
@@ -742,7 +742,7 @@ void TownArray::draw_dot(int filterRaceId)
 void TownArray::draw_profile()
 {
 #ifdef DEBUG
-	static unsigned long lastDrawTime = misc.get_time();
+	static uint32_t lastDrawTime = misc.get_time();
 
 	if(misc.get_time() >= lastDrawTime + 1000)
 	{

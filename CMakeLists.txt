@@ -15,7 +15,13 @@ if(${MSVC})
 endif()
 add_definitions(-DUSE_OPENAL)
 
-set(CMAKE_CXX_FLAGS "-g")
+set(DEBUG 1)
+
+if(DEBUG EQUAL 1)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+endif()
+
 
 find_package(ENet REQUIRED)
 find_package(JPEG REQUIRED)

@@ -32,7 +32,7 @@
 // random select 2 - 8 for background music
 #define LOW_RANDOM_SONG 6
 // #define HIGH_RANDOM_SONG 12//8
-#define HIGH_RANDOM_SONG 6//8
+#define HIGH_RANDOM_SONG 12//8
 
 // -------- define song name --------//
 

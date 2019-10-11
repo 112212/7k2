@@ -360,7 +360,7 @@ int World::detect_scroll()
 			if( mouse_cursor.frame_flag )    // if it's now in frame selection mode
 				return 0;
 
-			if( next_scroll_time && misc.get_time() < next_scroll_time )      // just scrolled not too long ago, wait for a little while before next scroll.
+			if( next_scroll_time && misc.get_time() < next_scroll_time )      // just scrolled not too int32_t ago, wait for a little while before next scroll.
 				return 0;
 
 			int rc=0;
@@ -479,7 +479,7 @@ int World::detect_scroll()
 				step = step * config.scroll_speed / 500;
 				if( step == 0 )		// scroll instantly
 					step = 1;
-				// step can be very large if holding for long while
+				// step can be very large if holding for int32_t while
 				DWORD maxStep = max_x_loc + max_y_loc + 32;
 				if( step > maxStep )
 					step = maxStep;
@@ -2722,7 +2722,7 @@ void World::process_visibility()
 		// ##### patch end Gilbert 18/1 ######//
 		{
 #ifdef DEBUG
-			unsigned long startTime = misc.get_time();
+			uint32_t startTime = misc.get_time();
 #endif
 #ifdef ASM_FOR_MSVC
 			int count = max_x_loc * max_y_loc;

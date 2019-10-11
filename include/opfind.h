@@ -115,15 +115,15 @@ private:
 
 extern PathFinder path_finder;
 #ifdef DEBUG
-extern unsigned long pathfind_profile_time;
-extern unsigned long last_pathfind_profile_time;
+extern uint32_t pathfind_profile_time;
+extern uint32_t last_pathfind_profile_time;
 // ######## begin Gilbert 27/4 #######//
-extern unsigned long pathfind_count;
-extern unsigned long last_pathfind_count;
-extern unsigned long longest_pathfind_profile_time;
-extern unsigned long last_longest_pathfind_profile_time;
-extern unsigned long longest_pathfind_unit_recno;
-extern unsigned long last_longest_pathfind_unit_recno;
+extern uint32_t pathfind_count;
+extern uint32_t last_pathfind_count;
+extern uint32_t longest_pathfind_profile_time;
+extern uint32_t last_longest_pathfind_profile_time;
+extern uint32_t longest_pathfind_unit_recno;
+extern uint32_t last_longest_pathfind_unit_recno;
 // ######## end Gilbert 27/4 #######//
 #endif
 

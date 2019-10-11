@@ -173,11 +173,11 @@ void Sys::disp_frame(int dispCampaignMsg)
 		return;
 
 #ifdef DEBUG
-	unsigned long startTime = misc.get_time();
-	unsigned long updateViewTime = 0;
-	unsigned long infoUpdateTime = 0;
-	unsigned long dispMapTime = 0;
-	unsigned long flipTime = 0;
+	uint32_t startTime = misc.get_time();
+	uint32_t updateViewTime = 0;
+	uint32_t infoUpdateTime = 0;
+	uint32_t dispMapTime = 0;
+	uint32_t flipTime = 0;
 #endif
 
 	if( option_menu.is_active() )
@@ -391,7 +391,7 @@ void Sys::disp_zoom()
 
 	if( zoom_need_redraw )		// requested by other modules to redraw the pre-drawn zoom background
 	{
-		long backupSeed = misc.get_random_seed();
+		int32_t backupSeed = misc.get_random_seed();
 
 		// #### begin Gilbert 8/2 #####//
 		world.zoom_matrix->just_drawn_flag = 0;	// request world.zoom_matrix->disp() to call draw()
@@ -403,7 +403,7 @@ void Sys::disp_zoom()
 	//-------- disp zoom area --------//
 
 #ifdef DEBUG
-	unsigned long dispTime = misc.get_time();
+	uint32_t dispTime = misc.get_time();
 #endif
 	world.zoom_matrix->disp();
 #ifdef DEBUG
@@ -420,7 +420,7 @@ void Sys::disp_zoom()
 	//------- draw foreground objects --------//
 
 #ifdef DEBUG
-	unsigned long drawFrameTime = misc.get_time();
+	uint32_t drawFrameTime = misc.get_time();
 #endif
 	world.zoom_matrix->draw_frame();
 #ifdef DEBUG
@@ -429,7 +429,7 @@ void Sys::disp_zoom()
 
 
 #ifdef DEBUG
-	unsigned long miscTime = misc.get_time();
+	uint32_t miscTime = misc.get_time();
 #endif
 
 	//----- draw the frame of the selected firm/town -----//
@@ -470,7 +470,7 @@ void Sys::blt_virtual_buf()
 	//--- in a debug sesion, vga_front is not the true front buffer, now copy it to the true one ---//
 
 #ifdef DEBUG
-	unsigned long startTime = misc.get_time();
+	uint32_t startTime = misc.get_time();
 #endif
 	int frontLocked=0;
 
@@ -698,7 +698,7 @@ void Sys::capture_screen()
    path_len = strlen(full_path);
    if (path_len + MAX_SCREENSHOT_FILENAME_LENGTH > MAX_PATH)
    {
-      ERR("Path to the screenshots too long.\n");
+      ERR("Path to the screenshots too int32_t.\n");
       return;
    }
 

@@ -27,12 +27,11 @@
 #include <all.h>
 #include <ogame.h>
 #include <oworld.h>
-
 //--------------- define types --------------//
 
 typedef unsigned char  BYTE;
-typedef unsigned short U16;
-typedef signed   long  S32;
+typedef uint16_t U16;
+typedef int32_t  S32;
 
 //-------- define constant -------------//
 

@@ -145,7 +145,7 @@ void Game::set_win_deadline()
 
 // ----- Begin of function Game::update_condition_on_killed ------//
 //
-int Game::update_condition_on_killed(long uniqueId)
+int Game::update_condition_on_killed(int32_t uniqueId)
 {
 	int rc = 0;
 	int i;
@@ -167,7 +167,7 @@ int Game::update_condition_on_killed(long uniqueId)
 
 // ----- Begin of function Game::update_condition_on_mobilize ------//
 //
-int Game::update_condition_on_mobilize(int newUnitRecno, long uniqueId)
+int Game::update_condition_on_mobilize(int newUnitRecno, int32_t uniqueId)
 {
 	int rc = 0;
 	int i;
@@ -233,7 +233,7 @@ int Game::update_condition_item_acquired(short itemId, int nationRecno)
 
 // ----- Begin of function Game::is_unit_in_condition ------//
 //
-int Game::is_unit_in_condition(long uniqueId)
+int Game::is_unit_in_condition(int32_t uniqueId)
 {
 	int rc = 0;
 	int i;

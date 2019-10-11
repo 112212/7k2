@@ -85,7 +85,7 @@ public:
 	char	turn_delay;			// value between -60 and 60
 	char	guard_count;		// shield guarding, affecting move/stop frame
 									// 0=not guarding, count up from 1 when guarding, reset to 0 after guard
-	int	freeze_frame_left;
+	int32_t	freeze_frame_left;
 	
 	UCHAR remain_attack_delay;			// no. of frames has to be delayed before the next attack motion
 	UCHAR remain_frames_per_step;    // no. of frames remained in this step
@@ -217,23 +217,23 @@ public:
 };
 
 //------------------------------------------//
-extern unsigned long	last_unit_ai_profile_time;
-extern unsigned long	unit_ai_profile_time;
-extern unsigned long	last_unit_profile_time;
-extern unsigned long	unit_profile_time;
-extern unsigned long	last_sprite_array_profile_time;
-extern unsigned long	sprite_array_profile_time;
-extern unsigned long last_sprite_idle_profile_time;
-extern unsigned long sprite_idle_profile_time;
-extern unsigned long last_sprite_move_profile_time;
-extern unsigned long sprite_move_profile_time;
-extern unsigned long last_sprite_wait_profile_time;
-extern unsigned long sprite_wait_profile_time;
-extern unsigned long last_sprite_attack_profile_time;
-extern unsigned long sprite_attack_profile_time;
-extern unsigned long last_unit_attack_profile_time;
-extern unsigned long unit_attack_profile_time;
-extern unsigned long last_unit_assign_profile_time;
-extern unsigned long unit_assign_profile_time;
+extern uint32_t last_unit_ai_profile_time;
+extern uint32_t unit_ai_profile_time;
+extern uint32_t last_unit_profile_time;
+extern uint32_t unit_profile_time;
+extern uint32_t last_sprite_array_profile_time;
+extern uint32_t sprite_array_profile_time;
+extern uint32_t last_sprite_idle_profile_time;
+extern uint32_t sprite_idle_profile_time;
+extern uint32_t last_sprite_move_profile_time;
+extern uint32_t sprite_move_profile_time;
+extern uint32_t last_sprite_wait_profile_time;
+extern uint32_t sprite_wait_profile_time;
+extern uint32_t last_sprite_attack_profile_time;
+extern uint32_t sprite_attack_profile_time;
+extern uint32_t last_unit_attack_profile_time;
+extern uint32_t unit_attack_profile_time;
+extern uint32_t last_unit_assign_profile_time;
+extern uint32_t unit_assign_profile_time;
 
 #endif

@@ -35,7 +35,7 @@
 #ifndef __OTRANSL_H
 #include <otransl.h>
 #endif
-
+#include <stdint.h>
 //------- Define constant ------------//
 
 #define DEFAULT_LINE_SPACE  2   // 2 pixels space between lines
@@ -177,19 +177,19 @@ public:
 	int  disp(int a,int b,short c,int d,int e)
 		  { return disp(a,b,(int)c,d,e); }
 
-	//---- <long> version, call <int> version directly ------//
+	//---- <int32_t> version, call <int> version directly ------//
 
-	void put_field(int a,int b,const char* c,int d,long e,int f=1)
-		  { put_field(a,b,c,d,(int)e,f); }
+	// void put_field(int a,int b,const char* c,int d,int32_t e,int f=1)
+		  // { put_field(a,b,c,d,(int)e,f); }
 
-	void update_field(int a,int b,long c,int d,int e)
-		  { update_field(a,b,(int)c,d,e); }
+	// void update_field(int a,int b,int32_t c,int d,int e)
+		  // { update_field(a,b,(int)c,d,e); }
 
-	void field(int a,int b,const char* c,int d,long e,int f,int g,int h,const char* helpCode=NULL)
-		  { field(a,b,c,d,(int)e,f,g,h); }
+	// void field(int a,int b,const char* c,int d,int32_t e,int f,int g,int h,const char* helpCode=NULL)
+		  // { field(a,b,c,d,(int)e,f,g,h); }
 
-	int  disp(int a,int b,long c,int d,int e)
-		  { return disp(a,b,(int)c,d,e); }
+	// int  disp(int a,int b,int32_t c,int d,int e)
+		  // { return disp(a,b,(int)c,d,e); }
 
 	//------------- <double> version ---------------//
 

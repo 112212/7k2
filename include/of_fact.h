@@ -37,7 +37,7 @@
 class FirmFactory : public FirmWork
 {
 public:
-	int   	product_raw_id;	// the raw id. of the product
+	int32_t   	product_raw_id;	// the raw id. of the product
 
 	float		stock_qty;			// mined raw materials stock
 	float		max_stock_qty;
@@ -57,7 +57,7 @@ public:
 	float		backup_raw_array[MAX_RAW];
 	float		backup_product_array[MAX_PRODUCT];
 
-	int		auto_switch_flag;
+	int32_t		auto_switch_flag;
 
 public:
 	FirmFactory();

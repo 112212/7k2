@@ -93,7 +93,7 @@ void UnitB::move_to(int destXLoc, int destYLoc, bool raiseDest)
 	//------- search the path ---------//
 
 //#ifdef DEBUG
-//	unsigned long pathFinderStartTime = misc.get_time();
+//	uint32_t pathFinderStartTime = misc.get_time();
 //#endif
 	path_finder.set_attribute(loc_width, loc_height, mobile_type, 0);
 
@@ -198,7 +198,7 @@ void UnitB::move_to(int destXLoc, int destYLoc, bool raiseDest)
 		{
 			// ##### begin Gilber 27/4 ########//
 //#ifdef DEBUG
-			// unsigned long pathFinderStartTime = misc.get_time();
+			// uint32_t pathFinderStartTime = misc.get_time();
 			// pathFinderStartTime = misc.get_time();
 //#endif
 			// ##### end Gilber 27/4 ########//
@@ -623,7 +623,7 @@ void UnitB::process_wait()
 
 		//##### end trevor 21/1 #####//*/
 	}
-	//find a new path if wait too long	
+	//find a new path if wait too int32_t	
 	// ####### begin Gilbert 28/4 ########//
 	if(wait_state++ > (retry_state <= MAX_UNIT_WAIT_STATE ? retry_state+MAX_UNIT_WAIT_STATE_FIRST : MAX_UNIT_WAIT_STATE) )
 	{

@@ -124,7 +124,7 @@ void Nation::think_capturing_enemy_town()
 	//--------- check if we need reinforcement --------//
 
 	//-----------------------------------------------------------//
-	// Check how long we have started attacking because only
+	// Check how int32_t we have started attacking because only
 	// when the it has been started for a while, our force
 	// will reach the target and the offensive and defensive force
 	// total can be calculated accurately.

@@ -95,7 +95,7 @@ int PlayerProfile::save()
 
 	if( !misc.path_cat(full_path, sys.dir_config, str, MAX_PATH) )
 	{
-		ERR("Path to the player profile too long.\n");
+		ERR("Path to the player profile too int32_t.\n");
 		return 0;
 	}
 	f.file_create( full_path );
@@ -124,7 +124,7 @@ int PlayerProfile::load(char *fileName)
 	File f;
 	if( !misc.path_cat(full_path, sys.dir_config, fileName, MAX_PATH) )
 	{
-		ERR("Path to the player profile too long.\n");
+		ERR("Path to the player profile too int32_t.\n");
 		return 0;
 	}
 	f.file_open(full_path);
@@ -187,7 +187,7 @@ char *PlayerProfile::save_game_path(char *wildcardStr)
 		misc.path_cat( full_path, sys.dir_config, DIR_SAVE, MAX_PATH );
 		if( !misc.path_cat( full_path, full_path, save_dir, MAX_PATH) )
 		{
-			ERR( "Path to the save game directory too long.\n" );
+			ERR( "Path to the save game directory too int32_t.\n" );
 			return NULL;
 		}
 		strcpy( retStr, full_path );
@@ -197,7 +197,7 @@ char *PlayerProfile::save_game_path(char *wildcardStr)
 			misc.path_cat( full_path, full_path, PATH_DELIM, MAX_PATH );
 			if( !misc.path_cat( full_path, full_path, wildcardStr, MAX_PATH ) )
 			{
-				ERR( "Path to the save game directory too long.\n" );
+				ERR( "Path to the save game directory too int32_t.\n" );
 				return NULL;
 			}
 			strcpy( retStr, full_path );

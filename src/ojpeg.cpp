@@ -178,7 +178,7 @@ int Jpeg::put_to_buf( VgaBuf *vgaBuf, int x, int y, char *filename )
 	 register short *writePtr = vgaBuf->buf_ptr( x, y+cinfo->output_scanline );
 
     /* jpeg_read_scanlines expects an array of pointers to scanlines.
-     * Here the array is only one element long, but you could ask for
+     * Here the array is only one element int32_t, but you could ask for
      * more than one scanline at a time if that's more convenient.
      */
     (void) jpeg_read_scanlines(cinfo, buffer, 1);

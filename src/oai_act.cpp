@@ -607,7 +607,7 @@ void Nation::action_finished(WORD aiActionId, short unitRecno, int actionFailure
 			break;
 	}
 
-	if( actionRecno==0 )		// not found, this can happen when an action is removed because the unit cannot finish its task after too long, while the action_id still remain the Unit::cur_order.
+	if( actionRecno==0 )		// not found, this can happen when an action is removed because the unit cannot finish its task after too int32_t, while the action_id still remain the Unit::cur_order.
 	{
 		return;
 	}

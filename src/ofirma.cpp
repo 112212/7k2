@@ -44,10 +44,10 @@
 #ifdef DEBUG
 #include <ofont.h>
 
-static unsigned long	last_firm_ai_profile_time = 0L;
-static unsigned long	firm_ai_profile_time = 0L;
-static unsigned long	last_firm_profile_time = 0L;
-static unsigned long	firm_profile_time = 0L;
+static uint32_t	last_firm_ai_profile_time = 0L;
+static uint32_t	firm_ai_profile_time = 0L;
+static uint32_t	last_firm_profile_time = 0L;
+static uint32_t	firm_profile_time = 0L;
 #endif
 //#### end alex 22/9 ####//
 
@@ -556,7 +556,7 @@ int FirmArray::process()
 		if( i%FRAMES_PER_DAY == int(sys.frame_count%FRAMES_PER_DAY) )	// only process each firm once per day
 		{
 			#ifdef DEBUG
-			unsigned long profileStartTime = misc.get_time();
+			uint32_t profileStartTime = misc.get_time();
 			#endif
 
 //			//-------- process visibility -----------//
@@ -596,7 +596,7 @@ int FirmArray::process()
 				LOG_MSG(misc.get_random_seed() );
 
 				#ifdef DEBUG
-				unsigned long profileAiStartTime = misc.get_time();
+				uint32_t profileAiStartTime = misc.get_time();
 				#endif
 
 				LOG_MSG(" process_ai");
@@ -859,7 +859,7 @@ void FirmArray::draw_dot(int filterFirmId)
 void FirmArray::draw_profile()
 {
 #ifdef DEBUG	
-	static unsigned long lastDrawTime = misc.get_time();
+	static uint32_t lastDrawTime = misc.get_time();
 
 	if(misc.get_time() >= lastDrawTime + 1000)
 	{

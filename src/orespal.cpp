@@ -97,11 +97,11 @@ void ResourcePal::generate_pal()
 
 		// process all palettes
 
-		long offset = 0;
+		int32_t offset = 0;
 		while( offset < data_buf_size )
 		{
 			// process each palette
-			long fileSize = *(long *)(data_buf + offset);
+			int32_t fileSize = *(int32_t *)(data_buf + offset);
 			err_when( fileSize < 0 );
 			RGBColor *srcPtr = (RGBColor *)(offset + sizeof(uint32_t) + 8 + (char *)data_buf);	// skip length field and 8 byte header
 			short *destPtr = (short *)(offset + sizeof(uint32_t)  + (char *)pal_data_buf);
@@ -129,14 +129,14 @@ void ResourcePal::generate_pal()
 // similar to read_imported, but get the 16-bit palette
 // correspond to the 
 //
-short* ResourcePal::read_imported_pal(long offset)
+short* ResourcePal::read_imported_pal(int32_t offset)
 {
 	err_when( !init_flag );
 
 	if( read_all )
 	{
 		err_when( offset<0 || offset>=data_buf_size );
-		return pal_data_buf + offset + sizeof(uint32_t);  // by pass the long parameters which is the size of the data
+		return pal_data_buf + offset + sizeof(uint32_t);  // by pass the int32_t parameters which is the size of the data
 	}
 	else
 	{

@@ -112,7 +112,7 @@ struct RockBitmapInfo
 	short width()     { return ((Bitmap *)bitmap_ptr)->get_width(); }
 	short height()    { return ((Bitmap *)bitmap_ptr)->get_height(); }
 	void	draw(RockInfo* rockInfo, short xLoc, short yLoc, short curZ);
-	char	choose_next(long path) { return path ? next_frame : alt_next; }
+	char	choose_next(int32_t path) { return path ? next_frame : alt_next; }
 };
 
 // ------------ Define class RockRes -----------//
@@ -140,7 +140,7 @@ public:
 	RockInfo*        get_rock_info(short rockRecno);
 	RockBitmapInfo*  get_bitmap_info(short rockBitmapRecno);
 
-	char             choose_next(short rockId, char curFrame, long path);
+	char             choose_next(short rockId, char curFrame, int32_t path);
 	void             draw(short rockId, short xLoc, short yLoc, short curZ, char curFrame);
 //	void             draw_block(short rockRecno, short xLoc, short yLoc,
 //		short offsetX, short offsetY, char curFrame);

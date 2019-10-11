@@ -133,9 +133,9 @@ struct TeamInfo
 public:
 	char  member_count;
 	short member_unit_array[MAX_TEAM_MEMBER];
-	int   ai_last_request_defense_date;
+	int32_t   ai_last_request_defense_date;
 	char	formation_id;		// if this is > 0, the team has a formation
-	int   formation_direction;
+	int32_t   formation_direction;
 
 public:
 	TeamInfo();
@@ -170,8 +170,8 @@ public:
 
 	char			loc_width;
 	char			loc_height;
-	int			wait_state;
-	int			retry_state;
+	int32_t			wait_state;
+	int32_t			retry_state;
 	UnitOrder 	cur_order;
 	virtual int is_visible()      { return cur_x >= 0; }     // whether the unit is visible on the map, it is not invisable if cur_x == -1
 
@@ -202,13 +202,13 @@ public:
 
 	PathResult*	cur_path;
 	short    	cur_path_result_id;
-	int			steps_remaining;
+	int32_t			steps_remaining;
 
 	//---- other movement and path seeking vars ----//
 
 	char			seek_path_fail_count;
 	char			ignore_power_nation;
-	int				number_of_times_being_blocked;
+	int32_t			number_of_times_being_blocked;
 	bool			check_formation;
 //	bool			check_freezed;
 //	int				freeze_frame_left;
@@ -305,7 +305,7 @@ public:
 
 	short			hero_id;				// >0 if this is a hero
 	char			is_royal;
-	int			unique_id;              // unique number generated across campaign
+	int32_t			unique_id;              // unique number generated across campaign
 	char     	loyalty;
 	char     	target_loyalty;
 
@@ -398,7 +398,7 @@ public:
 
 	short			original_target_x_loc;	// for AI and player units
 	short			original_target_y_loc;
-	int			last_ask_attack_date;		 // moved from newly added
+	int32_t			last_ask_attack_date;		 // moved from newly added
 	void 			set_original_target(int xLoc, int yLoc);
 
 	//------- other movement and attack behavior vars ------//
@@ -414,7 +414,7 @@ public:
 	short			home_camp_firm_recno;
 	char			behavior_mode;
 	int			get_behavior_mode()	{ return is_in_formation() ? UNIT_STAND_GROUND : behavior_mode; }		// if formation is on, it's always in stand ground mode
-	int			auto_retreat_hit_point;
+	int32_t			auto_retreat_hit_point;
 
 	//---------- AI vars ---------//
 
@@ -424,7 +424,7 @@ public:
 
 	// -------- special ability ----------//
 
-	int			last_special_ability_start_date;
+	int32_t			last_special_ability_start_date;
 	char			special_abilty_id;			// see oun_spab.h
 	char			special_abilty_para;			// depend on special_ability_id
 
@@ -757,7 +757,7 @@ class UnitArray : public SpriteArray
 {
 public:
 	short selected_recno;		// if more than one unit is selected, it is always set to the unit with the highest rank.
-	int 	selected_count;
+	int32_t 	selected_count;
 
 public:
 	UnitArray(int);
@@ -803,28 +803,28 @@ private:
 //------------------------------------------//
 
 extern UnitArray unit_array;
-extern unsigned long	unit_process_town_defender_profile_time;
-extern unsigned long	unit_process_camp_defender_profile_time;
-extern unsigned long	unit_process_rebel_profile_time;
-extern unsigned long	unit_execute_move_profile_time;
-extern unsigned long	unit_execute_attack_profile_time;
-extern unsigned long	unit_execute_build_firm_profile_time;
-extern unsigned long	unit_execute_settle_town_profile_time;
-extern unsigned long	unit_execute_assign_profile_time; 
-extern unsigned long	unit_check_build_firm_profile_time;
-extern unsigned long	unit_cast_power_profile_time;
-extern unsigned long	unit_transform_fortress_profile_time;
-extern unsigned long	last_unit_process_town_defender_profile_time;
-extern unsigned long	last_unit_process_camp_defender_profile_time;
-extern unsigned long	last_unit_process_rebel_profile_time;
-extern unsigned long	last_unit_execute_move_profile_time;
-extern unsigned long	last_unit_execute_attack_profile_time;
-extern unsigned long	last_unit_execute_build_firm_profile_time;
-extern unsigned long	last_unit_execute_settle_town_profile_time;
-extern unsigned long	last_unit_execute_assign_profile_time; 
-extern unsigned long	last_unit_check_build_firm_profile_time;
-extern unsigned long	last_unit_cast_power_profile_time;
-extern unsigned long	last_unit_transform_fortress_profile_time;
+extern uint32_t	unit_process_town_defender_profile_time;
+extern uint32_t	unit_process_camp_defender_profile_time;
+extern uint32_t	unit_process_rebel_profile_time;
+extern uint32_t	unit_execute_move_profile_time;
+extern uint32_t	unit_execute_attack_profile_time;
+extern uint32_t	unit_execute_build_firm_profile_time;
+extern uint32_t	unit_execute_settle_town_profile_time;
+extern uint32_t	unit_execute_assign_profile_time; 
+extern uint32_t	unit_check_build_firm_profile_time;
+extern uint32_t	unit_cast_power_profile_time;
+extern uint32_t	unit_transform_fortress_profile_time;
+extern uint32_t	last_unit_process_town_defender_profile_time;
+extern uint32_t	last_unit_process_camp_defender_profile_time;
+extern uint32_t	last_unit_process_rebel_profile_time;
+extern uint32_t	last_unit_execute_move_profile_time;
+extern uint32_t	last_unit_execute_attack_profile_time;
+extern uint32_t	last_unit_execute_build_firm_profile_time;
+extern uint32_t	last_unit_execute_settle_town_profile_time;
+extern uint32_t	last_unit_execute_assign_profile_time; 
+extern uint32_t	last_unit_check_build_firm_profile_time;
+extern uint32_t	last_unit_cast_power_profile_time;
+extern uint32_t	last_unit_transform_fortress_profile_time;
 
 #endif
 

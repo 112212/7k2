@@ -42,7 +42,7 @@ enum { MAX_NEWS=2000 };
 
 //--------- Define constant --------------//
 
-#define DISP_NEWS_DAYS	60       // how long a news should stay on the screen before it disappears
+#define DISP_NEWS_DAYS	60       // how int32_t a news should stay on the screen before it disappears
 #define DISP_NEWS_COUNT 5			// maximum no. of news message displayed on the screen at a time
 
 #define NEWS_STR_PARA_LEN 20
@@ -138,8 +138,8 @@ public:
 	char  nation_color2;
 	char	nation_race_id1;
 	char	nation_race_id2;
-	int   nation_recno1;   // nation res. id of the nation that generate the news
-	int   nation_recno2;   // if the news is related to two nations (e.g. one nation buys the stock of another nation)
+	int32_t   nation_recno1;   // nation res. id of the nation that generate the news
+	int32_t   nation_recno2;   // if the news is related to two nations (e.g. one nation buys the stock of another nation)
 
 	char* nation_name1();
 	char* nation_name2();
@@ -147,11 +147,11 @@ public:
 	char* king_name1(int addColor=0);
 	char* king_name2(int addColor=0);
 
-	int   short_para1;
-	int   short_para2;
-	int   short_para3;
-	int   short_para4;
-	int   short_para5;
+	int32_t  short_para1;
+	int32_t  short_para2;
+	int32_t  short_para3;
+	int32_t  short_para4;
+	int32_t  short_para5;
 	char	str_para1[NEWS_STR_PARA_LEN+1];
 
 	char  loc_type;

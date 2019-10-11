@@ -27,7 +27,7 @@
 
 #include <omodeid.h>
 #include <win32_compat.h>
-
+#include <stdint.h>
 //-------- Define macro constant --------//
 //
 // Button id, for Mouse internal use only,
@@ -246,7 +246,7 @@ public:
 	void disp_count_end();
 
 private:
-	long	micky_to_displacement(DWORD);
+	int32_t	micky_to_displacement(DWORD);
 };
 //---------- End of define class ---------------//
 

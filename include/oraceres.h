@@ -163,7 +163,7 @@ public:
 
 	RaceInfo*   operator[](int raceId);      // pass raceId  as recno
 
-	long			sum_name_used();		// for sum of name_used_array, checking
+	int32_t			sum_name_used();		// for sum of name_used_array, checking
 
 private:
 	void        load_race_info();

@@ -404,7 +404,7 @@ void Campaign::init_new_campaign()
 
 //-------- Begin of function Campaign::random ------//
 
-unsigned long Campaign::random(unsigned long maxNum)
+uint32_t Campaign::random(uint32_t maxNum)
 {
 	err_if( maxNum < 0 || maxNum > 0x7FFF )
 		err_now( "Campaign::random()" );
@@ -436,7 +436,7 @@ double Campaign::randomf(double maxNum)
 
 //-------- Begin of function Campaign::rand ------//
 
-unsigned long Campaign::rand()
+uint32_t Campaign::rand()
 {
 	random_seed = MULTIPLIER * random_seed + INCREMENT;
 

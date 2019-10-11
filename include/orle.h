@@ -23,7 +23,7 @@
 
 #ifndef __ORLE_H
 #define __ORLE_H
-
+#include <stdint.h>
 
 class File;
 
@@ -34,15 +34,15 @@ public:
 	~Rle();
 
 	// nul output, to find output size
-	long compress( unsigned char *inPtr, long inByteLen, unsigned char rleKey = 0xff );
+	int32_t compress( unsigned char *inPtr, int32_t inByteLen, unsigned char rleKey = 0xff );
 
 	// compressed data in memory
-	long compress( unsigned char *inPtr, long inByteLen, unsigned char *outPtr, unsigned char rleKey = 0xff );
-	long expand( unsigned char *inPtr, unsigned char *outPtr, unsigned char rleKey = 0xff );
+	int32_t compress( unsigned char *inPtr, int32_t inByteLen, unsigned char *outPtr, unsigned char rleKey = 0xff );
+	int32_t expand( unsigned char *inPtr, unsigned char *outPtr, unsigned char rleKey = 0xff );
 
 	// compressed data in file
-	long compress( unsigned char *inPtr, long inByteLen, File *outFile, unsigned char rleKey = 0xff );
-	long expand( File *inFile, unsigned char *outPtr, unsigned char rleKey = 0xff );
+	int32_t compress( unsigned char *inPtr, int32_t inByteLen, File *outFile, unsigned char rleKey = 0xff );
+	int32_t expand( File *inFile, unsigned char *outPtr, unsigned char rleKey = 0xff );
 };
 
 

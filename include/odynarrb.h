@@ -42,7 +42,7 @@ typedef char* (*CreateEleFP)();
 struct EmptyRoom
 {
 	short	recno;
-	int   deleted_game_date;
+	int32_t   deleted_game_date;
 };
 #pragma pack()
 

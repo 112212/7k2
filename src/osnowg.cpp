@@ -102,7 +102,7 @@ int SnowGround::dying(int rate)
 
 
 // ------- Begin of function SnowGroundArray::init ------//
-void SnowGroundArray::init(long initSnowScale, long anyNumber)
+void SnowGroundArray::init(int32_t initSnowScale, int32_t anyNumber)
 {
 	snow_thick = initSnowScale * MAX_SNOW_THICKNESS / 8;
 	snow_pattern = (anyNumber & 255) + 1;
@@ -164,7 +164,7 @@ int SnowGroundArray::has_snow(short x, short y)
 {
 	seed = (snow_pattern << 16) + (x+y+257)*(5*x+y+1);
 	(void) rand_seed();
-	long height = (rand_seed() & 0xffff) - (0xffff - snow_thick);
+	int32_t height = (rand_seed() & 0xffff) - (0xffff - snow_thick);
 	if( height <= 0)
 		return 0;
 

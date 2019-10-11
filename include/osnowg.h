@@ -30,8 +30,8 @@
 class SnowGround
 {
 public:
-	int	snow_map_id;	// 0 for non-existing
-	int	minor_hp;		// 0 to 99, promote if >=100
+	int32_t	snow_map_id;	// 0 for non-existing
+	int32_t	minor_hp;		// 0 to 99, promote if >=100
 	short	abs_x;
 	short	abs_y;
 	short abs_x1;
@@ -60,14 +60,14 @@ public:
 class SnowGroundArray
 {
 private:
-	unsigned	seed;
+	uint32_t	seed;
 
 public:
 	int32_t	snow_thick;
 	int32_t	snow_pattern;
 
 public:
-	void	init(long initSnowScale, long anyNumber);
+	void	init(int32_t initSnowScale, int32_t anyNumber);
 	void	inc_snow(int snowScale);			// pass weather.snow_scale()
 	void	dec_snow(int decRate);				// pass weather.temp_c()
 	void	process();

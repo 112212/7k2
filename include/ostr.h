@@ -27,7 +27,7 @@
 #ifndef __STRING_H
 #include <string.h>
 #endif
-
+#include <stdint.h>
 //--------- Define macro ant ------------//
 
 #define LEFT_JUSTIFY    0
@@ -67,11 +67,11 @@ public:
 
    String& operator=( String&); // str1 = str
    String& operator=( const char*);   // str1 = char*
-   String& operator=( long );   // str1 = long
+   String& operator=( int32_t );   // str1 = int32_t
 
    String& operator+=( String&);        // str1 += str
    String& operator+=( const char*);  // str1 += char*
-   String& operator+=( long );  // str1 += long
+   String& operator+=( int32_t );  // str1 += int32_t
 
    String& operator*=(int n);   // str1 *= n
    char    operator[](int n)    { return str_buf[n]; }

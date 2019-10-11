@@ -25,6 +25,7 @@
 #define __OHELP_H
 
 #include <cstddef>
+#include <stdint.h>
 
 //----------- Define constant -------------//
 
@@ -136,7 +137,7 @@ public:
 
 	short			last_mouse_x;
 	short			last_mouse_y;
-	unsigned long mouse_still_time;
+	uint32_t mouse_still_time;
 
 public:
 	Help();

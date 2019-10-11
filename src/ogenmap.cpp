@@ -58,7 +58,7 @@ void World::generate_map(int loadGame)
 
 	// -------- save random seed ----------//
 
-	long backupRandomSeed;
+	int32_t backupRandomSeed;
 	if( !loadGame )
 	{
 		gen_map_random_seed = misc.get_random_seed();
@@ -806,7 +806,7 @@ void World::set_tera_height(Plasma &plasma)
 				{
 					for( int u = 0; u <= LOCATE_WIDTH; u+=LOCATE_WIDTH/4 )
 					{
-						long z = lc.loc_ptr->evaluate_z(u, v);
+						int32_t z = lc.loc_ptr->evaluate_z(u, v);
 
 						// if cover by sea
 						if( seaLevel && z < seaLevel )
@@ -889,7 +889,7 @@ void World::smooth_altitude( Plasma &plasma )
 				if( x >= d && y >= d && dh1 <= 16 && dh2 <= 16 && dh3 <= 16 )		// no filtering needed
 					continue;
 
-				long sum = coeff[0] * h0;
+				int32_t sum = coeff[0] * h0;
 				short w = coeff[0];
 
 				short minXD = MIN(x,d);

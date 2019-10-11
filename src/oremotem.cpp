@@ -215,9 +215,9 @@ static MsgProcessFP msg_process_function_array[] =
 
 //---------- Declare static functions ----------//
 
-static void validate_selected_unit_array(short* selectedUnitArray, short& selectedCount);
-static short validate_firm(short firmRecno, unsigned flags = 0);
-static short validate_town(short townRecno, unsigned flags = 0);
+static void validate_selected_unit_array(int16_t* selectedUnitArray, int16_t& selectedCount);
+static int16_t validate_firm(int16_t firmRecno, unsigned flags = 0);
+static int16_t validate_town(int16_t townRecno, unsigned flags = 0);
 
 //------ Begin of function RemoteMsg::process_msg -----//
 //
@@ -254,7 +254,7 @@ void RemoteMsg::queue_header()
 void RemoteMsg::queue_trailer()
 {
 #ifdef DEBUG
-	long_log->printf("Queue trailer of nation %d\n", *(short *)data_buf);
+	long_log->printf("Queue trailer of nation %d\n", *(int16_t *)data_buf);
 #endif
 }
 //--------- End of function RemoteMsg::queue_trailer ---------//
@@ -302,8 +302,8 @@ void RemoteMsg::new_nation()
 //
 // structure of data_buf:
 //
-// <long>     - random seed
-// <short>    - The number of nations joined
+// <int32_t>     - random seed
+// <int16_t>    - The number of nations joined
 // <Nation..> - An array of nation objects
 //
 void RemoteMsg::update_game_setting()
@@ -314,13 +314,13 @@ void RemoteMsg::update_game_setting()
 
 	//------- set random seed -----------//
 
-	misc.set_random_seed(*(long*)dataPtr);
-	dataPtr 		    += sizeof(long);
+	misc.set_random_seed(*(int32_t*)dataPtr);
+	dataPtr 		    += sizeof(int32_t);
 
 	//------- update nation_array -----------//
 
-	int nationCount  = *(short*)dataPtr;
-	dataPtr         += sizeof(short);
+	int nationCount  = *(int16_t*)dataPtr;
+	dataPtr         += sizeof(int16_t);
 
 	char	  nationType;
 	int	  i, ownCount=0;
@@ -329,14 +329,14 @@ void RemoteMsg::update_game_setting()
 
 	for( i=0 ; i<nationCount ; i++ )
 	{
-		short nationRecno = *(short *)dataPtr;
-		dataPtr += sizeof(short);
+		int16_t nationRecno = *(int16_t *)dataPtr;
+		dataPtr += sizeof(int16_t);
 		DWORD dpPlayerId = *(DWORD *)dataPtr;
 		dataPtr += sizeof(DWORD);
-		short colorSchemeId = *(short *)dataPtr;
-		dataPtr += sizeof(short);
-		short raceId = *(short *)dataPtr;
-		dataPtr += sizeof(short);
+		int16_t colorSchemeId = *(int16_t *)dataPtr;
+		dataPtr += sizeof(int16_t);
+		int16_t raceId = *(int16_t *)dataPtr;
+		dataPtr += sizeof(int16_t);
 
 		// int NationType;
 		if( dpPlayerId == remote.self_player_id() )	// if this nation is the player's nation
@@ -378,11 +378,11 @@ void RemoteMsg::start_game()
 //
 // structure of data_buf:
 //
-// <short> - nation recno of the message queue
+// <int16_t> - nation recno of the message queue
 //
 void RemoteMsg::next_frame()
 {
-	short nationRecno = *((short*)data_buf);
+	int16_t nationRecno = *((int16_t*)data_buf);
 
 	if( !nation_array.is_deleted(nationRecno) )
 	{
@@ -420,7 +420,7 @@ void RemoteMsg::tell_send_time()
 {
 	String str;
 
-	unsigned long sendTime = *((unsigned long*)data_buf);
+	uint32_t sendTime = *((uint32_t*)data_buf);
 
 	str  = "Packet Delivery Time: ";
 	str += misc.get_time() - sendTime;
@@ -438,12 +438,12 @@ void RemoteMsg::tell_send_time()
 //
 // structure of data_buf:
 //
-// <short>  - the game speed setting.
+// <int16_t>  - the game speed setting.
 //
 void RemoteMsg::set_speed()
 {
 	err_when( id != MSG_SET_SPEED);
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	sys.set_speed(shortPtr[0], COMMAND_REMOTE);		// 1-remote call
 }
@@ -454,15 +454,15 @@ void RemoteMsg::set_speed()
 //
 // structure of data_buf:
 //
-// <short>  - nation recno
-// <long>   - random seed
+// <int16_t>  - nation recno
+// <int32_t>   - random seed
 //
 void RemoteMsg::tell_random_seed()
 {
 	char *p = data_buf;
-	short nationRecno = *(short *)p;
-	p += sizeof(short);
-	long remoteSeed = *(long *)p;
+	int16_t nationRecno = *(int16_t *)p;
+	p += sizeof(int16_t);
+	int32_t remoteSeed = *(int32_t *)p;
 
 #if defined(ENABLE_LOG)
 	String logLine("remote random seed ");
@@ -476,8 +476,8 @@ void RemoteMsg::tell_random_seed()
 	// it assume random seed of each nation come in sequence
 	// if may fails when connection lost
 
-	static long lastRemoteSeed = -1;
-	static short lastNation = 0x7fff;
+	static int32_t lastRemoteSeed = -1;
+	static int16_t lastNation = 0x7fff;
 	if( nationRecno <= lastNation)
 	{
 		// assume the smallest human nation
@@ -527,7 +527,7 @@ void RemoteMsg::request_save_game()
 void RemoteMsg::unit_stop()
 {
 	err_when( id != MSG_UNIT_STOP);
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <write_mem...>
 
@@ -546,15 +546,15 @@ void RemoteMsg::unit_stop()
 //
 // structure of data_buf:
 //
-// <short>  - destXLoc
-// <short>  - destYLoc
-// <short>  - no. of selected unit.
+// <int16_t>  - destXLoc
+// <int16_t>  - destYLoc
+// <int16_t>  - no. of selected unit.
 // <char..> - selected unit recno array
 //
 void RemoteMsg::unit_move()
 {
 	err_when( id != MSG_UNIT_MOVE);
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <xLoc> <yLoc> <forceMoveFlag> <write_mem...>
 
@@ -574,7 +574,7 @@ void RemoteMsg::unit_set_force_move()
 	err_when(id != MSG_UNIT_SET_FORCE_MOVE);
 
 	// packet structure : <unit count> <unit recno>...
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 	validate_selected_unit_array(shortPtr+1, shortPtr[0]);
 
 	if( shortPtr[0] > 0)
@@ -610,7 +610,7 @@ void RemoteMsg::unit_set_force_move()
 void RemoteMsg::unit_attack()
 {
 	err_when( id != MSG_UNIT_ATTACK);
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <target baseobj recno> <write_mem...>
 
@@ -629,15 +629,15 @@ void RemoteMsg::unit_attack()
 //
 // structure of data_buf:
 //
-// <short>  - destXLoc
-// <short>  - destYLoc
-// <short>  - no. of selected unit.
+// <int16_t>  - destXLoc
+// <int16_t>  - destYLoc
+// <int16_t>  - no. of selected unit.
 // <char..> - selected unit recno array
 //
 void RemoteMsg::unit_assign()
 {
 	err_when( id != MSG_UNIT_ASSIGN);
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <xLoc> <yLoc> <target mobile type> <actionNationRecno> <forceMoveFlag> <write_mem...>
 
@@ -657,14 +657,14 @@ void RemoteMsg::unit_assign()
 //
 // structure of data_buf:
 //
-// <short>  - newNationRecno
-// <short>  - no. of selected unit.
+// <int16_t>  - newNationRecno
+// <int16_t>  - no. of selected unit.
 // <char..> - selected unit recno array
 //
 void RemoteMsg::unit_change_nation()
 {
-//	short* shortPtr = (short*) data_buf;
-//	short* selectedUnitArray = shortPtr+2;
+//	int16_t* shortPtr = (int16_t*) data_buf;
+//	int16_t* selectedUnitArray = shortPtr+2;
 //	int	 selectedCount		 = shortPtr[1];
 //	validate_selected_unit_array(selectedUnitArray, selectedCount);
 //	unit_array.change_nation( shortPtr[0], selectedUnitArray, selectedCount, COMMAND_REMOTE );   // 1-remote action
@@ -679,7 +679,7 @@ void RemoteMsg::unit_change_nation()
 //
 // update also UnitGroup::validate_unit_array
 //
-static void validate_selected_unit_array(short* selectedUnitArray, short& selectedUnitCount)
+static void validate_selected_unit_array(int16_t* selectedUnitArray, int16_t& selectedUnitCount)
 {
 	for( int i=0 ; i<selectedUnitCount ; i++ )
 	{
@@ -688,7 +688,7 @@ static void validate_selected_unit_array(short* selectedUnitArray, short& select
 			!(unitPtr = unit_array[selectedUnitArray[i]]) ||
 			!unitPtr->is_visible() || !unitPtr->is_nation(remote.nation_processing) )
 		{
-			memmove( selectedUnitArray+i, selectedUnitArray+i+1, sizeof(short) * (selectedUnitCount-i-1) );
+			memmove( selectedUnitArray+i, selectedUnitArray+i+1, sizeof(int16_t) * (selectedUnitCount-i-1) );
 			selectedUnitCount--;
 			i--;							// stay with the current recno as the records have been moved. The recno in the current position is actually the next record.
 		}
@@ -703,7 +703,7 @@ static void validate_selected_unit_array(short* selectedUnitArray, short& select
 //
 // bit 0 - skip firm's nation checking
 //
-static short validate_firm(short firmRecno, unsigned flags)
+static int16_t validate_firm(int16_t firmRecno, unsigned flags)
 {
 	err_when( !(flags & 1) && remote.nation_processing == 0);
 	Firm* firmPtr;
@@ -723,7 +723,7 @@ static short validate_firm(short firmRecno, unsigned flags)
 //
 // bit 0 - skip town's nation checking
 // 
-static short validate_town(short townRecno, unsigned flags)
+static int16_t validate_town(int16_t townRecno, unsigned flags)
 {
 	Town* townPtr;
 	err_when( !(flags & 1) && remote.nation_processing == 0);
@@ -743,8 +743,8 @@ void RemoteMsg::unit_build_firm()
 
 	err_when( id != MSG_UNIT_BUILD_FIRM);
 	// packet structure : <unit recno> <xLoc> <yLoc> <firmId>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0 )
@@ -766,8 +766,8 @@ void RemoteMsg::unit_burn()
 /*
 	err_when( id != MSG_UNIT_BURN);
 	// packet structure : <unit recno> <xLoc> <yLoc>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0 )
@@ -787,7 +787,7 @@ void RemoteMsg::units_settle()
 {
 	err_when( id != MSG_UNITS_SETTLE);
 	// packet structure : <xLoc> <yLoc> <no. of units> <unit recno> ...
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	validate_selected_unit_array(shortPtr+3, shortPtr[2]);
 
@@ -807,7 +807,7 @@ void RemoteMsg::unit_set_guard()
 {
 //	err_when( id != MSG_UNIT_SET_GUARD);
 //	// packet structure : <unit recno> <new guard mode 0/1>
-//	short *shortPtr = (short *)data_buf;
+//	int16_t *shortPtr = (int16_t *)data_buf;
 //	unit_array[*shortPtr]->guard_mode = (char) shortPtr[1];
 }
 // ------- End of function RemoteMsg::unit_set_guard ---------//
@@ -818,8 +818,8 @@ void RemoteMsg::unit_set_rank()
 {
 	err_when( id != MSG_UNIT_SET_RANK);
 	// packet structure : <unit recno> <new rank>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	// ignore <new rank> parameter
@@ -849,8 +849,8 @@ void RemoteMsg::unit_dismount()
 /*
 	err_when( id != MSG_UNIT_DISMOUNT);
 	// packet structure : <unit recno>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0 )
@@ -872,7 +872,7 @@ void RemoteMsg::unit_reward()
 	err_when( id != MSG_UNIT_REWARD);
 	// packet structure : <rewarding nation> <unit count> <unit recno> ...
 
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	validate_selected_unit_array(shortPtr+2, shortPtr[1]);
 
 	for(int i = 0; i < shortPtr[1]; ++i )
@@ -889,7 +889,7 @@ void RemoteMsg::units_transform()
 /*
 	err_when( id != MSG_UNITS_TRANSFORM );
 	// packet structure <this recno> <no. of units> <unit recno> ...
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	validate_selected_unit_array(shortPtr+2, shortPtr[1]);
 
 	if( unit_array.is_deleted(*shortPtr) )
@@ -918,8 +918,8 @@ void RemoteMsg::unit_resign()
 {
 	err_when( id != MSG_UNIT_RESIGN);
 	// packet structure : <unit recno> <nation recno>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0 && unit_array[*shortPtr]->is_nation(shortPtr[1])
@@ -940,7 +940,7 @@ void RemoteMsg::units_assign_to_ship()
 /*
 	err_when( id != MSG_UNITS_ASSIGN_TO_SHIP);
 	// packet structure : <xLoc> <yLoc> <ship recno> <no. of units> <divided> <unit recno ...>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	validate_selected_unit_array(shortPtr+5, shortPtr[3]);
 
 	if( shortPtr[3] > 0)
@@ -968,7 +968,7 @@ void RemoteMsg::units_ship_to_beach()
 /*
 	err_when( id != MSG_UNITS_SHIP_TO_BEACH);
 	// packet structure : <xLoc> <yLoc> <no. of units> <divided> <unit recno ...>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	validate_selected_unit_array(shortPtr+4, shortPtr[2]);
 
 	if( shortPtr[2] > 0)
@@ -995,9 +995,9 @@ void RemoteMsg::unit_succeed_king()
 {
 	err_when( id != MSG_UNIT_SUCCEED_KING);
 	// packet structure : <unit recno> <nation recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
-	short unitCount =1;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0 && !nation_array.is_deleted(shortPtr[1]) &&
@@ -1020,7 +1020,7 @@ void RemoteMsg::unit_succeed_king()
 void RemoteMsg::units_return_camp()
 {
 	err_when( id != MSG_UNITS_RETURN_CAMP );
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <write_mem...>
 
@@ -1037,7 +1037,7 @@ void RemoteMsg::units_return_camp()
 void RemoteMsg::units_formation()
 {
 	err_when( id != MSG_UNITS_FORMATION );
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <formation id> <write_mem...>
 
@@ -1054,7 +1054,7 @@ void RemoteMsg::units_formation()
 void RemoteMsg::units_form_turn()
 {
 	err_when( id != MSG_UNITS_FORM_TURN );
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <direction id> <write_mem...>
 
@@ -1072,9 +1072,9 @@ void RemoteMsg::unit_use_item()
 {
 	err_when( id != MSG_UNIT_USE_ITEM);
 	// packet structure : <unit recno> <target base obj recno> <para2>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
-	short unitCount =1;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0 )
@@ -1103,9 +1103,9 @@ void RemoteMsg::unit_drop_item()
 {
 	err_when( id != MSG_UNIT_DROP_ITEM );
 	// packet structure : <unit recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
-	short unitCount =1;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0 )
@@ -1121,7 +1121,7 @@ void RemoteMsg::unit_hire_hero()
 {
 	err_when( id != MSG_UNIT_HIRE_HERO );
 	// packet structure : <unit recno> <nation recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !unit_array.is_deleted(*shortPtr) )
 	{
@@ -1136,8 +1136,8 @@ void RemoteMsg::caravan_change_goods()
 {
 	err_when( id != MSG_U_CARA_CHANGE_GOODS );
 	// packet structure <unit recno> <stop id> <new pick_up_type>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1170,8 +1170,8 @@ void RemoteMsg::caravan_set_stop()
 {
 	err_when( id != MSG_U_CARA_SET_STOP );
 	// packet structure <unit recno> <stop id> <stop x> <stop y>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1202,8 +1202,8 @@ void RemoteMsg::caravan_del_stop()
 {
 	err_when( id != MSG_U_CARA_DEL_STOP );
 	// packet structure <unit recno> <stop id>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1234,8 +1234,8 @@ void RemoteMsg::caravan_set_auto()
 {
 	err_when( id != MSG_U_CARA_SET_AUTO );
 	// packet structure : <unit recno> <0=manual, 1=auto>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1266,8 +1266,8 @@ void RemoteMsg::caravan_duplicate()
 {
 	err_when( id != MSG_U_CARA_DUPLICATE );
 	// packet structure : <sprite recno>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 
 	validate_selected_unit_array(shortPtr, unitCount);
 
@@ -1297,8 +1297,8 @@ void RemoteMsg::ship_unload_unit()
 /*
 	err_when( id != MSG_U_SHIP_UNLOAD_UNIT );
 	// packet structure <unit recno> <unitSeqId>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1336,8 +1336,8 @@ void RemoteMsg::ship_unload_all_units()
 /*
 	err_when( id != MSG_U_SHIP_UNLOAD_ALL_UNITS );
 	// packet structure <unit recno>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1371,8 +1371,8 @@ void RemoteMsg::ship_change_goods()
 /*
 	err_when( id != MSG_U_SHIP_CHANGE_GOODS );
 	// packet structure <unit recno> <stop id> <new pick_up_type>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1406,8 +1406,8 @@ void RemoteMsg::ship_set_stop()
 /*
 	err_when( id != MSG_U_SHIP_SET_STOP );
 	// packet structure <unit recno> <stop id> <stop x> <stop y>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1438,8 +1438,8 @@ void RemoteMsg::ship_del_stop()
 /*
 	err_when( id != MSG_U_SHIP_DEL_STOP );
 	// packet structure <unit recno> <stop id>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1470,8 +1470,8 @@ void RemoteMsg::ship_change_mode()
 /*
 	err_when( id != MSG_U_SHIP_CHANGE_MODE );
 	// packet structure <unit recno> <new mode>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1505,9 +1505,9 @@ void RemoteMsg::god_cast()
 
 	err_when( id != MSG_U_GOD_CAST );
 	// packet structure : <unit recno> <loc x> <loc y> <power type> <target base obj recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
-	short unitCount =1;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if(unitCount > 0)
@@ -1530,8 +1530,8 @@ void RemoteMsg::change_spy_nation()
 {
 	err_when( id != MSG_UNIT_SPY_NATION );
 	// packet structure <unit recno> <new nation recno>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1554,8 +1554,8 @@ void RemoteMsg::notify_cloaked_nation()
 	err_when( id != MSG_UNIT_SPY_NOTIFY_CLOAKED_NATION );
 
 	// packet structure <unit recno> <new nation recno>
-	short *shortPtr = (short *)data_buf;
-	short unitCount =1;
+	int16_t *shortPtr = (int16_t *)data_buf;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount > 0)
@@ -1588,7 +1588,7 @@ void RemoteMsg::unit_change_behavior_mode()
 
 	// packet structure : <new aggressive mode> <unit count> <unit recno> ...
 
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	validate_selected_unit_array(shortPtr+2, shortPtr[1]);
 
 	for(int i = 0; i < shortPtr[1]; ++i )
@@ -1607,7 +1607,7 @@ void RemoteMsg::spy_change_notify_flag()
 
 	// packet structure : <spy recno> <new notify flag 0/1>
 
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	spy_array[*shortPtr]->notify_cloaked_nation_flag = (char) shortPtr[1];
 }
 //------- End of function RemoteMsg::spy_change_notify_flag ------//
@@ -1621,7 +1621,7 @@ void RemoteMsg::spy_assassinate()
 
 	// packet structure : <spy recno> <assassinate target unit recno>
 
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
 #ifdef DEBUG
@@ -1638,7 +1638,7 @@ void RemoteMsg::units_add_way_point()
 {
 /*
 	err_when( id != MSG_UNITS_ADD_WAY_POINT);
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 	validate_selected_unit_array(shortPtr+3, shortPtr[2]);
 
 	if( shortPtr[2] > 0)
@@ -1668,7 +1668,7 @@ void RemoteMsg::units_clear_has_way_point()
 
 	// packet structure : <write_mem...>
 
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	unit_group_remote.read_mem( shortPtr+0 );
 	if( unit_group_remote.validate_unit_array(remote.nation_processing) > 0 )
@@ -1688,11 +1688,11 @@ void RemoteMsg::units_clear_has_way_point()
 void RemoteMsg::units_transform_mfort()
 {
 	err_when( id != MSG_UNITS_TRANSFORM_MFORT );
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	// packet structure : <unit recno> <firmXLoc> <firmYLoc> < 4 x unit recnos>
 
-	short unitCount = 1;
-	short builderCount = MAX_EXTRA_BUILDER;
+	int16_t unitCount = 1;
+	int16_t builderCount = MAX_EXTRA_BUILDER;
 	if( (validate_selected_unit_array(shortPtr+0, unitCount), unitCount > 0)
 		&& (validate_selected_unit_array( shortPtr+3, builderCount), builderCount == MAX_EXTRA_BUILDER) )
 	{
@@ -1707,7 +1707,7 @@ void RemoteMsg::units_transform_mfort()
 void RemoteMsg::units_go_transform_mfort()
 {
 	err_when( id != MSG_UNITS_GO_TRANSFORM_MFORT );
-	short* shortPtr = (short*) data_buf;
+	int16_t* shortPtr = (int16_t*) data_buf;
 
 	// packet structure : <xLoc> <yLoc> <write_mem...>
 
@@ -1725,7 +1725,7 @@ void RemoteMsg::firm_sell()
 {
 	err_when( id != MSG_FIRM_SELL);
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -1742,7 +1742,7 @@ void RemoteMsg::firm_sell()
 void RemoteMsg::firm_cancel()
 {
 	err_when( id != MSG_FIRM_CANCEL);
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -1760,7 +1760,7 @@ void RemoteMsg::firm_destruct()
 {
 	err_when( id != MSG_FIRM_DESTRUCT);
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -1778,7 +1778,7 @@ void RemoteMsg::firm_set_repair()
 {
 	err_when( id != MSG_FIRM_SET_REPAIR);
 	// packet structure : <firm recno> <new setting>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 		firm_array[*shortPtr]->set_repair_flag((char)shortPtr[1], COMMAND_REMOTE);
 }
@@ -1791,7 +1791,7 @@ void RemoteMsg::firm_train_level()
 //		//**BUGHERE, no more training in game 
 //	err_when( id != MSG_FIRM_TRAIN_LEVEL);
 //	// packet structure : <firm recno> <new train level>
-//	short *shortPtr = (short *)data_buf;
+//	int16_t *shortPtr = (int16_t *)data_buf;
 //	if( !firm_array.is_deleted(*shortPtr) )
 //		firm_array[*shortPtr]->train_level = (char)shortPtr[1];
 }
@@ -1803,7 +1803,7 @@ void RemoteMsg::mobilize_worker()
 {
 	err_when( id != MSG_FIRM_MOBL_WORKER);
 	// packet structure : <firm recno> <workerId>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -1852,7 +1852,7 @@ void RemoteMsg::mobilize_overseer()
 {
 	err_when( id != MSG_FIRM_MOBL_OVERSEER);
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -1878,7 +1878,7 @@ void RemoteMsg::mobilize_builder()
 {
 	err_when( id != MSG_FIRM_MOBL_BUILDER);
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) && firm_array[*shortPtr]->builder_recno )
 	{
@@ -1896,12 +1896,12 @@ void RemoteMsg::firm_toggle_link_firm()
 {
 	err_when( id != MSG_FIRM_TOGGLE_LINK_FIRM);
 	// packet structure : <firm recno> <link Id> <toggle Flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
 		Firm *firmPtr = firm_array[*shortPtr];
-		short linkedFirmRecno = 0;
+		int16_t linkedFirmRecno = 0;
 		if( shortPtr[1] <= firmPtr->linked_firm_count
 			&& (linkedFirmRecno = firmPtr->linked_firm_array[shortPtr[1]-1])
 			&& validate_firm(linkedFirmRecno, 1) )
@@ -1922,12 +1922,12 @@ void RemoteMsg::firm_toggle_link_town()
 {
 	err_when( id != MSG_FIRM_TOGGLE_LINK_TOWN);
 	// packet structure : <firm recno> <link Id> <toggle Flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
 		Firm *firmPtr = firm_array[*shortPtr];
-		short linkedTownRecno = 0;
+		int16_t linkedTownRecno = 0;
 		if( shortPtr[1] <= firmPtr->linked_town_count
 			&& (linkedTownRecno = firmPtr->linked_town_array[shortPtr[1]-1])
 			&& validate_town(linkedTownRecno, 1) )
@@ -1971,7 +1971,7 @@ void RemoteMsg::firm_pull_town_people()
 /*
 	err_when( id != MSG_FIRM_PULL_TOWN_PEOPLE);
 	// packet structure : <firm recno> <town recno> <race Id or 0> <force Pull>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) && validate_town(shortPtr[1]) )
 	{
@@ -1992,7 +1992,7 @@ void RemoteMsg::firm_set_worker_home()
 /*
 	err_when( id != MSG_FIRM_SET_WORKER_HOME);
 	// packet structure : <firm recno> <town recno> <workerId>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) && validate_town(shortPtr[1]) )
 	{
@@ -2011,7 +2011,7 @@ void RemoteMsg::firm_set_active_link()
 {
 	err_when( id != MSG_FIRM_SET_ACTIVE_LINK);
 	// packet structure : <firm recno> <town recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	// town recno can be zero to clear active link
 
@@ -2028,7 +2028,7 @@ void RemoteMsg::firm_bribe()
 {
 	err_when( id != MSG_FIRM_BRIBE);
 	// packet structure <firm recno> <spy recno> <bribe target : worker (0=overseer)> <amount>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr, 1) && !spy_array.is_deleted(shortPtr[1]) )
 	{
@@ -2059,7 +2059,7 @@ void RemoteMsg::firm_capture()
 {
 	err_when( id != MSG_FIRM_CAPTURE);
 	// packet structure <firm recno> <nation recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr, 1) )
 	{
@@ -2085,7 +2085,7 @@ void RemoteMsg::firm_reward()
 {
 	err_when( id != MSG_FIRM_REWARD);
 	// packet structure : <firm recno> <worker id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -2112,7 +2112,7 @@ void RemoteMsg::firm_recruit()
 {
 	err_when( id != MSG_FIRM_RECRUIT);
 	// packet structure : <firm recno> [source town recno] [train type]
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -2147,7 +2147,7 @@ void RemoteMsg::firm_worker_count()
 {
 	err_when( id != MSG_FIRM_SET_WORKER_COUNT);
 	// packet structure : <firm recno> <new needed worker count>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -2172,7 +2172,7 @@ void RemoteMsg::firm_upgrade()
 {
 	err_when( id != MSG_FIRM_UPGRADE);
 	// packet structure : <firm recno> <firm id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -2190,7 +2190,7 @@ void RemoteMsg::firm_set_rally_dest()
 {
 	err_when( id != MSG_FIRM_SET_RALLY_DEST);
 	// packet structure : <firm recno> <dest baseObjRecno> <x> <y>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -2206,7 +2206,7 @@ void RemoteMsg::firm_clear_rally_dest()
 {
 	err_when( id != MSG_FIRM_CLEAR_RALLY_DEST);
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_firm(*shortPtr) )
 	{
@@ -2220,7 +2220,7 @@ void RemoteMsg::firm_clear_rally_dest()
 void RemoteMsg::camp_patrol()
 {
 	err_when( id != MSG_F_CAMP_PATROL);
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmCamp *camp = firm_array[*shortPtr]->cast_to_FirmCamp();
@@ -2260,7 +2260,7 @@ void RemoteMsg::toggle_camp_patrol()
 {
 	err_when( id != MSG_F_CAMP_TOGGLE_PATROL);
 	// packet structure <firm recno> <defense_flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmCamp *camp = firm_array[*shortPtr]->cast_to_FirmCamp();
@@ -2288,7 +2288,7 @@ void RemoteMsg::inn_hire()
 {
 	err_when( id != MSG_F_INN_HIRE);
 	// packet structure : <firm recno>, <hire Id> <nation no> <spy escape>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmInn *inn = firm_array[*shortPtr]->cast_to_FirmInn();
@@ -2331,7 +2331,7 @@ void RemoteMsg::inn_buy_item()
 {
 	err_when( id != MSG_F_INN_BUY_ITEM);
 	// packet structure : <firm recno>, <inn unid id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmInn *inn = firm_array[*shortPtr]->cast_to_FirmInn();
@@ -2354,7 +2354,7 @@ void RemoteMsg::market_scrap()
 {
 	err_when( id != MSG_F_MARKET_SCRAP );
 	// packet structure : <firm recno> <cell no 0-3>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 #ifdef DEBUG
@@ -2379,7 +2379,7 @@ void RemoteMsg::market_hire_caravan()
 {
 	err_when( id != MSG_F_MARKET_HIRE_CARA );
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmMarket *market = firm_array[*shortPtr]->cast_to_FirmMarket();
@@ -2405,7 +2405,7 @@ void RemoteMsg::research_start()
 /*
 	err_when( id != MSG_F_RESEARCH_START );
 	// packet structure : <firm recno> <tech Id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmResearch *research = firm_array[*shortPtr]->cast_to_FirmResearch();
@@ -2431,7 +2431,7 @@ void RemoteMsg::build_weapon()
 {
 	err_when( id != MSG_F_WAR_BUILD_WEAPON );
 	// packet structure : <firm recno> <unit Id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		if(firm_array[*shortPtr]->cast_to_FirmWar())
@@ -2464,7 +2464,7 @@ void RemoteMsg::cancel_weapon()
 {
 	err_when( id != MSG_F_WAR_CANCEL_WEAPON );
 	// packet structure : <firm recno> <unit Id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 
@@ -2498,7 +2498,7 @@ void RemoteMsg::skip_build_weapon()
 {
 	err_when( id != MSG_F_WAR_SKIP_WEAPON );
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		if(firm_array[*shortPtr]->cast_to_FirmWar())
@@ -2532,7 +2532,7 @@ void RemoteMsg::build_ship()
 /*
 	err_when( id != MSG_F_HARBOR_BUILD_SHIP );
 	// packet structure : <firm recno> <unit Id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmHarbor *harbor = firm_array[*shortPtr]->cast_to_FirmHarbor();
@@ -2567,7 +2567,7 @@ void RemoteMsg::sail_ship()
 /*
 	err_when( id != MSG_F_HARBOR_SAIL_SHIP );
 	// packet structure : <firm recno> <browse Recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 
@@ -2595,7 +2595,7 @@ void RemoteMsg::skip_build_ship()
 /*
 	err_when( id != MSG_F_HARBOR_SKIP_SHIP );
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 
@@ -2622,7 +2622,7 @@ void RemoteMsg::factory_change_product()
 {
 	err_when( id != MSG_F_FACTORY_CHG_PROD );
 	// packet structure : <firm recno> <product id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmFactory *factory = firm_array[*shortPtr]->cast_to_FirmFactory();
@@ -2655,7 +2655,7 @@ void RemoteMsg::factory_auto_switch()
 {
 	err_when( id != MSG_F_FACTORY_AUTO );
 	// packet structure : <firm recno> <auto switch flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmFactory *factory = firm_array[*shortPtr]->cast_to_FirmFactory();
@@ -2690,7 +2690,7 @@ void RemoteMsg::invoke_god()
 {
 	err_when( id != MSG_F_BASE_INVOKE_GOD);
 	// packet structure : <firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmBase *base = firm_array[*shortPtr]->cast_to_FirmBase();
@@ -2718,7 +2718,7 @@ void RemoteMsg::invoke_effect()
 {
 	err_when( id != MSG_F_BASE_INVOKE_EFFECT );
 	// packet structure : <firm recno> <wish id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmBase *base = firm_array[*shortPtr]->cast_to_FirmBase();
@@ -2740,7 +2740,7 @@ void RemoteMsg::set_target_archer()
 {
 	err_when( id != MSG_F_FORT_TARGET_ARCHER);
 	// packet structure : <firm recno> <new target archer>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmFort *fort = firm_array[*shortPtr]->cast_to_FirmFort();
@@ -2765,7 +2765,7 @@ void RemoteMsg::cancel_train()
 {
 	err_when( id != MSG_F_CANCEL_TRAIN);
 	// packet structure : <firm recno> <soldier id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		Firm *firmPtr = firm_array[*shortPtr];
@@ -2795,7 +2795,7 @@ void RemoteMsg::buy_tech()
 {
 	err_when( id != MSG_F_LAIR_BUY_TECH);
 	// packet structure : <firm recno> <tech id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmLair *lair = firm_array[*shortPtr]->cast_to_FirmLair();
@@ -2817,7 +2817,7 @@ void RemoteMsg::lair_grant()
 {
 	err_when( id != MSG_F_LAIR_GRANT );
 	// packet structure : <firm recno> <grant nation>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr, 1) )		// skip checking firm's nation recno
 	{
 		FirmLair *lair = firm_array[*shortPtr]->cast_to_FirmLair();
@@ -2839,7 +2839,7 @@ void RemoteMsg::change_conversion()
 {
 	err_when( id != MSG_F_ALCH_CONVERSE );
 	// packet struct : <firm recno> <new tech id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmMonsterAlchemy *alchemy = firm_array[*shortPtr]->cast_to_FirmMonsterAlchemy();
@@ -2861,7 +2861,7 @@ void RemoteMsg::magic_cast()
 {
 	err_when( id != MSG_F_MAGIC_CAST );
 	// packet struct : <firm recno> <magic Id> <xLoc> <yLoc> <unit recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmMagic *magic = firm_array[*shortPtr]->cast_to_FirmMagic();
@@ -2883,7 +2883,7 @@ void RemoteMsg::magic_transfer()
 {
 	err_when( id != MSG_F_MAGIC_TRANSFER );
 	// packet struct : <firm recno> <target firm recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmMagic *magic = firm_array[*shortPtr]->cast_to_FirmMagic();
@@ -2905,7 +2905,7 @@ void RemoteMsg::lishorr_attack()
 {
 	err_when( id != MSG_F_LISH_ATTACK );
 	// packet struct : <firm recno> <base obj recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmLishorr *firm = firm_array[*shortPtr]->cast_to_FirmLishorr();
@@ -2924,7 +2924,7 @@ void RemoteMsg::offensive2_attack()
 {
 	err_when( id != MSG_F_OFF2_ATTACK );
 	// packet struct : <firm recno> <base obj recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		FirmOffensive2 *firm = firm_array[*shortPtr]->cast_to_FirmOffensive2();
@@ -2943,7 +2943,7 @@ void RemoteMsg::town_recruit()
 {
 	err_when( id != MSG_TOWN_RECRUIT);
 	// packet structure : <town recno> <recruitWagon>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_town(*shortPtr) )
 	{
 #ifdef DEBUG
@@ -2961,7 +2961,7 @@ void RemoteMsg::town_skip_recruit()
 /*
 	err_when( id != MSG_TOWN_SKIP_RECRUIT);
 	// packet structure : <town recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_town(*shortPtr) )
 	{
 #ifdef DEBUG
@@ -2982,7 +2982,7 @@ void RemoteMsg::town_migrate()
 {
 	err_when( id != MSG_TOWN_MIGRATE);
 	// packet structure : <town recno> <dest town recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) && validate_town(shortPtr[1]) )
 	{
@@ -3000,7 +3000,7 @@ void RemoteMsg::town_collect_tax()
 {
 	err_when( id != MSG_TOWN_COLLECT_TAX );
 	// packet structure : <town recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) )
 	{
@@ -3018,7 +3018,7 @@ void RemoteMsg::town_reward()
 {
 	err_when( id != MSG_TOWN_REWARD );
 	// packet structure : <town recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) )
 	{
@@ -3036,7 +3036,7 @@ void RemoteMsg::town_toggle_link_firm()
 {
 	err_when( id != MSG_TOWN_TOGGLE_LINK_FIRM);
 	// packet structure : <town recno> <link Id> <toggle Flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) )
 	{
@@ -3045,7 +3045,7 @@ void RemoteMsg::town_toggle_link_firm()
 			shortPtr[2] ? "set" : "clear", shortPtr[1]);
 #endif
 		Town *townPtr = town_array[*shortPtr];
-		short linkedFirmRecno = 0;
+		int16_t linkedFirmRecno = 0;
 		if( shortPtr[1] <= townPtr->linked_firm_count
 			&& (linkedFirmRecno = townPtr->linked_firm_array[shortPtr[1]-1])
 			&& validate_firm(linkedFirmRecno, 1) )
@@ -3072,12 +3072,12 @@ void RemoteMsg::town_toggle_link_town()
 {
 	err_when( id != MSG_TOWN_TOGGLE_LINK_TOWN);
 	// packet structure : <town recno> <link Id> <toggle Flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) )
 	{
 		Town *townPtr = town_array[*shortPtr];
-		short linkedTownRecno = 0;
+		int16_t linkedTownRecno = 0;
 		if( shortPtr[1] <= townPtr->linked_town_count
 			&& (linkedTownRecno = townPtr->linked_town_array[shortPtr[1]-1])
 			&& validate_town(linkedTownRecno, 1) )
@@ -3100,7 +3100,7 @@ void RemoteMsg::town_auto_tax()
 	err_when( id != MSG_TOWN_AUTO_TAX );
 	// packet structure : <town recno> <loyalty level>
 	// or <-nation recno> <loyalty level>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( *shortPtr > 0)
 	{
@@ -3116,7 +3116,7 @@ void RemoteMsg::town_auto_tax()
 	}
 	else
 	{
-		short nationRecno = -*shortPtr;
+		int16_t nationRecno = -*shortPtr;
 		err_when( !nationRecno );
 #ifdef DEBUG
 			long_log->printf("nation %d auto collect tax at loyal %d\n", nationRecno, shortPtr[1]);
@@ -3134,7 +3134,7 @@ void RemoteMsg::town_auto_grant()
 	err_when( id != MSG_TOWN_AUTO_GRANT );
 	// packet structure : <town recno> <loyalty level>
 	// or <-nation recno> <loyalty level>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( *shortPtr > 0 )
 	{
@@ -3150,7 +3150,7 @@ void RemoteMsg::town_auto_grant()
 	}
 	else
 	{
-		short nationRecno = -*shortPtr;
+		int16_t nationRecno = -*shortPtr;
 		err_when( !nationRecno );
 #ifdef DEBUG
 			long_log->printf("nation %d auto grant at loyal %d\n", nationRecno, shortPtr[1]);
@@ -3166,7 +3166,7 @@ void RemoteMsg::unit_auto_retreat()
 	err_when( id != MSG_UNIT_AUTO_RETREAT );
 	// packet structure : <unit recno> <presentage of hit point to return town>
 	// or <-nation recno> <presentage of hit point to return town>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( *shortPtr > 0 )
 	{ 
 #ifdef DEBUG
@@ -3181,7 +3181,7 @@ void RemoteMsg::unit_auto_retreat()
 	}
 	else
 	{
-		short nationRecno = -*shortPtr;
+		int16_t nationRecno = -*shortPtr;
 		err_when( !nationRecno );
 #ifdef DEBUG
 			long_log->printf("nation %d auto retreats all generals when their hit point drops to %d percentage\n", nationRecno, shortPtr[1]);
@@ -3197,7 +3197,7 @@ void RemoteMsg::town_grant_independent()
 {
 	err_when( id != MSG_TOWN_GRANT_INDEPENDENT );
 	// packet structure : <town recno> <nation recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr, 1) && !nation_array.is_deleted(shortPtr[1]) )
 	{
@@ -3212,7 +3212,7 @@ void RemoteMsg::town_sell()
 {
 	err_when( id != MSG_TOWN_SELL );
 	// packet structure : <town recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) )
 	{
@@ -3227,7 +3227,7 @@ void RemoteMsg::town_set_target_wall()
 {
 	err_when( id != MSG_TOWN_TARGET_WALL );
 	// packet structure : <town recno> <new target level>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) )
 	{
@@ -3242,7 +3242,7 @@ void RemoteMsg::town_set_repair()
 {
 	err_when( id != MSG_TOWN_SET_REPAIR );
 	// packet structure : <town recno> <new repair flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( validate_town(*shortPtr) )
 	{
@@ -3258,7 +3258,7 @@ void RemoteMsg::wall_build()
 /*
 	err_when( id != MSG_WALL_BUILD);
 	// packet structure : <nation recno> <xLoc> <yLoc>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !nation_array.is_deleted(*shortPtr) )
 	{
@@ -3278,7 +3278,7 @@ void RemoteMsg::wall_destruct()
 /*
 	err_when( id != MSG_WALL_DESTRUCT);
 	// packet structure : <nation recno> <xLoc> <yLoc>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !nation_array.is_deleted(*shortPtr) )
 	{
@@ -3297,7 +3297,7 @@ void RemoteMsg::spy_cycle_action()
 {
 	err_when( id != MSG_SPY_CYCLE_ACTION);
 	// packet structure : <spy recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3314,7 +3314,7 @@ void RemoteMsg::spy_leave_town()
 {
 	err_when( id != MSG_SPY_LEAVE_TOWN);
 	// packet structure : <spy recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3337,7 +3337,7 @@ void RemoteMsg::spy_leave_firm()
 {
 	err_when( id != MSG_SPY_LEAVE_FIRM);
 	// packet structure : <spy recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3360,7 +3360,7 @@ void RemoteMsg::spy_capture_firm()
 {
 	err_when( id != MSG_SPY_CAPTURE_FIRM);
 	// packet structure : <spy recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3379,7 +3379,7 @@ void RemoteMsg::spy_drop_identity()
 	err_when( id != MSG_SPY_DROP_IDENTITY );
 
 	// packet structure : <spy recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3398,7 +3398,7 @@ void RemoteMsg::spy_reward()
 	err_when( id != MSG_SPY_REWARD );
 
 	// packet structure : <spy recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3417,7 +3417,7 @@ void RemoteMsg::spy_exposed()
 	err_when( id != MSG_SPY_EXPOSED );
 
 	// packet structure : <spy recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3436,7 +3436,7 @@ void RemoteMsg::spy_camouflage()
 	err_when( id != MSG_SPY_CAMOUFLAGE );
 
 	// packet structure : <spy recno> <0=start, 1=stop>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) )
 	{
@@ -3458,7 +3458,7 @@ void RemoteMsg::spy_steal_tech()
 	err_when( id != MSG_SPY_STEAL_TECH );
 
 	// packet structure : <spy recno> <target nation recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) && !nation_array.is_deleted(shortPtr[1]))
 	{
@@ -3474,7 +3474,7 @@ void RemoteMsg::spy_create_incident()
 	err_when( id != MSG_SPY_CREATE_INCIDENT );
 
 	// packet structure : <spy recno> <target nation recno> <involved nation recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	if( !spy_array.is_deleted(*shortPtr) 
 		&& !nation_array.is_deleted(shortPtr[1])
@@ -3514,14 +3514,14 @@ void RemoteMsg::reply_talk_msg()
 
 	//####### begin trevor 28/8 ########//
 	
-	int talkMsgRecno = *(int*)data_buf;
+	int talkMsgRecno = *(int32_t*)data_buf;
 
 	if( !talk_res.is_talk_msg_deleted(talkMsgRecno) )
 	{
 #ifdef DEBUG
-		long_log->printf("reply talk message %d, %d\n", talkMsgRecno, data_buf[sizeof(int)]);
+		long_log->printf("reply talk message %d, %d\n", talkMsgRecno, data_buf[sizeof(int32_t)]);
 #endif
-		talk_res.reply_talk_msg( talkMsgRecno, data_buf[sizeof(int)], COMMAND_REMOTE);
+		talk_res.reply_talk_msg( talkMsgRecno, data_buf[sizeof(int32_t)], COMMAND_REMOTE);
 	}
 
 	//####### end trevor 28/8 ########//
@@ -3534,7 +3534,7 @@ void RemoteMsg::nation_contact()
 {
 	err_when( id != MSG_NATION_CONTACT);
 	// packet structure : <player nation> <explored nation>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	err_when( *shortPtr != remote.nation_processing );
 	if( !nation_array.is_deleted(*shortPtr) && !nation_array.is_deleted(shortPtr[1]) )
@@ -3555,7 +3555,7 @@ void RemoteMsg::nation_set_should_attack()
 {
 	err_when( id != MSG_NATION_SET_SHOULD_ATTACK );
 	// packet structure : <player nation> <target nation> <new value>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	err_when( *shortPtr != remote.nation_processing );
 	if( !nation_array.is_deleted(*shortPtr) && !nation_array.is_deleted(shortPtr[1]) )
@@ -3576,7 +3576,7 @@ void RemoteMsg::nation_research()
 {
 	err_when( id != MSG_NATION_RESEARCH );
 	// packet structure : <nation recno> <tech id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	err_when( *shortPtr != remote.nation_processing );
 	if( !nation_array.is_deleted(*shortPtr) )
@@ -3593,7 +3593,7 @@ void RemoteMsg::nation_repair_all_building()
 {
 	err_when( id != MSG_NATION_REPAIR_ALL_BUILDING );
 	// packet structure : <nation recno> <repair flag>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	err_when( *shortPtr != remote.nation_processing );
 	if( !nation_array.is_deleted(*shortPtr) )
@@ -3609,9 +3609,9 @@ void RemoteMsg::caravan_selected()
 {
 	err_when( id != MSG_U_CARA_SELECTED );
 	// packet structure : <sprite_recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	
-	short unitCount =1;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if( unitCount <= 0)
@@ -3638,9 +3638,9 @@ void RemoteMsg::ship_selected()
 /*
 	err_when( id != MSG_U_SHIP_SELECTED );
 	// packet structure : <sprite_recno>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
-	short unitCount =1;
+	int16_t unitCount =1;
 	validate_selected_unit_array(shortPtr, unitCount);
 
 	if(unitCount <= 0)
@@ -3668,7 +3668,7 @@ void RemoteMsg::ship_selected()
 //
 void RemoteMsg::chat()
 {
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 
 	int toNationRecno   = shortPtr[0];
    int fromNationRecno = shortPtr[1];
@@ -3714,7 +3714,7 @@ void RemoteMsg::player_quit()
 	err_when( id != MSG_PLAYER_QUIT );
 	// packet structure : <nation recno> <retire flag>
 
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( shortPtr[1])
 		news_array.multi_retire(*shortPtr);
 	else
@@ -3728,7 +3728,7 @@ void RemoteMsg::camp_promote()
 	err_when( id != MSG_F_CAMP_PROMOTE );
 
 	// packet structure : <firm recno> <soldier Id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		if( firm_array[*shortPtr]->cast_to_FirmCamp() )
@@ -3750,7 +3750,7 @@ void RemoteMsg::camp_swap_item()
 	err_when( id != MSG_F_CAMP_SWAP_ITEM );
 
 		// packet structure : <firm recno>, <from soldier Id>, <to Soldier Id>, <verify item id>
-	short *shortPtr = (short *)data_buf;
+	int16_t *shortPtr = (int16_t *)data_buf;
 	if( validate_firm(*shortPtr) )
 	{
 		if( firm_array[*shortPtr]->cast_to_FirmCamp() )

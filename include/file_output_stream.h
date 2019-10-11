@@ -32,9 +32,9 @@ public:
    FileOutputStream();
    ~FileOutputStream();
    bool open(File *file);
-   long write(const void *data, long length);
-   bool seek(long offset, int whence);
-   long tell();
+   int32_t write(const void *data, int32_t length);
+   bool seek(int32_t offset, int whence);
+   int32_t tell();
    void close();
 };
 

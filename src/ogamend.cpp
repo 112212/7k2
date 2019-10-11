@@ -181,10 +181,10 @@ void Game::game_end(int winNationRecno, int playerDestroyed, int surrenderToNati
 
 		if( max_ranking > 0 )
 		{
-			long rankInc = 0;
+			int32_t rankInc = 0;
 
 			WORD maxLoserRank = 0;
-			long sumLoserRank = 0;		// loser contribute 5% of their rank
+			int32_t sumLoserRank = 0;		// loser contribute 5% of their rank
 			for( i = 0; i < losers; ++i )
 			{
 				int r = player_ranking[loserArray[i]-1];
@@ -230,14 +230,14 @@ void Game::game_end(int winNationRecno, int playerDestroyed, int surrenderToNati
 			err_when( sizeof(player_profile.ranking) != sizeof(WORD) );
 			if( rankInc > 0 )
 			{
-				if( (long)player_profile.ranking > 0xffff - rankInc )
+				if( (int32_t)player_profile.ranking > 0xffff - rankInc )
 					player_profile.ranking = 0xffff;
 				else
 					player_profile.ranking += (WORD)rankInc;
 			}
 			else if( rankInc < 0 )
 			{
-				if( (long)player_profile.ranking < -rankInc )
+				if( (int32_t)player_profile.ranking < -rankInc )
 					player_profile.ranking = 0;
 				else
 					player_profile.ranking += (WORD)rankInc;		// += 'ocz rankInc is negative.

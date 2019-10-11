@@ -474,7 +474,7 @@ int Config::save(const char *filename)
 
 	if(!misc.path_cat(full_path, sys.dir_config, filename, MAX_PATH))
 	{
-		ERR("Path too long to the config file.\n");
+		ERR("Path too int32_t to the config file.\n");
 		return 0;
 	}
 	MSG("Saving config: %s\n", full_path);
@@ -503,7 +503,7 @@ int Config::load(const char *filename)
 
         if(!misc.path_cat(full_path, sys.dir_config, filename, MAX_PATH))
         {
-                ERR("Path too long to the config file.\n");
+                ERR("Path too int32_t to the config file.\n");
                 return 0;
         }
         MSG("Loading config: %s\n", full_path);

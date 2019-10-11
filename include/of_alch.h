@@ -36,7 +36,7 @@ public:
 	short		site_recno;
 
 	float		reserve_qty;		// non-mined raw materials reserve
-	int		conversion_tech_id;		//	0 or tech_id
+	int32_t		conversion_tech_id;		//	0 or tech_id
 
 	float 	cur_month_production;
 	float		last_month_production;

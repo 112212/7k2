@@ -689,7 +689,7 @@ bool PathReuse::check_occupancy(ReuseNode *node, int i)
 	
 	is = 0;
 	tmpLocX = placeX;
-	// as long as one of the node in the vicinity of the size of the unit is occupied
+	// as int32_t as one of the node in the vicinity of the size of the unit is occupied
 	// the place cannot be walked by the unit
 	while (!occ && is<size_x[i])
 	{

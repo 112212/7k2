@@ -315,7 +315,7 @@ ZoomMatrix::ZoomMatrix() : land_disp_sort_array(sizeof(DisplaySort),100),
 
 	int saveWidth = image_width+IMAGE_BUF_LEFT_MARGIN+IMAGE_BUF_RIGHT_MARGIN;
 	int saveHeight = image_height+IMAGE_BUF_TOP_MARGIN+IMAGE_BUF_BOTTOM_MARGIN;
-	long saveSize = BitmapW::size( saveWidth, saveHeight);
+	int32_t saveSize = BitmapW::size( saveWidth, saveHeight);
 
 	save_image_buf = (short *) mem_resize( save_image_buf, saveSize );
 	memset( save_image_buf, 0, saveSize );
@@ -697,7 +697,7 @@ void ZoomMatrix::draw()
 void ZoomMatrix::disp()
 {
 #ifdef DEBUG
-	unsigned long startTime = misc.get_time();
+	uint32_t startTime = misc.get_time();
 #endif
 	if( save_image_buf )
 	{
@@ -767,14 +767,14 @@ void ZoomMatrix::draw_white_site()
 void ZoomMatrix::draw_frame()
 {
 #ifdef DEBUG
-	unsigned long startTime = misc.get_time();
-	unsigned long drawObjectTime = misc.get_time();
+	uint32_t startTime = misc.get_time();
+	uint32_t drawObjectTime = misc.get_time();
 #endif
 	draw_objects();
 
 #ifdef DEBUG
 	drawObjectTime = misc.get_time() - drawObjectTime;
-	unsigned long miscDrawTime = misc.get_time();
+	uint32_t miscDrawTime = misc.get_time();
 #endif
 
 	draw_build_marker();
@@ -977,7 +977,7 @@ void ZoomMatrix::draw_weather_effects()
 	//                99 - 1             (rest states)
 	// see world.process
 
-	unsigned long mRandom = misc.get_random_seed();
+	uint32_t mRandom = misc.get_random_seed();
 	if( world.lightning_signal >= 105 && world.lightning_signal <= 108)
 	{
 		if( !init_lightning )
@@ -1016,7 +1016,7 @@ void ZoomMatrix::draw_weather_effects()
 	short snowScale = weather.snow_scale();
 	if( snowScale > 0 && init_snow == 0)
 	{
-		long backupSeed = misc.get_random_seed();
+		int32_t backupSeed = misc.get_random_seed();
 
 		// start of snow
 		snow.set_bound(ZOOM_X1, ZOOM_Y1, ZOOM_X2, ZOOM_Y2);
@@ -4214,25 +4214,25 @@ static void draw_cubic_plane(int x, int y, LocationCorners lc, UCHAR color)
 	// z = c00 + c10*u + c01*v + c20*u^2 + c11*u*v + c02*v^2
 	//     + c30*u^3 + c21*u^2*v + c12*u*v^2 + c03*v^3
 	// all coefficient is multiplied by 0x10000
-	long c00 = z0 * C_MULTIPLIER;
-	long c10 = duz0w * (C_MULTIPLIER / LOCATE_WIDTH);
-	long c01 = dvz0h * (C_MULTIPLIER / LOCATE_HEIGHT);
-	long c20 = ( 3 * (z1-z0) - duz1w - duz0w - duz0w ) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_WIDTH);
-	long c02 = ( 3 * (z2-z0) - dvz2h - dvz0h - dvz0h ) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_WIDTH);
-	long c30 = (duz1w + duz0w - (z1-z0) - (z1-z0)) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_WIDTH / LOCATE_WIDTH);
-	long c21 = (duz3w + duz0w - duz1w - duz2w) * (C_MULTIPLIER / 2 / LOCATE_WIDTH / LOCATE_WIDTH / LOCATE_HEIGHT);
-	long c12 = (dvz3h + dvz0h - dvz1h - dvz2h) * (C_MULTIPLIER / 2 / LOCATE_WIDTH / LOCATE_HEIGHT / LOCATE_HEIGHT);
-	long c03 = (dvz2h + dvz0h - (z2-z0) - (z2-z0)) * (C_MULTIPLIER / LOCATE_HEIGHT / LOCATE_HEIGHT / LOCATE_HEIGHT);
-	long c11 = ( z3 + z0 - z1 - z2 ) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_HEIGHT)
+	int32_t c00 = z0 * C_MULTIPLIER;
+	int32_t c10 = duz0w * (C_MULTIPLIER / LOCATE_WIDTH);
+	int32_t c01 = dvz0h * (C_MULTIPLIER / LOCATE_HEIGHT);
+	int32_t c20 = ( 3 * (z1-z0) - duz1w - duz0w - duz0w ) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_WIDTH);
+	int32_t c02 = ( 3 * (z2-z0) - dvz2h - dvz0h - dvz0h ) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_WIDTH);
+	int32_t c30 = (duz1w + duz0w - (z1-z0) - (z1-z0)) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_WIDTH / LOCATE_WIDTH);
+	int32_t c21 = (duz3w + duz0w - duz1w - duz2w) * (C_MULTIPLIER / 2 / LOCATE_WIDTH / LOCATE_WIDTH / LOCATE_HEIGHT);
+	int32_t c12 = (dvz3h + dvz0h - dvz1h - dvz2h) * (C_MULTIPLIER / 2 / LOCATE_WIDTH / LOCATE_HEIGHT / LOCATE_HEIGHT);
+	int32_t c03 = (dvz2h + dvz0h - (z2-z0) - (z2-z0)) * (C_MULTIPLIER / LOCATE_HEIGHT / LOCATE_HEIGHT / LOCATE_HEIGHT);
+	int32_t c11 = ( z3 + z0 - z1 - z2 ) * (C_MULTIPLIER / LOCATE_WIDTH / LOCATE_HEIGHT)
 		- (c21 * LOCATE_WIDTH + c12 * LOCATE_HEIGHT);
 
 	const lineCountPeriod = 4;
 	int lineCount;
 	int lineCountMod4 = 0;
 	const UVMULTIPLIER = 4;
-	long rowU, v;
-	static long incU[lineCountPeriod] = { -2,  6, -2, -2 };
-	// static long incV[lineCountPeriod] = {  2,  2,  2,  2 };
+	int32_t rowU, v;
+	static int32_t incU[lineCountPeriod] = { -2,  6, -2, -2 };
+	// static int32_t incV[lineCountPeriod] = {  2,  2,  2,  2 };
 	int rowX = x;
 	int rowY = y;
 	static int incX[lineCountPeriod] = { -1,  1, -1, -1 };
@@ -4246,26 +4246,26 @@ static void draw_cubic_plane(int x, int y, LocationCorners lc, UCHAR color)
 		rowX+=incX[lineCountMod4], rowY+=incY[lineCountMod4],
 		++lineCount, lineCountMod4 = lineCountMod4 < lineCountPeriod-1 ? lineCountMod4+1 : 0)
 	{
-		long u = rowU;
+		int32_t u = rowU;
 		int x = rowX;		// local x, y
 		int y = rowY;
 
-		long z =
+		int32_t z =
 			((c30*u + c20*UVMULTIPLIER)*u + c10*UVMULTIPLIER*UVMULTIPLIER) * u / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER) + 
 			((c03*v + c02*UVMULTIPLIER)*v + c01*UVMULTIPLIER*UVMULTIPLIER) * v / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER) +
 			((c21*u + c12*v) + c11*UVMULTIPLIER)*u*v / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER)
 			+ c00;
 		// du1z = 3*c30*u^2 + 2*c21*u*v + c22*v^2 + 2*c20*u + c11*v + c10
-		long du1zM2 =		// dz/du at (u,v) multiplied by 2 * C_MULTIPLIER
+		int32_t du1zM2 =		// dz/du at (u,v) multiplied by 2 * C_MULTIPLIER
 			(((c30*u*3 + c20*2*UVMULTIPLIER ) * u +
 			(c21*u*2 + c12*v + c11*UVMULTIPLIER) * v )
 			/ ( UVMULTIPLIER * UVMULTIPLIER)
 			+ c10) * 2;
 		// du2z = 6*c30*u + 2*c21*v + 2*c20
-		long du2zM2 =         // d2z/du2 at (u,v) multiplied by 2 * C_MULTIPLIER
+		int32_t du2zM2 =         // d2z/du2 at (u,v) multiplied by 2 * C_MULTIPLIER
 			((c30*u*3 + c21*v) / UVMULTIPLIER + c20 ) * 4;
 		// du3z = 6*c30
-		long du3zM4D3 =         // d3z/du3 at (u,v) * 4/3 * C_MULTIPLIER
+		int32_t du3zM4D3 =         // d3z/du3 at (u,v) * 4/3 * C_MULTIPLIER
 			c30 * 8;
 
 		for( ; u < LOCATE_WIDTH * UVMULTIPLIER; 
@@ -4296,25 +4296,25 @@ static void draw_cubic_plane(int zoomX, int zoomY, LocationCorners lc, UCHAR col
 	zoomX -= ZOOM_Z_WIDTH * lc.top_left->altitude;
 	zoomY -= ZOOM_Z_HEIGHT * lc.top_left->altitude;
 
-	long c00 = lc.loc_ptr->c00;
-	long c10 = lc.loc_ptr->c10;
-	long c01 = lc.loc_ptr->c01;
-	long c20 = lc.loc_ptr->c20;
-	long c11 = lc.loc_ptr->c11;
-	long c02 = lc.loc_ptr->c02;
-	long c30 = lc.loc_ptr->c30;
-	long c21 = lc.loc_ptr->c21;
-	long c12 = lc.loc_ptr->c12;
-	long c03 = lc.loc_ptr->c03;
+	int32_t c00 = lc.loc_ptr->c00;
+	int32_t c10 = lc.loc_ptr->c10;
+	int32_t c01 = lc.loc_ptr->c01;
+	int32_t c20 = lc.loc_ptr->c20;
+	int32_t c11 = lc.loc_ptr->c11;
+	int32_t c02 = lc.loc_ptr->c02;
+	int32_t c30 = lc.loc_ptr->c30;
+	int32_t c21 = lc.loc_ptr->c21;
+	int32_t c12 = lc.loc_ptr->c12;
+	int32_t c03 = lc.loc_ptr->c03;
 
 	const int lineCountPeriod = 4;
 	// int lineCount;
 	int lineCountMod4 = 0;
 #define UVMULTIPLIER 4
 #define UVMULTIPLIER_SHIFT 2
-	long rowU, v;
-	static long incU[lineCountPeriod] = { -2,  6, -2, -2 };
-	// static long incV[lineCountPeriod] = {  2,  2,  2,  2 };
+	int32_t rowU, v;
+	static int32_t incU[lineCountPeriod] = { -2,  6, -2, -2 };
+	// static int32_t incV[lineCountPeriod] = {  2,  2,  2,  2 };
 	int rowX = zoomX + ZOOM_X1;
 	int rowY = zoomY + ZOOM_Y1;
 	static int incX[lineCountPeriod] = { -1,  1, -1, -1 };
@@ -4323,12 +4323,12 @@ static void draw_cubic_plane(int zoomX, int zoomY, LocationCorners lc, UCHAR col
 	err_when(ZOOM_Z_WIDTH != 0 || ZOOM_Z_HEIGHT != -1);
 
 	// variable for inner loop
-	long u;
+	int32_t u;
 	int x,y;
-	long z, du1zM2, du2zM2, du3zM4D3;
+	int32_t z, du1zM2, du2zM2, du3zM4D3;
 
 	short *bufPtr = vga_back.buf_ptr();
-	long	bufPitch = vga_back.buf_pitch();
+	int32_t	bufPitch = vga_back.buf_pitch();
 
 
 #if(0)
@@ -4337,22 +4337,22 @@ static void draw_cubic_plane(int zoomX, int zoomY, LocationCorners lc, UCHAR col
 	u = 3;
 	v = 1;
 
-	long vz =
+	int32_t vz =
 		((c30*u + c20*UVMULTIPLIER)*u + c10*UVMULTIPLIER*UVMULTIPLIER) * u / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER) + 
 		((c03*v + c02*UVMULTIPLIER)*v + c01*UVMULTIPLIER*UVMULTIPLIER) * v / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER) +
 		((c21*u + c12*v) + c11*UVMULTIPLIER)*u*v / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER)
 		+ c00;
 	// du1z = 3*c30*u^2 + 2*c21*u*v + c22*v^2 + 2*c20*u + c11*v + c10
-	long vdu1zM2 =		// dz/du at (u,v) multiplied by 2 * C_MULTIPLIER
+	int32_t vdu1zM2 =		// dz/du at (u,v) multiplied by 2 * C_MULTIPLIER
 		(((c30*u*3 + c20*2*UVMULTIPLIER ) * u +
 		(c21*u*2 + c12*v + c11*UVMULTIPLIER) * v )
 		/ ( UVMULTIPLIER * UVMULTIPLIER)
 		+ c10) * 2;
 	// du2z = 6*c30*u + 2*c21*v + 2*c20
-	long vdu2zM2 =         // d2z/du2 at (u,v) multiplied by 2 * C_MULTIPLIER
+	int32_t vdu2zM2 =         // d2z/du2 at (u,v) multiplied by 2 * C_MULTIPLIER
 		((c30*u*3 + c21*v) / UVMULTIPLIER + c20 ) * 4;
 	// du3z = 6*c30
-	long vdu3zM4D3 =         // d3z/du3 at (u,v) * 4/3 * C_MULTIPLIER
+	int32_t vdu3zM4D3 =         // d3z/du3 at (u,v) * 4/3 * C_MULTIPLIER
 		c30 * 8;
 #endif
 
@@ -4373,7 +4373,7 @@ draw_cubic_plane_1:
 		mov	edx, rowY		// y = rowY
 		mov	y, edx
 
-		//long z =
+		//int32_t z =
 		//	((c30*u + c20*UVMULTIPLIER)*u + c10*UVMULTIPLIER*UVMULTIPLIER) * u / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER) + 
 		//	((c03*v + c02*UVMULTIPLIER)*v + c01*UVMULTIPLIER*UVMULTIPLIER) * v / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER) +
 		//	((c21*u + c12*v) + c11*UVMULTIPLIER)*u*v / (UVMULTIPLIER*UVMULTIPLIER*UVMULTIPLIER)
@@ -4421,7 +4421,7 @@ draw_cubic_plane_1:
 		
 		mov	z, edi
 
-		// long du1zM2 =		// dz/du at (u,v) multiplied by 2 * C_MULTIPLIER
+		// int32_t du1zM2 =		// dz/du at (u,v) multiplied by 2 * C_MULTIPLIER
 		// (((c30*u*3 + c20*2*UVMULTIPLIER ) * u +
 		// (c21*u*2 + c12*v + c11*UVMULTIPLIER) * v )
 		// / ( UVMULTIPLIER * UVMULTIPLIER)
@@ -4452,7 +4452,7 @@ draw_cubic_plane_1:
 		add	edi, edi
 		mov	du1zM2, edi
 
-		// long du2zM2 =         // d2z/du2 at (u,v) multiplied by 2 * C_MULTIPLIER
+		// int32_t du2zM2 =         // d2z/du2 at (u,v) multiplied by 2 * C_MULTIPLIER
 		// ((c30*u*3 + c21*v) / UVMULTIPLIER + c20 ) * 4;
 		lea	eax, [ecx+ecx*2]
 		imul	c30
@@ -4465,7 +4465,7 @@ draw_cubic_plane_1:
 		lea	edi, [edi*4]
 		mov	du2zM2, edi
 
-		// long du3zM4D3 =         // d3z/du3 at (u,v) * 4/3 * C_MULTIPLIER
+		// int32_t du3zM4D3 =         // d3z/du3 at (u,v) * 4/3 * C_MULTIPLIER
 		//		c30 * 8;
 		mov	eax, c30
 		sal	eax, 3					; eax = c30 * 8

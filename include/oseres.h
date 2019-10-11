@@ -25,7 +25,7 @@
 
 #ifndef __OSERES_H
 #define __OSERES_H
-
+#include <stdint.h>
 
 // ------------- Define struct SERec -------------//
 
@@ -97,9 +97,9 @@ public:
 	int		type_index_count;
 	SETypeIndex *type_index_array;
 
-	static unsigned long last_select_time;
-	static unsigned long last_command_time;
-	static unsigned long select_sound_length;
+	static uint32_t last_select_time;
+	static uint32_t last_command_time;
+	static uint32_t select_sound_length;
 	unsigned seed;
 
 public:

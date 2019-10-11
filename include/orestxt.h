@@ -37,7 +37,7 @@ struct TxtIndex
    char  title[TITLE_LEN+1];       // Title of the text article
    char  pict_name[PICT_NAME_LEN+1];
    short text_size;		   // size of the text body
-   long  file_pos;
+   int32_t  file_pos;
 };
 
 

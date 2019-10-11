@@ -1575,7 +1575,7 @@ void UnitGroup::vanguard_formation(int direction)
 
 //--- Begin of function UnitGroup::line_formation ---//
 // This function calculate the locations and set the unit to move to form a line formation
-// if longline is true, long line formation will be form.
+// if longline is true, int32_t line formation will be form.
 // if longline is false, short line formation will be form.
 void UnitGroup::line_formation(int direction)
 {

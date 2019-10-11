@@ -22,11 +22,11 @@
 #ifndef _WIN32_COMPAT_H
 #define _WIN32_COMPAT_H
 
+#include <stdint.h>
 
 #ifdef NO_WINDOWS // !WINE && !WIN32
 
 #include <ctype.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
@@ -68,7 +68,7 @@ inline char *itoa(int num, char *str, int radix)
 	return str;
 }
 
-inline char *ltoa(long num, char *str, int radix)
+inline char *ltoa(int32_t num, char *str, int radix)
 {
 	sprintf(str,"%ld",num);
 	return str;
@@ -100,7 +100,7 @@ inline char *strlwr(char *str)
 	return str;
 }
 
-inline void Sleep(long milliseconds)
+inline void Sleep(int32_t milliseconds)
 {
 	struct timespec ts = {0, milliseconds * 1000000};
 	nanosleep(&ts, NULL);
@@ -163,6 +163,7 @@ inline void FileTimeToSystemTime(const FILETIME *lpFileTime, SYSTEMTIME *lpSyste
 
 #else // WINE || WIN32
 
+#include <winsock2.h>
 #include <windows.h>
 
 #endif

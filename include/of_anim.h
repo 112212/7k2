@@ -41,7 +41,7 @@ struct AnimalUnit
 
 	short hire_cost;
 	short live_point_cost;
-	short stay_count;		// how long this unit is going to stay until it leaves the animal habitat if you do not hire him.
+	short stay_count;		// how int32_t this unit is going to stay until it leaves the animal habitat if you do not hire him.
 
 	Skill skill;
 	int  	combat_level() 	{ return skill.actual_combat_level(&item); }

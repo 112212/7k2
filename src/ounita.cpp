@@ -323,7 +323,7 @@ void UnitArray::process()
 			#endif
 			{
 				#ifdef DEBUG
-				unsigned long profileAiStartTime = misc.get_time();
+				uint32_t profileAiStartTime = misc.get_time();
 				#endif
 
 				unitPtr->process_ai();

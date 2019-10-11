@@ -922,7 +922,7 @@ void EndCondition::set_result_str(char *s, int loseCond)
 
 // ----- begin of function EndCondition::update_condition_on_killed -------//
 //
-int EndCondition::update_condition_on_killed(long uniqueId)
+int EndCondition::update_condition_on_killed(int32_t uniqueId)
 {
 	// ------- set unique unit id ------//
 
@@ -946,7 +946,7 @@ int EndCondition::update_condition_on_killed(long uniqueId)
 
 // ----- begin of function EndCondition::update_condition_on_mobilize -------//
 //
-int EndCondition::update_condition_on_mobilize(int newUnitRecno, long uniqueId)
+int EndCondition::update_condition_on_mobilize(int newUnitRecno, int32_t uniqueId)
 {
 	// ------- set unique unit id ------//
 
@@ -1008,7 +1008,7 @@ int EndCondition::update_condition_item_acquired(short itemId, int nationRecno )
 
 // ----- begin of function EndCondition::is_unit_in_condition -------//
 //
-int EndCondition::is_unit_in_condition(long uniqueId)
+int EndCondition::is_unit_in_condition(int32_t uniqueId)
 {
 	// ------- set unique unit id ------//
 

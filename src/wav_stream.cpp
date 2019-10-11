@@ -206,7 +206,7 @@ void WavStream::close()
    this->clear();
 }
 
-long WavStream::read(void *buffer, size_t frame_count)
+int32_t WavStream::read(void *buffer, size_t frame_count)
 {
    size_t read_size;
 

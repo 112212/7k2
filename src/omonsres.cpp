@@ -151,7 +151,7 @@ MonsterInfo* MonsterRes::operator[](int monsterId)
 void MonsterRes::second_init()
 {
 	// ###### begin Gilbert 14/3 ########//
-	long backupSeed = misc.get_random_seed();	// backup random seed in order to use a fixed random seed
+	int32_t backupSeed = misc.get_random_seed();	// backup random seed in order to use a fixed random seed
 	misc.set_random_seed(5);
 	// ###### end Gilbert 14/3 ########//
 
@@ -351,9 +351,9 @@ char* MonsterRes::get_name(WORD nameId)
 
 // ----------- begin of function MonsterRes::sum_name_used ------//
 // for sum of name_used_array, checking
-long MonsterRes::sum_name_used()
+int32_t MonsterRes::sum_name_used()
 {
-	long sum = 0;
+	int32_t sum = 0;
 	for( int i = 0; i < MONSTER_NAME_COUNT; ++i )
 	{
 		if( name_used_array[i] < 0 )		// skip negative value

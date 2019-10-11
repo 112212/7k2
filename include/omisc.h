@@ -43,8 +43,8 @@ public:
 	char	freeze_seed;
 	int32_t random_seed;
 
-	int	random_chance;
-	int	random_chance_accumulated;
+	int32_t	random_chance;
+	int32_t	random_chance_accumulated;
 
 public:
 	Misc();
@@ -85,7 +85,7 @@ public:
    char* format(int,int=1);
 
    char* format(short a,int b=1) { return format((int)a, b); }
-   char* format(long  a,int b=1) { return format((int)a, b); }
+   // char* format(int32_t  a,int b=1) { return format((int)a, b); }
    char* num_th(int);
 	char* num_to_str(int);
 	char* roman_number(int);
@@ -123,7 +123,7 @@ public:
 
 	void	cal_move_around_a_point(short num, short width, short height, int& xShift, int& yShift);
 	void	cal_move_around_a_point_v2(short num, short width, short height, int& xShift, int& yShift);
-	void	set_surround_bit(long int& flag, int bitNo);
+	void	set_surround_bit(int32_t& flag, int bitNo);
 
 	void	memsetw(short *, int, size_t);
 

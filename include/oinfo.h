@@ -91,7 +91,7 @@ enum { CHAT_RECEIVER_CURRENT=1,
 #pragma pack(1)
 struct ChatInfo
 {
-	int   received_date;
+	int32_t   received_date;
 	char	from_nation_recno;
 	char	chat_str[CHAT_STR_LEN+1];
 };
@@ -102,7 +102,7 @@ struct ChatInfo
 struct TalkMsgDisp
 {
 	short recno;
-	int	date;
+	int32_t	date;
 	char	is_reply;
 };
 
@@ -112,21 +112,21 @@ struct TalkMsgDisp
 class Info
 {
 public:
-	int  	game_start_date;   // set to Game::game_start_year in Info::init(), the actual date the game begins, not the scenario begins
-	int  	game_date;
-	int  	game_day;
-	int  	game_month;
-	int  	game_year;
+	int32_t  	game_start_date;   // set to Game::game_start_year in Info::init(), the actual date the game begins, not the scenario begins
+	int32_t  	game_date;
+	int32_t  	game_day;
+	int32_t  	game_month;
+	int32_t  	game_year;
 
-	int  	goal_deadline;
+	int32_t  	goal_deadline;
 	short	goal_difficulty;
 	short goal_score_bonus;
 
-	int  	week_day;      // = game_date&7
-	int  	year_day;		  // the nth day in a year
-	int  	year_passed;   // no. of years passed since playing
+	int32_t  	week_day;      // = game_date&7
+	int32_t  	year_day;		  // the nth day in a year
+	int32_t  	year_passed;   // no. of years passed since playing
 
-	int  random_seed;
+	int32_t  random_seed;
 
 	// ###### begin Gilbert 23/12 #####//
 	// int	spy_execute;

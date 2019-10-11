@@ -148,8 +148,7 @@ void FirmAnimal::detect_info()
 		&& selected_unit_id > 0 && selected_unit_id <= animal_unit_count )
 	{
 		AnimalUnit *animalUnit = animal_unit_array + selected_unit_id - 1;
-		int temp;
-
+		int temp = selected_unit_id;
 		se_ctrl.immediate_sound("TAXGRANT");
 
 		se_res.far_sound(center_x, center_y, 1, 'S', 
@@ -168,7 +167,6 @@ void FirmAnimal::detect_info()
 		}
 		else
 		{
-			temp = selected_unit_id;
 			hire(selected_unit_id);
 		}
 

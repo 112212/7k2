@@ -31,7 +31,7 @@ class File;
 class BitStream				// for reading token less than 16 bits
 {
 public:
-	long bit_offset;
+	int32_t bit_offset;
 
 public:
 	BitStream();
@@ -56,8 +56,8 @@ class BitFileRead : public BitStream
 {
 protected:
 	File *filePtr;
-	long last_offset;
-	unsigned long residue;		// always the 4 bytes at last_offset
+	int32_t last_offset;
+	uint32_t residue;		// always the 4 bytes at last_offset
 
 public:
 	BitFileRead(File *f);
@@ -70,8 +70,8 @@ class BitFileWrite : public BitStream
 {
 protected:
 	File *filePtr;
-	long residue_len;
-	unsigned long residue;		// always the 4 bytes at last_offset
+	int32_t residue_len;
+	uint32_t residue;		// always the 4 bytes at last_offset
 
 public:
 	BitFileWrite(File *f);
@@ -97,18 +97,18 @@ public:
 	void free_storage();
 
 	// nul output, to find output size
-	long compress( unsigned char *inPtr, long inByteLen);
+	int32_t compress( unsigned char *inPtr, int32_t inByteLen);
 
 	// compressed data in memory
-	long compress( unsigned char *inPtr, long inByteLen, unsigned char *outPtr);
-	long expand( unsigned char *inPtr, long inBitLen, unsigned char *outPtr);
+	int32_t compress( unsigned char *inPtr, int32_t inByteLen, unsigned char *outPtr);
+	int32_t expand( unsigned char *inPtr, int32_t inBitLen, unsigned char *outPtr);
 
 	// compressed data in file
-	long compress( unsigned char *inPtr, long inByteLen, File *outFile);
-	long expand( File *inFile, unsigned char *outPtr);
+	int32_t compress( unsigned char *inPtr, int32_t inByteLen, File *outFile);
+	int32_t expand( File *inFile, unsigned char *outPtr);
 
-	long basic_compress( unsigned char *inPtr, long inByteLen, BitStream *outStream);
-	long basic_expand( BitStream *inStream, unsigned char *outPtr);
+	int32_t basic_compress( unsigned char *inPtr, int32_t inByteLen, BitStream *outStream);
+	int32_t basic_expand( BitStream *inStream, unsigned char *outPtr);
 
 private:
 	void initialize_dictionary();

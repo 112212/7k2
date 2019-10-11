@@ -36,11 +36,11 @@
 //
 // Index area
 // char[8] = data record name
-// <long>  = pointer of corresponding data unit in this file
+// <int32_t>  = pointer of corresponding data unit in this file
 //   .
 //   .
 // char[9] = the last index is a virtual index which is used to calculate
-// <long>    the size of the last data unit
+// <int32_t>    the size of the last data unit
 //
 //
 // Data area
@@ -63,7 +63,7 @@
 //
 void ResourceIdx::init(const char* resName, int readAll, int useCommonBuf)
 {
-   long dataSize;
+   int32_t dataSize;
 
    if( init_flag )	// if a resource is already opened, close it first
       deinit();

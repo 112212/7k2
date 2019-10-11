@@ -380,7 +380,7 @@ class Remote
 			 SEND_QUEUE_BUF_INC_SIZE 	 = 1024,			// If the queue is full, expand with this size
 			 RECEIVE_QUEUE_BUF_SIZE		 = 8192, 		// The default queue buffer size
 			 RECEIVE_QUEUE_BUF_INC_SIZE = 2048,			// If the queue is full, expand with this size
-			 MAX_PROCESS_FRAME_DELAY = 5,					// process player action 1 frame later
+			 MAX_PROCESS_FRAME_DELAY = 500,					// process player action 1 frame later
 			 SEND_QUEUE_BACKUP = MAX_PROCESS_FRAME_DELAY+4,
 			 RECEIVE_QUEUE_BACKUP = (MAX_PROCESS_FRAME_DELAY+1+4)*2,
 		  };

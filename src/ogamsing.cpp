@@ -144,7 +144,7 @@ static int select_option2()
 	int w, h;
 	int cx, cy;
 	String str;
-	long refreshFlag = SGOPTION_ALL;
+	int32_t refreshFlag = SGOPTION_ALL;
 	int retFlag = 0;
 
 	// -------- generate palette ------//

@@ -36,7 +36,7 @@
 class UnitWagon : public Unit
 {
 public:
-	int	population;
+	int32_t	population;
 	short	spy_count;
 	short	spy_recno[MAX_WAGON_POPULATION];
 

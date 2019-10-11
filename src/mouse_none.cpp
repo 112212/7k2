@@ -129,7 +129,7 @@ void MouseNone::add_event(MouseEvent *mouseEvent)
 //
 // Called by key handler to save the key pressed
 //
-void MouseNone::add_key_event(unsigned scanCode, unsigned long timeStamp)
+void MouseNone::add_key_event(unsigned scanCode, uint32_t timeStamp)
 {
 }
 //----------- End of MouseNone::add_key_event ----------//

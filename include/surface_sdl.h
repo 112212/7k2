@@ -34,7 +34,7 @@ class SurfaceSDL
 private:
 	SDL_Surface *surface;
 	void *save_buf;
-	long cur_pitch;
+	int32_t cur_pitch;
 
 public:
 	SurfaceSDL(SDL_Surface *s);
@@ -61,7 +61,7 @@ public:
 	int	lock_buf();
 	int	unlock_buf();
 
-	void	set_buf_ptr(short* bufPtr, long pitch)	{ if (!save_buf) { save_buf = surface->pixels; surface->pixels = bufPtr; cur_pitch = pitch; } }
+	void	set_buf_ptr(short* bufPtr, int32_t pitch)	{ if (!save_buf) { save_buf = surface->pixels; surface->pixels = bufPtr; cur_pitch = pitch; } }
 	void	set_default_buf_ptr()	{ if (save_buf) { surface->pixels = save_buf; save_buf = NULL; cur_pitch = surface->pitch; } }
 
 	int 	write_bmp_file(char* fileName);

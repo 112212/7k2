@@ -120,7 +120,7 @@ void Unit::execute_attack()
 	if( targetObj->obj_loc_x1() != cur_order.loc_x ||
 		 targetObj->obj_loc_y1() != cur_order.loc_y )
 	{
-		// call target_move not too frequent, especially at long distance
+		// call target_move not too frequent, especially at int32_t distance
 
 		target_move(targetObj);
 //		if(cur_order.mode == UNIT_STOP)
@@ -239,7 +239,7 @@ void Unit::attack(short targetRecno, bool resetOrder)
 
 	//--------------------------------------//
 #ifdef	DEBUG
-	unsigned long startTime = misc.get_time();
+	uint32_t startTime = misc.get_time();
 #endif
 	BaseObj *targetObj = base_obj_array[targetRecno];
 
@@ -1467,8 +1467,8 @@ int Unit::ask_team_help_attack(BaseObj* attackerObj)
 
 		// check the behavior of following case : 
 		// old target and new target are outside attack range
-			// when chasing old target the path may be long not direct that the
-			// distance seems long but the actual path may be shorter
+			// when chasing old target the path may be int32_t not direct that the
+			// distance seems int32_t but the actual path may be shorter
 			// so never preempt it this case
 		// old target inside attack range, new target outside attack range
 		// old target outside attack range, new target inside attack range
@@ -1580,7 +1580,7 @@ int Unit::ask_neighbour_help_attack(BaseObj* attackerObj)
 	scanner.sort_by_weight();
 */
 
-	// long filter
+	// int32_t filter
 
 	for( scanner.restart(); !scanner.is_finish(); scanner.next() )
 	{
@@ -1897,7 +1897,7 @@ void Unit::being_killed_leave_money(BaseObj* attackerObj)
 
 	// ###### patch begin Gilbert 29/3 ########//
 	// killMoney = killMoney * (80 + unique_id % 40) / 100;		// -20 to +20 randomness
-	killMoney = killMoney * (80 + (unsigned long)unique_id % 40) / 100;		// -20 to +20 randomness
+	killMoney = killMoney * (80 + (uint32_t)unique_id % 40) / 100;		// -20 to +20 randomness
 	// ###### patch end Gilbert 29/3 ########//
 	
 	cur_power = killMoney;

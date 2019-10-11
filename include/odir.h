@@ -32,7 +32,7 @@
 struct FileInfo
 {
     char				name[MAX_PATH+1];
-    unsigned long size;
+    uint32_t size;
 	 FILETIME		time;
 };
 

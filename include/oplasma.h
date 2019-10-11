@@ -24,9 +24,9 @@
 
 #ifndef __OPLASMA_H
 #define __OPLASMA_H
-
-typedef unsigned short U16;
-typedef signed long S32;
+#include <stdint.h>
+typedef uint16_t U16;
+typedef int32_t S32;
 
 // -------- Define Class Plasma --------//
 

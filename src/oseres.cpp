@@ -36,9 +36,9 @@
 
 // ---------- Define constant ----------//
 #define SERES_DB "SOUNDRES"
-unsigned long SERes::last_select_time = 0;
-unsigned long SERes::last_command_time = 0;
-unsigned long SERes::select_sound_length = 600;	// time between successive select sound
+uint32_t SERes::last_select_time = 0;
+uint32_t SERes::last_command_time = 0;
+uint32_t SERes::select_sound_length = 600;	// time between successive select sound
 
 
 // --------- begin of function SEInfo::match ----------//
@@ -471,7 +471,7 @@ void SERes::far_sound(short xLoc, short yLoc, short frame,
 // --------- begin of function SERes::mark_select_object_time ----------//
 int SERes::mark_select_object_time()		// return false if this sound should be skipped due to too frequent
 {
-	unsigned long t = misc.get_time();
+	uint32_t t = misc.get_time();
 	if( t - last_select_time >= select_sound_length )
 	{
 		last_select_time = t;
@@ -485,7 +485,7 @@ int SERes::mark_select_object_time()		// return false if this sound should be sk
 // --------- begin of function SERes::mark_select_object_time ----------//
 int SERes::mark_command_time()		// return false if this sound should be skipped due to too frequent
 {
-	unsigned long t = misc.get_time();
+	uint32_t t = misc.get_time();
 //	if( t - last_command_time >= select_sound_length )
 //	{
 //		last_command_time = t;

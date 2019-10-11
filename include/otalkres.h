@@ -64,14 +64,14 @@ public:
 	short		talk_para3;
 	short 	talk_para4;
 
-	int		date;
+	int32_t		date;
 
 	char		from_nation_recno;
 	char		to_nation_recno;
 	char		from_nation_invisible;		// 1 if from_nation_recno cannot see this message (create incident)
 
 	char		reply_type;		// whether this is a reply message.
-	int		reply_date;
+	int32_t		reply_date;
 
 	char		relation_status;    // the relation status of the two nations when the message is sent
 

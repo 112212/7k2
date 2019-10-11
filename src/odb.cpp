@@ -154,7 +154,7 @@ void Database::open_from_buf(char* dataPtr, int importRecSpec)
 
 //--------- Begin of function Database::read --------//
 //
-// Database::read( long recNum )
+// Database::read( int32_t recNum )
 //
 // [recNum] = the record number of the record to be read
 //	      (default : current record no.)
@@ -162,7 +162,7 @@ void Database::open_from_buf(char* dataPtr, int importRecSpec)
 // return : <char*> success, the pointer to the reading buffer
 //          <NULL>  fail
 //
-char* Database::read( long recNo )
+char* Database::read( int32_t recNo )
 {
    if( recNo <= 0 )
       recNo = cur_recno;

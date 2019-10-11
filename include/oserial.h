@@ -24,14 +24,14 @@
 
 #ifndef __OSERIAL_H
 #define __OSERIAL_H
-
+#include <stdint.h>
 class SerialRepository
 {
 public:
-	long last_serial_id;
-	long max_history;
-	long cur_history_size;
-	long *history_array;
+	int32_t last_serial_id;
+	int32_t max_history;
+	int32_t cur_history_size;
+	int32_t *history_array;
 	char file_name[64];
 
 	bool is_persistant() { return file_name[0] != '\0'; }	// save to file every update
@@ -47,17 +47,17 @@ public:
 
 	// -------- function on serial number -------//
 
-	long	get_serial_number();
+	int32_t	get_serial_number();
 
 	// -------- function on repository -------- //
 
-	void	add(long);
-	int	add_unique(long);
-	bool	is_exist(long);
-	long	count(long);
-	bool	remove(long);			// true if found and removed
-	bool	remove_first(long);	// remove oldest
-	bool	remove_last(long);	// remove latest
+	void	add(int32_t);
+	int	add_unique(int32_t);
+	bool	is_exist(int32_t);
+	int32_t	count(int32_t);
+	bool	remove(int32_t);			// true if found and removed
+	bool	remove_first(int32_t);	// remove oldest
+	bool	remove_last(int32_t);	// remove latest
 };
 
 extern SerialRepository serial_repository;

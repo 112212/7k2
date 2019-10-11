@@ -289,7 +289,7 @@ int Unit::build_firm_now()
 		err_here();
 
 #ifdef DEBUG
-	unsigned long startTime = misc.get_time();
+	uint32_t startTime = misc.get_time();
 	int check = firm_array.build_firm(cur_order.loc_x, cur_order.loc_y, nation_recno, cur_order.para, buildCode, sprite_recno);
 	unit_check_build_firm_profile_time += misc.get_time() - startTime;
 	return check;
@@ -470,7 +470,7 @@ void Unit::execute_settle_town()
 void Unit::assign(int destXLoc, int destYLoc, int actionNationRecno, bool forceMoveFlag)
 {
 #ifdef DEBUG
-	unsigned long startTime = misc.get_time();
+	uint32_t startTime = misc.get_time();
 #endif
 
 	// ######## begin Gilbert 15/5 ########//

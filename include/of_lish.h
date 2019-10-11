@@ -35,10 +35,10 @@
 class FirmLishorr : public Firm
 {
 public:
-	int		animation_offset;
+	int32_t		animation_offset;
 	short		base_firm_build_id;
-	int		firm_attack_animation_delay;
-	int		firm_attack_delay;
+	int32_t		firm_attack_animation_delay;
+	int32_t		firm_attack_delay;
 	short		target_obj_recno;
 	short		return_target_obj_recno;
 	char		attack_object;

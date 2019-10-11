@@ -296,7 +296,7 @@ int Remote::poll_msg()
 	DWORD recvLen;
 
 	// while( (recvBuf = mp_ptr->receive(&from, &to, &recvLen)) != NULL)
-	while( (recvBuf = ec_remote.receive(&from, (long unsigned int *)&recvLen)) != NULL)
+	while( (recvBuf = ec_remote.receive(&from, (uint32_t *)&recvLen)) != NULL)
 	{
 		err_when(++loopCount > 1000 );
 		msgListSize = recvLen;
@@ -488,7 +488,7 @@ void Remote::process_receive_queue()
 					{
 #if defined(ENABLE_LOG)
 						String logStr("begin process remote message id:");
-						logStr += (long) remoteMsgPtr->id;
+						logStr += (int32_t) remoteMsgPtr->id;
 						logStr += " of nation ";
 						logStr += nation_processing;
 						LOG_MSG(logStr);

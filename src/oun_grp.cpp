@@ -896,7 +896,7 @@ void UnitGroup::transform_mfort(int destXLoc, int destYLoc, char remoteAction)
 
 	if(checkIndex == MAX_EXTRA_BUILDER)
 	{
-		long dist2[MAX_EXTRA_BUILDER][MAX_EXTRA_BUILDER];	// distance between each builder and each destination
+		int32_t dist2[MAX_EXTRA_BUILDER][MAX_EXTRA_BUILDER];	// distance between each builder and each destination
 		// dist[ builder i][ place j ]
 
 		int j;
@@ -917,8 +917,8 @@ void UnitGroup::transform_mfort(int destXLoc, int destYLoc, char remoteAction)
 		for( i = 0; i < checkIndex; i++ )
 		{
 			Unit *unitPtr = unit_array[builderUnit[i]];
-			long srcX = unitPtr->next_x_loc();
-			long srcY = unitPtr->next_y_loc();
+			int32_t srcX = unitPtr->next_x_loc();
+			int32_t srcY = unitPtr->next_y_loc();
 
 			for( j = 0; j < checkIndex; j++ )
 			{	// don't use points distance
@@ -1073,7 +1073,7 @@ void UnitGroup::run_action(int destXLoc, int destYLoc, int orderId, int orderPar
 	if(isInFormation)
 	{
 #ifdef DEBUG
-		unsigned long pathReuseStartTime = misc.get_time();
+		uint32_t pathReuseStartTime = misc.get_time();
 #endif
 		path_reuse.set_handle_power_nation(0);
 		if(nationRecno)
@@ -1735,7 +1735,7 @@ void UnitGroup::cluster_units_for_path_reuse(int destX, int destY, int centerX, 
 			if( checkCount > 0 )
 			{
 #ifdef DEBUG
-				unsigned long pathReuseStartTime = misc.get_time();
+				uint32_t pathReuseStartTime = misc.get_time();
 #endif
 				path_reuse.set_handle_power_nation(0);
 				if(nationRecno)
@@ -1792,7 +1792,7 @@ static void put_profile(int y, const char* dispDes, int dispValue)
 void UnitGroup::draw_profile()
 {
 #ifdef DEBUG
-	static unsigned long lastDrawTime = misc.get_time();
+	static uint32_t lastDrawTime = misc.get_time();
 
 	if(misc.get_time() >= lastDrawTime + 1000)
 	{

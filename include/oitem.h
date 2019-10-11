@@ -24,7 +24,7 @@
 
 #ifndef __OITEM_H
 #define __OITEM_H
-
+#include <stdint.h>
 //------- Define struct item ----------//
 
 class Skill;
@@ -33,8 +33,8 @@ class Skill;
 struct Item
 {
 public:
-	short	id;
-	int	para;
+	int16_t	id;
+	int32_t	para;
 
 
 public:

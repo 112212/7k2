@@ -47,15 +47,15 @@ Rle::~Rle()
 //
 // nul output, to find output size
 //
-long Rle::compress( unsigned char *inPtr, long inByteLen, unsigned char rleKey )
+int32_t Rle::compress( unsigned char *inPtr, int32_t inByteLen, unsigned char rleKey )
 {
 	register unsigned char *p = inPtr;
-	register long c = inByteLen;
+	register int32_t c = inByteLen;
 
 	unsigned char last;
-	long count;
+	int32_t count;
 
-	long outCount = 0;
+	int32_t outCount = 0;
 
 	// first byte
 
@@ -137,15 +137,15 @@ long Rle::compress( unsigned char *inPtr, long inByteLen, unsigned char rleKey )
 //
 // compressed data to memory
 //
-long Rle::compress( unsigned char *inPtr, long inByteLen, unsigned char *outPtr, unsigned char rleKey )
+int32_t Rle::compress( unsigned char *inPtr, int32_t inByteLen, unsigned char *outPtr, unsigned char rleKey )
 {
 	register unsigned char *p = inPtr;
-	register long c = inByteLen;
+	register int32_t c = inByteLen;
 
 	unsigned char last;
-	long count;
+	int32_t count;
 
-	long outCount = 0;
+	int32_t outCount = 0;
 
 	// first byte
 
@@ -237,11 +237,11 @@ long Rle::compress( unsigned char *inPtr, long inByteLen, unsigned char *outPtr,
 //
 // expand from memory
 //
-long Rle::expand( unsigned char *inPtr, unsigned char *outPtr, unsigned char rleKey )
+int32_t Rle::expand( unsigned char *inPtr, unsigned char *outPtr, unsigned char rleKey )
 {
 	register unsigned char *p = inPtr;
 
-	long outCount = 0;
+	int32_t outCount = 0;
 
 	while(1)
 	{
@@ -272,16 +272,16 @@ long Rle::expand( unsigned char *inPtr, unsigned char *outPtr, unsigned char rle
 // compressed data to file
 // return -1 if write file error
 //
-long Rle::compress( unsigned char *inPtr, long inByteLen, File *outFile, unsigned char rleKey)
+int32_t Rle::compress( unsigned char *inPtr, int32_t inByteLen, File *outFile, unsigned char rleKey)
 {
 	err_when( outFile->file_type == File::STRUCTURED );	// not support
 	register unsigned char *p = inPtr;
-	register long c = inByteLen;
+	register int32_t c = inByteLen;
 
 	unsigned char last;
-	long count;
+	int32_t count;
 
-	long outCount = 0;
+	int32_t outCount = 0;
 
 	// first byte
 
@@ -388,10 +388,10 @@ long Rle::compress( unsigned char *inPtr, long inByteLen, File *outFile, unsigne
 //
 // expand from file
 //
-long Rle::expand( File *inFile, unsigned char *outPtr, unsigned char rleKey )
+int32_t Rle::expand( File *inFile, unsigned char *outPtr, unsigned char rleKey )
 {
 	err_when( inFile->file_type == File::STRUCTURED );	// not support
-	long outCount = 0;
+	int32_t outCount = 0;
 
 	unsigned char p[3];
 
@@ -445,7 +445,7 @@ void test_rle()
 	unsigned char compressStr[sizeof(testStr)+20];
 	unsigned char decompressStr[sizeof(testStr)+10];
 
-	long rc1, rc2;
+	int32_t rc1, rc2;
 
 	rc1 = rle.compress(testStr, sizeof(testStr));
 	err_when( rc1 > sizeof(compressStr) );

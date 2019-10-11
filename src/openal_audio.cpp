@@ -62,14 +62,14 @@ static bool check_al(int line) {
 #define check_al() check_al(__LINE__)
 
 /* By this conversion, 0dB == 1 and -6dB == 0.5 */
-static inline float millibels_to_ratio(long cb) {
+static inline float millibels_to_ratio(int32_t cb) {
 	if (cb <= -10000)
 		return 0.f;
 
 	return pow(10.f, cb / 2000.f);
 }
 
-static inline long ratio_to_millibels(float ratio) {
+static inline int32_t ratio_to_millibels(float ratio) {
 	const float log10 = log(10.f);
 
 	if (ratio == 0.f)
@@ -376,8 +376,8 @@ int OpenALAudio::play_wav(short index, const DsVolume &vol) {
 // Play digitized wav from the wav file in memory
 //
 // <char*>        wavBuf = point to the wav in memory
-// long vol = volume (0 to 100)
-// long pan = pan (-10000 to 10000)
+// int32_t vol = volume (0 to 100)
+// int32_t pan = pan (-10000 to 10000)
 //
 // return : <int> 1 - wav loaded and is playing
 //                0 - wav not played

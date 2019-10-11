@@ -319,7 +319,7 @@ void UnitArray::draw_dot(int filterUnitClassId)
 void UnitArray::draw_profile()
 {
 #ifdef DEBUG
-	static unsigned long lastDrawTime = misc.get_time();
+	static uint32_t lastDrawTime = misc.get_time();
 
 	if(misc.get_time() >= lastDrawTime + 1000)
 	{
@@ -345,7 +345,7 @@ void UnitArray::draw_profile()
 void UnitArray::draw_profile()
 {
 #ifdef DEBUG
-	static unsigned long lastDrawTime = misc.get_time();
+	static uint32_t lastDrawTime = misc.get_time();
 
 	if(misc.get_time() >= lastDrawTime + 1000)
 	{

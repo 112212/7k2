@@ -55,7 +55,7 @@ static char rock_type_char[ROCK_TYPES] = { 'R', 'D', 'E', 'P' };
 // static char *site_type_str[MAX_SITE_TYPE] = { "Raw", "Power",  "Coins", "Item", "Weapon" };
 
 #define GOLD_COIN_AMOUNT_COUNT 20
-static long gold_coin_amount_array[GOLD_COIN_AMOUNT_COUNT] = 
+static int32_t gold_coin_amount_array[GOLD_COIN_AMOUNT_COUNT] = 
 {
 	500, 600, 700, 800, 900,
 	1000, 1500, 2000, 2500, 3000,
@@ -909,7 +909,7 @@ static void disp_scroll_rec(int recNo,int x,int y,int refreshFlag)
 //
 static void disp_gold_rec(int recNo,int x,int y,int refreshFlag)
 {
-	long amount;
+	int32_t amount;
 	if( recNo <= GOLD_COIN_AMOUNT_COUNT )
 		amount = gold_coin_amount_array[recNo-1];
 	else

@@ -62,7 +62,7 @@ struct MouseEvent               // event buffer structure
 {
 	MouseEventType	event_type;   // mouse state
 
-	unsigned long  time;               // time event occurred
+	uint32_t  time;               // time event occurred
 	unsigned short skey_state;   // speical key state, such as LEFT_SHIFT_KEY_MASK ...
 	// int	state;              // state mask of mouse button
 
@@ -167,7 +167,7 @@ public:
 	void	deinit();
 
 	void 	add_event(MouseEvent *);
-	void 	add_key_event(unsigned, unsigned long);
+	void 	add_key_event(unsigned, uint32_t);
 	int  	get_event();
 	void	poll_event();
 	void	clear_event();

@@ -31,7 +31,7 @@ FileInputStream::~FileInputStream()
    this->close();
 }
 
-long FileInputStream::read(void *buffer, long length)
+int32_t FileInputStream::read(void *buffer, int32_t length)
 {
    if (this->file == NULL)
       return 0;
@@ -42,7 +42,7 @@ long FileInputStream::read(void *buffer, long length)
    return length;
 }
 
-bool FileInputStream::seek(long offset, int whence)
+bool FileInputStream::seek(int32_t offset, int whence)
 {
    if (this->file == NULL)
       return false;
@@ -50,7 +50,7 @@ bool FileInputStream::seek(long offset, int whence)
    return ::seek(this->file, offset, whence);
 }
 
-long FileInputStream::tell()
+int32_t FileInputStream::tell()
 {
    if (this->file == NULL)
       return -1;

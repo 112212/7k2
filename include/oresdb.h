@@ -58,7 +58,7 @@ public:
    File* get_file();
 
    void  init_imported(const char*,int,int=0);
-   char* read_imported(long);
+   char* read_imported(int32_t);
 };
 
 #endif

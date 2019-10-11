@@ -67,8 +67,8 @@ private:
 
    DbfHeader dbf_header;
    char*     rec_buf;
-   long      cur_recno;
-   long      last_read_recno;
+   int32_t      cur_recno;
+   int32_t      last_read_recno;
 
    char*     dbf_buf;     	// buffer for reading in the whole dbf
    char      dbf_buf_allocated; // whether we allocated the buffer or only take from extern pointer
@@ -84,12 +84,12 @@ public:
    void  open(const char*, int bufferAll=0, int importRecSpec=0);
    void  open_from_buf(char*, int importRecSpec=0);
 
-	char* read(long=0);
-	void  go(long recNo)    { cur_recno=recNo; }
+	char* read(int32_t=0);
+	void  go(int32_t recNo)    { cur_recno=recNo; }
 	void  close();
 
-	long  rec_count()       { return dbf_header.last_rec; }
-   long  recno()           { return cur_recno; }
+	int32_t  rec_count()       { return dbf_header.last_rec; }
+   int32_t  recno()           { return cur_recno; }
 
 	// if imported record spec
 	int	get_field_offset(char *);

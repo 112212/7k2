@@ -56,8 +56,8 @@ struct RegionInfo
 	BYTE 				region_stat_id;
 
 	RegionType		region_type;
-	int				adj_offset_bit;
-	int				region_size;
+	int32_t			adj_offset_bit;
+	int32_t			region_size;
 
 	short				center_x, center_y;		// the center locatino of the region
 };
@@ -72,13 +72,13 @@ class File;
 class RegionArray
 {
 public:
-	int				init_flag;
+	int32_t				init_flag;
 
 	RegionInfo*		region_info_array;
-	int				region_info_count;
+	int32_t			region_info_count;
 
 	RegionStat*		region_stat_array;
-	int				region_stat_count;
+	int32_t			region_stat_count;
 
 	unsigned char *connect_bits;
 	BYTE		 		region_sorted_array[MAX_REGION]; 	// an array of region id. sorted by the region size

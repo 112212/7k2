@@ -40,7 +40,7 @@ public:
    
    bool open(const char *file_name);
    void close();
-   long read(void *buffer, size_t frame_count);
+   int32_t read(void *buffer, size_t frame_count);
    bool seek(size_t frame_no);
    
    int32_t frame_rate() const;

@@ -48,7 +48,7 @@ public:
 	short spy_recno;
 
 	short	hero_id;                                // >0 if this is a hero
-	int	unique_id;              // unique number generated across campaign
+	int32_t	unique_id;              // unique number generated across campaign
 
 	char	loyalty;
 	char 	is_royal;		// whether the unit is a royal unit
@@ -57,8 +57,8 @@ public:
 	short extra_para;			// weapon version for weapons and power attack points for human units
 	short	remain_build_days;
 	short	source_town_recno;		// town which comes from
-	int   get_weapon_version()    { return extra_para; }
-	int 	soldier_power(); 			// Return a power index of this soldier.
+	int32_t   get_weapon_version()    { return extra_para; }
+	int32_t 	soldier_power(); 			// Return a power index of this soldier.
 
 	//------- Skill vars --------//
 

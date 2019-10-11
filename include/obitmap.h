@@ -23,7 +23,7 @@
 
 #ifndef __OBITMAP_H
 #define __OBITMAP_H
-
+#include <stdint.h>
 class Bitmap
 {
 public:
@@ -44,10 +44,10 @@ public:
 	unsigned char *get_ptr() { return bitmap; }
 	unsigned char *get_ptr(short x, short y);
 
-	long	size();
+	int32_t	size();
 
 	static Bitmap *mem_add_bitmap(short w, short h);		// same parameter as init
-	static long size(short w, short h);		// same parameter as init
+	static int32_t size(short w, short h);		// same parameter as init
 };
 
 #endif

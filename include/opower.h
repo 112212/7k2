@@ -25,6 +25,7 @@
 #define __OPOWER_H
 
 #include <cstddef>
+#include <cstdint>
 
 //-------- Define command id. -----------//
 
@@ -83,9 +84,9 @@ class File;
 class Power
 {
 public:
-	int   		command_id;
-	int   		command_unit_recno, command_firm_recno;
-	int			command_para;
+	int32_t   		command_id;
+	int32_t   		command_unit_recno, command_firm_recno;
+	int32_t			command_para;
 
 	char			win_opened;
 	char			enable_flag;

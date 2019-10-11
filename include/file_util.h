@@ -22,6 +22,6 @@
 
 #include <ofile.h>
 
-bool seek(File *file, long off, int whence);
+bool seek(File *file, int32_t off, int whence);
 
 #endif

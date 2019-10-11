@@ -27,9 +27,9 @@ class OutputStream
 {
 public:
    virtual ~OutputStream() {}
-   virtual long write(const void *data, long length) = 0;
-   virtual bool seek(long offset, int whence) = 0;
-   virtual long tell() = 0;
+   virtual int32_t write(const void *data, int32_t length) = 0;
+   virtual bool seek(int32_t offset, int whence) = 0;
+   virtual int32_t tell() = 0;
    virtual void close() = 0;
 };
 

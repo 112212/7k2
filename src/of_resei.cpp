@@ -712,7 +712,7 @@ void FirmResearch::disp_edit_mode(int& refreshFlag, int& y, int dispBG)
 		}
 		x = font_whbl.put( x1, y, str, 0, x2 );
 
-		y += 15;		// str may be long, line feed here
+		y += 15;		// str may be int32_t, line feed here
 		x = x1;
 
 		x = edit_progress_x2 = font_blue.put( (edit_progress_x1=x), (edit_progress_y1=y), 

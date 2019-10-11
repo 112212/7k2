@@ -288,7 +288,7 @@ void VgaBuf::save_area_common_buf(int x1, int y1, int x2, int y2)
 {
 	err_when( x1>x2 || y1>y2 || x1<0 || y1<0 || x2>=VGA_WIDTH || y2>=VGA_HEIGHT );
 
-	long saveSize = sizeof(short)*4 + BitmapW::size(x2-x1+1, y2-y1+1);
+	int32_t saveSize = sizeof(short)*4 + BitmapW::size(x2-x1+1, y2-y1+1);
 
 	err_if( saveSize > COMMON_DATA_BUF_SIZE )
 		err_now( "VgaBuf::save_area_common_buf()" );
@@ -349,7 +349,7 @@ short* VgaBuf::save_area(int x1, int y1, int x2, int y2, short* saveScr )
 {
 	err_when( x1>x2 || y1>y2 || x1<0 || y1<0 || x2>=VGA_WIDTH || y2>=VGA_HEIGHT );
 
-	long newSize = sizeof(short)*4 + BitmapW::size((x2-x1+1),(y2-y1+1));
+	int32_t newSize = sizeof(short)*4 + BitmapW::size((x2-x1+1),(y2-y1+1));
 
 	saveScr = (short *)mem_resize( saveScr, newSize );
 
@@ -443,7 +443,7 @@ void VgaBuf::put_large_bitmap(int x1, int y1, File* filePtr, short *colorRemapTa
 	int x2 = x1 + pictWidth  - 1;
 	int y2 = y1 + pictHeight - 1;
 
-	long pictSize = (long) pictWidth * pictHeight;
+	int32_t pictSize = (int32_t) pictWidth * pictHeight;
 
 	err_when( x1>x2 || y1>y2 || x1<0 || y1<0 || x2>=VGA_WIDTH || y2>=VGA_HEIGHT );
 
@@ -530,7 +530,7 @@ void VgaBuf::put_large_bitmap_trans(int x1, int y1, File* filePtr, short *colorR
 	int x2 = x1 + pictWidth  - 1;
 	int y2 = y1 + pictHeight - 1;
 
-	long pictSize = (long) pictWidth * pictHeight;
+	int32_t pictSize = (int32_t) pictWidth * pictHeight;
 
 	err_when( x1>x2 || y1>y2 || x1<0 || y1<0 || x2>=VGA_WIDTH || y2>=VGA_HEIGHT );
 
@@ -613,7 +613,7 @@ void VgaBuf::put_large_bitmapW(int x1, int y1, File* filePtr)
 	int x2 = x1 + pictWidth  - 1;
 	int y2 = y1 + pictHeight - 1;
 
-	long pictSize = (long) pictWidth * pictHeight * sizeof(short);
+	int32_t pictSize = (int32_t) pictWidth * pictHeight * sizeof(short);
 
 	err_when( x1>x2 || y1>y2 || x1<0 || y1<0 || x2>=VGA_WIDTH || y2>=VGA_HEIGHT );
 

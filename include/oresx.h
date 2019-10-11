@@ -54,12 +54,12 @@ public:
 	char	   init_flag;
 	char     read_all;           // read all data from resource file to memory
 	char     use_common_buf;     // use vga's buffer as data buffer or not
-	int      rec_count;          // total no. of records
-	int      cur_rec_no;         // current record no
+	int32_t      rec_count;          // total no. of records
+	int32_t      cur_rec_no;         // current record no
 
 	char*		user_data_buf;
 	unsigned user_data_buf_size;
-	int		user_start_read_pos;	// the starting position of the data to be read into the buffer
+	int32_t		user_start_read_pos;	// the starting position of the data to be read into the buffer
 
 public:
 	ResourceIdx() 	{ init_flag=0; }

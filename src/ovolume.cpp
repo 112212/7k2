@@ -32,7 +32,7 @@ const int DEFAULT_PAN_DROP = 100;	// distance 100, extreme left or extreme right
 RelVolume DEF_REL_VOLUME(100,0);
 
 
-DsVolume::DsVolume(long dsVol, long dsPan) : ds_vol(dsVol), ds_pan(dsPan)
+DsVolume::DsVolume(int32_t dsVol, int32_t dsPan) : ds_vol(dsVol), ds_pan(dsPan)
 {
 }
 
@@ -50,7 +50,7 @@ DsVolume::DsVolume(RelVolume &relVolume)
 }
 
 
-AbsVolume::AbsVolume(long absVol, long dsPan)
+AbsVolume::AbsVolume(int32_t absVol, int32_t dsPan)
 	: abs_vol(absVol), ds_pan(dsPan)
 {
 }
@@ -60,7 +60,7 @@ AbsVolume::AbsVolume(DsVolume &dsVolume)
 {
 }
 
-RelVolume::RelVolume(long relVol, long dsPan)
+RelVolume::RelVolume(int32_t relVol, int32_t dsPan)
 	: rel_vol(relVol), ds_pan(dsPan)
 {
 }
@@ -69,9 +69,9 @@ RelVolume::RelVolume(PosVolume &posVolume)
 {
 	int x = posVolume.x - posVolume.y;
 	int y = posVolume.x + posVolume.y;
-	long absX = x >= 0 ? x : -x;
-	long absY = y >= 0 ? y : -y;
-	long dist = absX >= absY ? absX :absY;
+	int32_t absX = x >= 0 ? x : -x;
+	int32_t absY = y >= 0 ? y : -y;
+	int32_t dist = absX >= absY ? absX :absY;
 	if( dist <= DEFAULT_DIST_LIMIT )
 		rel_vol = rel_vol = 100 - dist * 100 / DEFAULT_VOL_DROP;
 	else
@@ -90,9 +90,9 @@ RelVolume::RelVolume(PosVolume &posVolume, int drop, int limit)
 {
 	int x = posVolume.x - posVolume.y;
 	int y = posVolume.x + posVolume.y;
-	long absX = x >= 0 ? x : -x;
-	long absY = y >= 0 ? y : -y;
-	long dist = absX >= absY ? absX :absY;
+	int32_t absX = x >= 0 ? x : -x;
+	int32_t absY = y >= 0 ? y : -y;
+	int32_t dist = absX >= absY ? absX :absY;
 	if( dist <= limit )
 		rel_vol = 100 - dist * 100 / drop;
 	else
@@ -107,6 +107,6 @@ RelVolume::RelVolume(PosVolume &posVolume, int drop, int limit)
 }
 
 
-PosVolume::PosVolume(long relLocX, long relLocY) : x(relLocX), y(relLocY)
+PosVolume::PosVolume(int32_t relLocX, int32_t relLocY) : x(relLocX), y(relLocY)
 {
 }

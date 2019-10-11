@@ -48,31 +48,31 @@ public:
 
 	short  	nation_count;    // no. of nations, it's different from nation_array.size() which is a DynArrayB
 	short  	ai_nation_count;
-	int		last_del_nation_date;
-	int		last_new_nation_date;
+	int32_t		last_del_nation_date;
+	int32_t		last_new_nation_date;
 
-	int		max_nation_population;		// the maximum population in a nation
-	int		all_nation_population;		// total population of all nations.
+	int32_t		max_nation_population;		// the maximum population in a nation
+	int32_t		all_nation_population;		// total population of all nations.
 
    short		independent_town_count;
 	short		independent_town_count_race_array[MAX_RACE];	// the no. of independent towns each race has
 
-	int		max_nation_units;
-	int		max_nation_humans;
-	int		max_nation_generals;
-	int		max_nation_weapons;
-	int		max_nation_ships;
-	int		max_nation_spies;
+	int32_t		max_nation_units;
+	int32_t		max_nation_humans;
+	int32_t		max_nation_generals;
+	int32_t		max_nation_weapons;
+	int32_t		max_nation_ships;
+	int32_t		max_nation_spies;
 
-	int		max_nation_firms;
-	int		max_nation_tech_level;
+	int32_t		max_nation_firms;
+	int32_t		max_nation_tech_level;
 
-	int		max_population_rating;
-	int		max_military_rating;
-	int		max_economic_rating;
-	int		max_reputation;
-	int		max_kill_monster_score;
-	int		max_overall_rating;
+	int32_t		max_population_rating;
+	int32_t		max_military_rating;
+	int32_t		max_economic_rating;
+	int32_t		max_reputation;
+	int32_t		max_kill_monster_score;
+	int32_t		max_overall_rating;
 
 	short		max_population_nation_recno;
 	short		max_military_nation_recno;
@@ -81,8 +81,8 @@ public:
 	short		max_kill_monster_nation_recno;
 	short		max_overall_nation_recno;
 
-	int  	   last_alliance_id;
-	int  		nation_peace_days;			// continuous peace among nations
+	int32_t  	   last_alliance_id;
+	int32_t  		nation_peace_days;			// continuous peace among nations
 
 	short  	player_recno;
 	Nation* 	player_ptr;
@@ -101,7 +101,7 @@ public:
 	void 		deinit();
 	int  		nation_class_size();
 
-	int		new_nation(int nationClassId, int nationType, int raceId, int colorSchemeId, unsigned long dpPlayerId=0);
+	int		new_nation(int nationClassId, int nationType, int raceId, int colorSchemeId, uint32_t dpPlayerId=0);
 	int		new_nation(NewNationPara &);
 	int  		create_nation(int nationClassId);
 	void 		del_nation(int);

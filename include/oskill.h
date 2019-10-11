@@ -49,11 +49,11 @@ enum { BASIC_COMBAT_TRAIN = 20,		// combat level of a unit that has completed ba
 class Skill		// currently leadership is only one skill type in the game
 {
 public:
-	unsigned char  skill_potential;			// skill potential
+	unsigned char   skill_potential;			// skill potential
 	short 		  	max_combat_level;
-	short				max_skill_level;
-	short				std_hit_points;			// the hit points when combat level is 100
-	float 		  	combat_level;    			// they must be accessed via actual_??()
+	short			max_skill_level;
+	short			std_hit_points;			// the hit points when combat level is 100
+	float 		  	combat_level;    		// they must be accessed via actual_??()
 	float 			skill_level;
 
 public:
@@ -63,7 +63,7 @@ public:
 
 	int  				actual_combat_level(Item* item=0);
 	int  				actual_skill_level(Item* item=0);
-	int				actual_max_hit_points(Item* item=0);
+	int					actual_max_hit_points(Item* item=0);
 
 	void				inc_combat_level(float changeLevel);
 	void				inc_skill_level(float  changeLevel);

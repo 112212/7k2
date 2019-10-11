@@ -110,8 +110,8 @@ private:
 };
 //-------------------- End class PathReuse --------------------//
 #ifdef DEBUG
-extern unsigned long path_reuse_profile_time;
-extern unsigned long last_path_reuse_profile_time;
+extern uint32_t path_reuse_profile_time;
+extern uint32_t last_path_reuse_profile_time;
 #endif
 
 extern PathReuse path_reuse;

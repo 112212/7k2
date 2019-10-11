@@ -110,7 +110,7 @@ BOOL CEnglishToChinese::BuildList(LPCTSTR ChineseDir, LPCTSTR EnglishDir, LPCTST
 	FindClose(hFind);
 	printf("%d\n",m_ChineseString.GetSize());
 	CMemFile mfHeader,mfData;
-	long Offset=0;
+	int32_t Offset=0;
 	for(int i=0;i<m_ChineseString.GetSize();i++)
 	{
 		mfHeader.Write(&Offset,sizeof(Offset));
@@ -120,9 +120,9 @@ BOOL CEnglishToChinese::BuildList(LPCTSTR ChineseDir, LPCTSTR EnglishDir, LPCTST
 		mfData.Write(m_EnglishString.GetAt(i),strlen(m_EnglishString.GetAt(i))+1);
 		Offset+=strlen(m_EnglishString.GetAt(i))+1;
 	}
-	long* pl=(long*)mfHeader.Detach();
+	int32_t* pl=(int32_t*)mfHeader.Detach();
 	for(i=0;i<m_ChineseString.GetSize()*2;i++)
-		pl[i]+=m_ChineseString.GetSize()*2*sizeof(long);
+		pl[i]+=m_ChineseString.GetSize()*2*sizeof(int32_t);
 	CFile f;
 	f.Open(OutputFile,CFile::modeReadWrite|CFile::modeCreate);
 	Offset=m_ChineseString.GetSize();
@@ -150,12 +150,12 @@ BOOL CEnglishToChinese::Load(const char *lpszFileName)
 		delete p;
 		return FALSE;
 	}
-	m_lStrings=*(long*)p;
+	m_lStrings=*(int32_t*)p;
 	m_ppchStringTable=(char**)p;
 	m_ppchStringTable++;
 	for(int i=0;i<m_lStrings*2;i++)
 	{
-		m_ppchStringTable[i]+=(long)m_ppchStringTable;
+		m_ppchStringTable[i]+=(int32_t)m_ppchStringTable;
 	}
 	return TRUE;
 }

@@ -53,13 +53,13 @@ class DynArray
 {
 public :
 
-   int  ele_num;            // the size of the whole array
-   int  block_num;          // the number of element of each block
-   int  cur_pos;            // current position
-   int  last_ele;           // last element position ( the array is not fully used )
-   int  ele_size;           // the size of each element
+   int32_t  ele_num;            // the size of the whole array
+   int32_t  block_num;          // the number of element of each block
+   int32_t  cur_pos;            // current position
+   int32_t  last_ele;           // last element position ( the array is not fully used )
+   int32_t  ele_size;           // the size of each element
 
-   int  sort_offset;
+   int32_t  sort_offset;
    char sort_type;
 
    char* body_buf;	    // cur_pos and last_ele are start from 1 (not 0)

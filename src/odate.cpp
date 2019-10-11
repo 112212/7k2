@@ -73,12 +73,12 @@ static int month_tot[]=
 //
 // <int> year, month, day = the components of the date
 //
-// Return : <long> the julian date
+// Return : <int32_t> the julian date
 //          -1     illegal given date
 //
-long DateInfo::julian( int year, int month, int day )
+int32_t DateInfo::julian( int year, int month, int day )
 {
-	long  total, dayYear ;
+	int32_t  total, dayYear ;
 
 	dayYear    =  day_year( year, month, day) ;
 
@@ -96,7 +96,7 @@ long DateInfo::julian( int year, int month, int day )
 
 //--------- Begin of function DateInfo::julian ---------//
 //
-// Convert a string such as "07/03/93" to long number
+// Convert a string such as "07/03/93" to int32_t number
 //
 // Returns:
 // <int> >0  -  Julian day
@@ -105,7 +105,7 @@ long DateInfo::julian( int year, int month, int day )
 //        0  -  NULL Date (dbf_date is all blank)
 //       -1  -  Illegal Date
 //
-long DateInfo::julian( char *dateStr )
+int32_t DateInfo::julian( char *dateStr )
 {
    return julian( misc.atoi( dateStr,4 ), misc.atoi( dateStr+4,2 ),
                   misc.atoi( dateStr+6,2 ) );
@@ -117,21 +117,21 @@ long DateInfo::julian( char *dateStr )
 //
 // Return year, month or day of the given julian date
 //
-// <long> julianDate = the julian date to be converted
+// <int32_t> julianDate = the julian date to be converted
 // <char> returnType = 'Y'-year, 'M'-month, 'D'-day
 //
 // Return : the year, month or day of the julian date
 //          -1 if the julian date passed is invalid
 //
-int DateInfo::get_date( long julianDate, char returnType )
+int DateInfo::get_date( int32_t julianDate, char returnType )
 {
    int   year, month, day, nDays, maxDays ;
-   long   totalDays ;
+   int32_t   totalDays ;
 
    if ( julianDate > 5373484 || julianDate < JULIAN_ADJUSTMENT )
       return -1;
 
-   totalDays  =  (long) (julianDate) - JULIAN_ADJUSTMENT ;
+   totalDays  =  (int32_t) (julianDate) - JULIAN_ADJUSTMENT ;
    year       =  (int) ((double)totalDays/365.2425) + 1 ;
    nDays      =  (int) (totalDays -  ytoj(year)) ;
 
@@ -183,16 +183,16 @@ int DateInfo::get_date( long julianDate, char returnType )
 // Julian day is the number of days since the date  Jan 1, 4713 BC
 // Ex.  Jan 1, 1981 is  2444606
 //
-// <long> julianDate    = the julian date to be converted
+// <int32_t> julianDate    = the julian date to be converted
 // [int]  shortMonthStr = short month string or not (e.g. Jan instead of January)
 //                        (default : 0)
 //
 // Return : <char*> the formated date string
 //
-char* DateInfo::date_str( long julianDate, int shortMonthStr)
+char* DateInfo::date_str( int32_t julianDate, int shortMonthStr)
 {
    int    year, month, day, nDays, maxDays ;
-   long   totalDays ;
+   int32_t   totalDays ;
    static char strBuf[16];
 
    if ( julianDate > 5373484 || julianDate < JULIAN_ADJUSTMENT )
@@ -201,7 +201,7 @@ char* DateInfo::date_str( long julianDate, int shortMonthStr)
       return strBuf;
    }
 
-   totalDays  =  (long) (julianDate) - JULIAN_ADJUSTMENT ;
+   totalDays  =  (int32_t) (julianDate) - JULIAN_ADJUSTMENT ;
    year       =  (int) ((double)totalDays/365.2425) + 1 ;
    nDays      =  (int) (totalDays -  ytoj(year)) ;
 
@@ -352,7 +352,7 @@ int DateInfo::day_year( int year, int month, int day )
 //     Since we do not want to consider the current year, we will
 //     subtract the year by 1 before doing the calculation.
 
-long DateInfo::ytoj( int yr )
+int32_t DateInfo::ytoj( int yr )
 {
    yr-- ;
    return( yr*365L +  yr/4L - yr/100L + yr/400L ) ;

@@ -1069,7 +1069,7 @@ int GameFileArray::write_hall_of_fame()
 
 	if (!misc.path_cat(full_path, sys.dir_config, HALL_OF_FAME_FILE_NAME, MAX_PATH))
 	{
-		ERR("Path to the hall of fame too long.\n");
+		ERR("Path to the hall of fame too int32_t.\n");
 		return 0;
 	}
 
@@ -1106,7 +1106,7 @@ int GameFileArray::read_hall_of_fame()
 
 	if (!misc.path_cat(full_path, sys.dir_config, HALL_OF_FAME_FILE_NAME, MAX_PATH))
 	{
-		ERR("Path to the hall of fame too long.\n");
+		ERR("Path to the hall of fame too int32_t.\n");
 		return 0;
 	}
 

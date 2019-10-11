@@ -72,7 +72,7 @@ void CampaignEastWest::plot_a2_create_game()
 
 	// --- build military building around non-slave independent town of player but badly damage ----//
 
-	long limitBestWeight = 0x7fffffff;
+	int32_t limitBestWeight = 0x7fffffff;
 
 	for( int fortCount = 3; fortCount > 0; --fortCount )
 	{

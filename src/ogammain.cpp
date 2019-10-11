@@ -454,7 +454,7 @@ void Game::main_menu()
 	mouse_cursor.set_icon(CURSOR_NORMAL);
 	vga_front.bar(0,0,VGA_WIDTH-1,VGA_HEIGHT-1,V_BLACK);
 
-	unsigned long lastRedrawTime = misc.get_time();
+	uint32_t lastRedrawTime = misc.get_time();
 
 	{
 		VgaFrontLock vgaLock;
