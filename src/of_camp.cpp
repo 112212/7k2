@@ -709,7 +709,7 @@ int FirmCamp::patrol_all_soldier(int overseerRecno, char patrolType)
 
 	for( mobileSoldierId = 1; mobileSoldierId <= soldier_count ; ++mobileSoldierId )
 	{
-		err_when(++loopCount > 100);
+		// err_when(++loopCount > 100);
 
 		if( soldier_array[mobileSoldierId-1].is_under_training() )
 			continue;

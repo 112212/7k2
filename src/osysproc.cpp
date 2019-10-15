@@ -71,7 +71,7 @@
 #include <oprofile.h>
 #include <ot_gmenu.h>
 
-
+#include <iostream>
 //----------- Define static variables ------------//
 
 static uint32_t last_frame_time=0, last_resend_time=0;
@@ -264,7 +264,9 @@ void Sys::main_loop(int isLoadedGame)
 	uint32_t exceededDispTime = 0;
 
 	DWORD firstUnreadyTime = 0;
-
+	Button lol;
+	lol.create_text(100, 100, "yaaay", 1, 0,1);
+	
 	while( 1 )
 	{
 #if 0  // FIXME
@@ -296,9 +298,12 @@ void Sys::main_loop(int isLoadedGame)
 
 			if( sys.signal_exit_flag )
 				break;
-
+			
+			
+			
 			VgaFrontReLock vgaReLock;
-
+			
+			
 			yield();       // could be improved, give back the control to Windows, so it can do some OS management. Maybe call WaitMessage() here and set up a timer to get messages regularly.
 
 			// ####### begin Gilbert 11/5 #######//
@@ -316,25 +321,11 @@ void Sys::main_loop(int isLoadedGame)
 			DWORD markTime = misc.get_time();      // a time taken earlier than should_next_frame takes
 
 			// ###### begin Gilbert 12/2 ######//
-			if( remote.is_enable() && (testing_session || debug_session) )
-			{
-				String str;
-
-				str  = "Player: ";
-				str += nation_array.player_recno;
-				str += "/";
-				str += nation_array.size();
-
-				str += " Send:";
-				str += remote.packet_send_count;
-				str += " Recv:";
-				str += remote.packet_receive_count;
-				str += " Frame:";
-				str += frame_count;
-
-				// font_san.disp is surprisingly slow
-				font_san.disp( ZOOM_X1, 4, str, ZOOM_X1+300);
-			}
+			
+			// lol.detect();
+			// lol.paint();
+			// sys.blt_virtual_buf_area( 100, 200, 100, 100 );
+			
 			// ###### end Gilbert 12/2 ######//
 
 			int unreadyPlayerFlag = 0;
@@ -343,8 +334,8 @@ void Sys::main_loop(int isLoadedGame)
 
 			se_ctrl.flush();
 
-			if( config.frame_speed>0 )              // 0-frozen
-			{
+			if( config.frame_speed>0 ) {      // 0-frozen
+			
 				if( remote.is_enable() )      // && is_sync_frame )
 				{
 					remote.poll_msg();
@@ -352,8 +343,9 @@ void Sys::main_loop(int isLoadedGame)
 					rc = is_mp_sync(&unreadyPlayerFlag);         // if all players are synchronized
 					misc.lock_seed();
 				}
-				else
+				else {
 					rc = should_next_frame();
+				}
 
 				if( rc )
 				{
@@ -375,20 +367,20 @@ void Sys::main_loop(int isLoadedGame)
 					processTime = misc.get_time() - processTime;
 #endif
 
-               if(remote.is_enable() )
-                  misc.lock_seed();    // such that random seed is unchanged outside sys::process()
-					LOG_END;
+				   if(remote.is_enable() )
+						misc.lock_seed();    // such that random seed is unchanged outside sys::process()
+						LOG_END;
 
-               // -------- compare objects' crc --------- //
+				   // -------- compare objects' crc --------- //
 					if( remote.is_enable() && (remote.sync_test_level & 2) &&(frame_count % (remote.get_process_frame_delay()+3)) == 0)
-               {
-                  // cannot compare every frame, as PROCESS_FRAME_DELAY >= 1
-                  crc_store.record_all();
+					{
+						// cannot compare every frame, as PROCESS_FRAME_DELAY >= 1
+						crc_store.record_all();
 						crc_store.send_all();
 					}
 
 				}
-         }
+			}
 
 			// ------- display graduately, keep on displaying --------- //
 			// ####### begin Gilbert 11/5 #######//
@@ -409,7 +401,8 @@ void Sys::main_loop(int isLoadedGame)
 						misc.lock_seed();
 						disp_frame();
 						misc.unlock_seed();
-
+						
+						// vga.flip();
 						uint32_t dispFrameTime = misc.get_time();
 						if( dispFrameTime - lastDispFrameTime >= targetFrameTime )
 						{
@@ -478,8 +471,8 @@ void Sys::main_loop(int isLoadedGame)
 			}
 			// ####### end Gilbert 11/5 #######//
 
-
-         // ----------- detect sond is ended, play another -----------//
+			
+         // ----------- detect song is ended, play another -----------//
 
          if( config.frame_speed == 0 || day_frame_count == 0)
             music.yield();
@@ -544,12 +537,36 @@ void Sys::main_loop(int isLoadedGame)
 
 			if( sys.signal_exit_flag )
 				break;
+			
 		}
 		else
 		{
 #if 0  // FIXME
 			WaitMessage();
 #endif
+		}
+		
+		if( remote.is_enable() && (testing_session || debug_session) || true )
+		{
+			String str;
+
+			str  = "Player: ";
+			str += nation_array.player_recno;
+			str += "/";
+			str += nation_array.size();
+
+			str += " Send:";
+			str += remote.packet_send_count;
+			str += " Recv:";
+			str += remote.packet_receive_count;
+			str += " Frame:";
+			str += frame_count;
+			str += " sel:";
+			str += unit_array.selected_recno;
+
+			vga.active_buf->bar( ZOOM_X1, 0, ZOOM_X1+400, 30, 0xffffffff );
+			font_news.center_put( ZOOM_X1, 15, ZOOM_X1+400, 15, str, 0);
+			blt_virtual_buf_area(ZOOM_X1, 0, ZOOM_X1+400, 30);
 		}
 	}
 

@@ -394,7 +394,8 @@ int main(int argc, char **argv)
 	const char *lobbyNameCmdLine = "-name";
 	char *join_host = NULL;
 	int lobbied = 0;
-
+	void show_sizes();
+	show_sizes();
 	sys.set_config_dir();
 
 	//try to read from config.dat, moved to AM.CPP

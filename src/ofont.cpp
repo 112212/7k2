@@ -219,7 +219,7 @@ void Font::deinit()
 }
 //------------- End of function Font::deinit ---------//
 
-
+#include <iostream>
 //--------- Start of function Font::put ---------//
 //
 // write text with pre-inited fonts
@@ -238,8 +238,9 @@ int Font::put(int x,int y,const char* textPtr, char clearBack, int x2, int cap )
 {
 	err_when( x<0 || y<0 );
 
-	if( !init_flag )
+	if( !init_flag ) {
 		return x;
+	}
 
 	//-------- process translation ---------//
 

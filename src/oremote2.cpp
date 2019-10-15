@@ -56,7 +56,7 @@
 RemoteMsg* Remote::new_msg(int msgId, int dataSize)
 {
 
-   int msgSize = sizeof(DWORD) + dataSize;
+   int32_t msgSize = sizeof(DWORD) + dataSize;
 	// <DWORD> is for the message id.
 
    char* shortPtr;

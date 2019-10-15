@@ -3687,7 +3687,7 @@ void RemoteMsg::chat()
 	}
 }
 //------- End of function RemoteMsg::chat -------//
-
+#include <map>
 
 //------- Begin of function RemoteMsg::compare_remote_object -------//
 void	RemoteMsg::compare_remote_object()
@@ -3698,10 +3698,24 @@ void	RemoteMsg::compare_remote_object()
 		&& crc_store.compare_remote(id, data_buf) )
 	{
 		remote.sync_test_level = ~remote.sync_test_level;	// signal error encountered
+		std::map<int, const char*> messages = {
+			{ MSG_COMPARE_NATION, "nation" },
+			{ MSG_COMPARE_UNIT, "unit" },
+			{ MSG_COMPARE_FIRM, "firm" },
+			{ MSG_COMPARE_TOWN, "town" },
+			{ MSG_COMPARE_BULLET, "bullet" },
+			{ MSG_COMPARE_REBEL, "rebel" },
+			{ MSG_COMPARE_SPY, "spy" },
+			{ MSG_COMPARE_SITE, "site" },
+			{ MSG_COMPARE_TALK, "talk" },
+		};
+		 
+		String str("Multiplayer CRC Sync Error.");
+		str += messages[id];
 		if( sys.debug_session )
-			err.run( "Multiplayer Random Seed Sync Error." );
+			err.run( "Multiplayer Sync Error." );
 		else
-			box.msg( "Multiplayer Random Seed Sync Error." );
+			box.msg( (char*)str );
 	}
 }
 //------- End of function RemoteMsg::compare_remote_object -------//

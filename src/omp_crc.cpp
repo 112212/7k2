@@ -92,8 +92,59 @@ static union
 	char	site[sizeof(Site)];
 	char	talk_msg[sizeof(TalkMsg)];
 } temp_obj;
+#include <iostream>
+#include <vector>
+void show_sizes() {
+	std::vector<int> sizes = {
+		sizeof(BaseObj), sizeof(Sprite), sizeof(UnitB),
+		sizeof(Unit), sizeof(UnitGod), sizeof(UnitMonster), sizeof(UnitExpCart),
+		sizeof(UnitCaravan), sizeof(UnitWagon), sizeof(Place), sizeof(Firm),
+		sizeof(FirmBase), sizeof(FirmCamp), sizeof(FirmFort), sizeof(FirmLair),
+		sizeof(FirmWork), sizeof(FirmMine), sizeof(FirmFactory), sizeof(FirmResearch),
+		sizeof(FirmWar),
+		sizeof(FirmInn),
+		sizeof(FirmMarket),
+		sizeof(FirmTrain),
+		sizeof(FirmSpy),
+		sizeof(FirmSpecial),
+		sizeof(FirmLishorr),
+		sizeof(FirmOffensive2),
+		sizeof(FirmMonsterTrain),
+		sizeof(FirmAnimal),
+		sizeof(FirmMonsterAlchemy),
+		sizeof(FirmMonsterFortress),
+		sizeof(FirmIncubator),
+		sizeof(FirmMagic),
+		sizeof(Town),
+		sizeof(NationBase),
+		sizeof(Bullet),
+		sizeof(Projectile),
+		sizeof(BulletHoming),
+		sizeof(BulletProgram),
+		sizeof(BulletFlame),
+		sizeof(Rebel),
+		sizeof(Spy),
+		sizeof(Site),
+		sizeof(TalkMsg),
+	};
+	std::cout << "show_sizes: " << "\n";
+	int sum = 0;
+	for(int i : sizes) {
+		std::cout << i << " ";
+		sum += i;
+	}
+	std::cout << "\n";
+	std::cout << "sum is: " << sum << "\n";
+}
 
-
+#define CRC_FUNC ::crc8
+unsigned char summation(unsigned char* o, int size) {
+	int s =0;
+	for(int i=0;i < size; i++) {
+		s +=o[i];
+	}
+	return s;
+}
 //----------- Begin of function BaseObj::crc8 -----------//
 UCHAR BaseObj::crc8()
 {
@@ -103,7 +154,7 @@ UCHAR BaseObj::crc8()
 	dummyBaseObj.clear_ptr();
 	*((char**) &dummyBaseObj) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyBaseObj, sizeof(BaseObj));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyBaseObj, sizeof(BaseObj));
 	return c;
 }
 //----------- End of function BaseObj::crc8 -----------//
@@ -126,7 +177,7 @@ UCHAR Sprite::crc8()
 	dummySprite.clear_ptr();
 	*((char**) &dummySprite) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummySprite, sizeof(Sprite));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummySprite, sizeof(Sprite));
 	return c;
 }
 //----------- End of function Sprite::crc8 -----------//
@@ -150,7 +201,7 @@ UCHAR UnitB::crc8()
 	dummyUnitB.clear_ptr();
 	*((char**) &dummyUnitB) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnitB, sizeof(UnitB));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnitB, sizeof(UnitB));
 	return c;
 }
 //----------- End of function UnitBase::crc8 -----------//
@@ -177,7 +228,7 @@ UCHAR Unit::crc8()
 	dummyUnit.clear_ptr();
 	*((char**) &dummyUnit) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnit, sizeof(Unit));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnit, sizeof(Unit));
 	return c;
 }
 //----------- End of function Unit::crc8 -----------//
@@ -211,7 +262,7 @@ UCHAR UnitGod::crc8()
 	dummyUnitGod.clear_ptr();
 	*((char**) &dummyUnitGod) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnitGod, sizeof(UnitGod));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnitGod, sizeof(UnitGod));
 	return c;
 }
 //----------- End of function UnitGod::crc8 -----------//
@@ -234,7 +285,7 @@ UCHAR UnitMonster::crc8()
 	dummyUnitMonster.clear_ptr();
 	*((char**) &dummyUnitMonster) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnitMonster, sizeof(UnitMonster));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnitMonster, sizeof(UnitMonster));
 	return c;
 }
 //----------- End of function UnitMonster::crc8 -----------//
@@ -257,7 +308,7 @@ UCHAR UnitExpCart::crc8()
 	dummyUnitExpCart.clear_ptr();
 	*((char**) &dummyUnitExpCart) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnitExpCart, sizeof(UnitExpCart));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnitExpCart, sizeof(UnitExpCart));
 	return c;
 }
 //----------- End of function UnitExpCart::crc8 -----------//
@@ -281,7 +332,7 @@ UCHAR UnitMarine::crc8()
 	dummyUnitMarine.clear_ptr();
 	*((char**) &dummyUnitMarine) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnitMarine, sizeof(UnitMarine));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnitMarine, sizeof(UnitMarine));
 	return c;
 }
 //----------- End of function UnitMarine::crc8 -----------//
@@ -326,7 +377,7 @@ UCHAR UnitCaravan::crc8()
 	dummyUnitCaravan.clear_ptr();
 	*((char**) &dummyUnitCaravan) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnitCaravan, sizeof(UnitCaravan));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnitCaravan, sizeof(UnitCaravan));
 	return c;
 }
 //----------- End of function UnitCaravan::crc8 -----------//
@@ -359,7 +410,7 @@ UCHAR UnitWagon::crc8()
 	dummyUnitWagon.clear_ptr();
 	*((char**) &dummyUnitWagon) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyUnitWagon, sizeof(UnitWagon));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyUnitWagon, sizeof(UnitWagon));
 	return c;
 }
 //----------- End of function UnitWagon::crc8 -----------//
@@ -384,7 +435,7 @@ UCHAR Place::crc8()
 	dummyPlace.clear_ptr();
 	*((char**) &dummyPlace) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyPlace, sizeof(Place));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyPlace, sizeof(Place));
 	return c;
 }
 //----------- End of function Place::crc8 -----------//
@@ -407,7 +458,7 @@ UCHAR Firm::crc8()
 	dummyFirm.clear_ptr();
 	*((char**) &dummyFirm) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirm, sizeof(Firm));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirm, sizeof(Firm));
 	return c;
 }
 //----------- End of function Firm::crc8 -----------//
@@ -448,7 +499,7 @@ UCHAR FirmBase::crc8()
 	dummyFirmBase.clear_ptr();
 	*((char**) &dummyFirmBase) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmBase, sizeof(FirmBase));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmBase, sizeof(FirmBase));
 	return c;
 }
 //----------- End of function FirmBase::crc8 -----------//
@@ -476,7 +527,7 @@ UCHAR FirmCamp::crc8()
 	dummyFirmCamp.clear_ptr();
 	*((char**) &dummyFirmCamp) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmCamp, sizeof(FirmCamp));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmCamp, sizeof(FirmCamp));
 	return c;
 }
 //----------- End of function FirmCamp::crc8 -----------//
@@ -510,7 +561,7 @@ UCHAR FirmFort::crc8()
 	dummyFirmFort.clear_ptr();
 	*((char**) &dummyFirmFort) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmFort, sizeof(FirmFort));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmFort, sizeof(FirmFort));
 	return c;
 }
 //----------- End of function FirmFort::crc8 -----------//
@@ -535,7 +586,7 @@ UCHAR FirmLair::crc8()
 	dummyFirmLair.clear_ptr();
 	*((char**) &dummyFirmLair) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmLair, sizeof(FirmLair));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmLair, sizeof(FirmLair));
 	return c;
 }
 //----------- End of function FirmLair::crc8 -----------//
@@ -558,7 +609,7 @@ UCHAR FirmWork::crc8()
 	dummyFirmWork.clear_ptr();
 	*((char**) &dummyFirmWork) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmWork, sizeof(FirmWork));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmWork, sizeof(FirmWork));
 	return c;
 }
 //----------- End of function FirmWork::crc8 -----------//
@@ -585,7 +636,7 @@ UCHAR FirmMine::crc8()
 	dummyFirmMine.clear_ptr();
 	*((char**) &dummyFirmMine) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmMine, sizeof(FirmMine));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmMine, sizeof(FirmMine));
 	return c;
 }
 //----------- End of function FirmMine::crc8 -----------//
@@ -608,7 +659,7 @@ UCHAR FirmFactory::crc8()
 	dummyFirmFactory.clear_ptr();
 	*((char**) &dummyFirmFactory) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmFactory, sizeof(FirmFactory));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmFactory, sizeof(FirmFactory));
 	return c;
 }
 //----------- End of function FirmFactory::crc8 -----------//
@@ -631,7 +682,7 @@ UCHAR FirmResearch::crc8()
 	dummyFirmResearch.clear_ptr();
 	*((char**) &dummyFirmResearch) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmResearch, sizeof(FirmResearch));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmResearch, sizeof(FirmResearch));
 	return c;
 }
 //----------- End of function FirmResearch::crc8 -----------//
@@ -654,7 +705,7 @@ UCHAR FirmWar::crc8()
 	dummyFirmWar.clear_ptr();
 	*((char**) &dummyFirmWar) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmWar, sizeof(FirmWar));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmWar, sizeof(FirmWar));
 	return c;
 }
 //----------- End of function FirmWar::crc8 -----------//
@@ -687,7 +738,7 @@ UCHAR FirmInn::crc8()
 	dummyFirmInn.clear_ptr();
 	*((char**) &dummyFirmInn) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmInn, sizeof(FirmInn));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmInn, sizeof(FirmInn));
 	return c;
 }
 //----------- End of function FirmInn::crc8 -----------//
@@ -715,7 +766,7 @@ UCHAR FirmMarket::crc8()
 	dummyFirmMarket.clear_ptr();
 	*((char**) &dummyFirmMarket) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmMarket, sizeof(FirmMarket));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmMarket, sizeof(FirmMarket));
 	return c;
 }
 //----------- End of function FirmMarket::crc8 -----------//
@@ -756,7 +807,7 @@ UCHAR FirmHarbor::crc8()
 	dummyFirmHarbor.clear_ptr();
 	*((char**) &dummyFirmHarbor) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmHarbor, sizeof(FirmHarbor));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmHarbor, sizeof(FirmHarbor));
 	return c;
 }
 //----------- End of function FirmHarbor::crc8 -----------//
@@ -788,7 +839,7 @@ UCHAR FirmTrain::crc8()
 	dummyFirmTrain.clear_ptr();
 	*((char**) &dummyFirmTrain) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmTrain, sizeof(FirmTrain));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmTrain, sizeof(FirmTrain));
 	return c;
 }
 //----------- End of function FirmTrain::crc8 -----------//
@@ -816,7 +867,7 @@ UCHAR FirmSpy::crc8()
 	dummyFirmSpy.clear_ptr();
 	*((char**) &dummyFirmSpy) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmSpy, sizeof(FirmSpy));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmSpy, sizeof(FirmSpy));
 	return c;
 }
 //----------- End of function FirmSpy::crc8 -----------//
@@ -839,7 +890,7 @@ UCHAR FirmSpecial::crc8()
 	dummyFirmSpecial.clear_ptr();
 	*((char**) &dummyFirmSpecial) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmSpecial, sizeof(FirmSpecial));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmSpecial, sizeof(FirmSpecial));
 	return c;
 }
 //----------- End of function FirmSpecial::crc8 -----------//
@@ -862,7 +913,7 @@ UCHAR FirmLishorr::crc8()
 	dummyFirmLishorr.clear_ptr();
 	*((char**) &dummyFirmLishorr) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmLishorr, sizeof(FirmLishorr));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmLishorr, sizeof(FirmLishorr));
 	return c;
 }
 //----------- End of function FirmLishorr::crc8 -----------//
@@ -884,7 +935,7 @@ UCHAR FirmOffensive2::crc8()
 	dummyFirmOffensive2.clear_ptr();
 	*((char**) &dummyFirmOffensive2) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmOffensive2, sizeof(FirmOffensive2));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmOffensive2, sizeof(FirmOffensive2));
 	return c;
 }
 //----------- End of function FirmOffensive2::crc8 -----------//
@@ -906,7 +957,7 @@ UCHAR FirmMonsterTrain::crc8()
 	dummyFirmMonsterTrain.clear_ptr();
 	*((char**) &dummyFirmMonsterTrain) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmMonsterTrain, sizeof(FirmMonsterTrain));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmMonsterTrain, sizeof(FirmMonsterTrain));
 	return c;
 }
 //----------- End of function FirmMonsterTrain::crc8 -----------//
@@ -932,7 +983,7 @@ UCHAR FirmAnimal::crc8()
 	dummyFirmAnimal.clear_ptr();
 	*((char**) &dummyFirmAnimal) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmAnimal, sizeof(FirmAnimal));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmAnimal, sizeof(FirmAnimal));
 	return c;
 }
 //----------- End of function FirmAnimal::crc8 -----------//
@@ -958,7 +1009,7 @@ UCHAR FirmMonsterAlchemy::crc8()
 	dummyFirmMonsterAlchemy.clear_ptr();
 	*((char**) &dummyFirmMonsterAlchemy) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmMonsterAlchemy, sizeof(FirmMonsterAlchemy));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmMonsterAlchemy, sizeof(FirmMonsterAlchemy));
 	return c;
 }
 //----------- End of function FirmMonsterAlchemy::crc8 -----------//
@@ -981,7 +1032,7 @@ UCHAR FirmMonsterFortress::crc8()
 	dummyFirmMonsterFortress.clear_ptr();
 	*((char**) &dummyFirmMonsterFortress) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmMonsterFortress, sizeof(FirmMonsterFortress));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmMonsterFortress, sizeof(FirmMonsterFortress));
 	return c;
 }
 //----------- End of function FirmMonsterFortress::crc8 -----------//
@@ -1011,7 +1062,7 @@ UCHAR FirmIncubator::crc8()
 	dummyFirmIncubator.clear_ptr();
 	*((char**) &dummyFirmIncubator) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmIncubator, sizeof(FirmIncubator));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmIncubator, sizeof(FirmIncubator));
 	return c;
 }
 //----------- End of function FirmIncubator::crc8 -----------//
@@ -1044,7 +1095,7 @@ UCHAR FirmMagic::crc8()
 	dummyFirmMagic.clear_ptr();
 	*((char**) &dummyFirmMagic) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyFirmMagic, sizeof(FirmMagic));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmMagic, sizeof(FirmMagic));
 	return c;
 }
 //----------- End of function FirmMagic::crc8 -----------//
@@ -1069,7 +1120,7 @@ UCHAR Town::crc8()
 	dummyTown.clear_ptr();
 	*((char**) &dummyTown) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyTown, sizeof(Town));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyTown, sizeof(Town));
 	return c;
 }
 //----------- End of function Town::crc8 -----------//
@@ -1103,7 +1154,7 @@ UCHAR NationBase::crc8()
 	dummyNationBase.clear_ptr();
 	*((char**) &dummyNationBase) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyNationBase, sizeof(NationBase));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyNationBase, sizeof(NationBase));
 	return c;
 }
 //----------- End of function NationBase::crc8 -----------//
@@ -1148,7 +1199,7 @@ UCHAR Bullet::crc8()
 	dummyBullet.clear_ptr();
 	*((char**) &dummyBullet) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyBullet, sizeof(Bullet));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyBullet, sizeof(Bullet));
 	return c;
 }
 //----------- End of function Bullet::crc8 -----------//
@@ -1171,7 +1222,7 @@ UCHAR Projectile::crc8()
 	dummyProjectile.clear_ptr();
 	*((char**) &dummyProjectile) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyProjectile, sizeof(Projectile));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyProjectile, sizeof(Projectile));
 	return c;
 }
 //----------- End of function Projectile::crc8 -----------//
@@ -1197,7 +1248,7 @@ UCHAR BulletHoming::crc8()
 	dummyBulletHoming.clear_ptr();
 	*((char**) &dummyBulletHoming) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyBulletHoming, sizeof(BulletHoming));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyBulletHoming, sizeof(BulletHoming));
 	return c;
 }
 //----------- End of function BulletHoming::crc8 -----------//
@@ -1220,7 +1271,7 @@ UCHAR BulletProgram::crc8()
 	dummyBulletProgram.clear_ptr();
 	*((char**) &dummyBulletProgram) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyBulletProgram, sizeof(BulletProgram));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyBulletProgram, sizeof(BulletProgram));
 	return c;
 }
 //----------- End of function BulletProgram::crc8 -----------//
@@ -1243,7 +1294,7 @@ UCHAR BulletFlame::crc8()
 	dummyBulletFlame.clear_ptr();
 	*((char**) &dummyBulletFlame) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyBulletFlame, sizeof(BulletFlame));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyBulletFlame, sizeof(BulletFlame));
 	return c;
 }
 //----------- End of function BulletFlame::crc8 -----------//
@@ -1265,7 +1316,7 @@ UCHAR Rebel::crc8()
 
 	dummyRebel.clear_ptr();
 
-	UCHAR c = ::crc8((UCHAR *)&dummyRebel, sizeof(Rebel));
+	UCHAR c = CRC_FUNC((UCHAR *)&dummyRebel, sizeof(Rebel));
 	return c;
 }
 //----------- End of function Rebel::crc8 -----------//
@@ -1286,7 +1337,7 @@ UCHAR Spy::crc8()
 
 	dummySpy.clear_ptr();
 
-	UCHAR c = ::crc8((UCHAR *)&dummySpy, sizeof(Spy));
+	UCHAR c = CRC_FUNC((UCHAR *)&dummySpy, sizeof(Spy));
 	return c;
 }
 //----------- End of function Spy::crc8 -----------//
@@ -1310,7 +1361,7 @@ UCHAR Site::crc8()
 	if( (char *)&site_recno > (char *)this )		// clear virtual pointer for the future
 		*((char**) &dummySite) = NULL;
 
-	UCHAR c = ::crc8((UCHAR *)&dummySite, sizeof(Site));
+	UCHAR c = CRC_FUNC((UCHAR *)&dummySite, sizeof(Site));
 	return c;
 }
 //----------- End of function Site::crc8 -----------//
@@ -1332,7 +1383,7 @@ UCHAR TalkMsg::crc8()
 	dummyTalkMsg.clear_ptr();
 	// *((char**) &dummyTalkMsg) = NULL;
 
-	UCHAR c = ::crc8((UCHAR*)&dummyTalkMsg, sizeof(TalkMsg));
+	UCHAR c = CRC_FUNC((UCHAR*)&dummyTalkMsg, sizeof(TalkMsg));
 	return c;
 }
 //----------- End of function TalkMsg::crc8 -----------//

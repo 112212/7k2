@@ -57,8 +57,6 @@ void ErrorControl::deinit()
 {
 }
 
-// TODO: WTF IS THIS?
-// -----------------------------
 void ErrorControl::set_dp_id(char ecPlayerId, uint32_t dpPlayerId )
 {
 	if( ecPlayerId != self_ec_player_id )

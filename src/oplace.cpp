@@ -348,7 +348,7 @@ int Place::create_unit_locate_space(int unitId, int& xLoc, int& yLoc)
 		}
 	}
 
-	//----look for an empty locatino for the unit to stand ----//
+	//----look for an empty location for the unit to stand ----//
 	//--- scan for the 5 rows right below the building ---//
 
 	xLoc=loc_x1;

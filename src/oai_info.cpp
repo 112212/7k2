@@ -250,8 +250,8 @@ short* Nation::update_ai_array(short& aiInfoCount, short& aiInfoSize,
 
 			aiInfoArray = *aiInfoArrayPtr;
 			
-			err_when( saveDate1 != aiInfoArray[0] );		// for vertification of resizing that old data are kept
-			err_when( saveDate2 != aiInfoArray[aiInfoCount-1] );		
+			// err_when( saveDate1 != aiInfoArray[0] );		// for vertification of resizing that old data are kept
+			// err_when( saveDate2 != aiInfoArray[aiInfoCount-1] );		
 		}
 
 		aiInfoArray[aiInfoCount++] = actionRecno;

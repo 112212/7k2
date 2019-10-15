@@ -1331,8 +1331,6 @@ void Sys::detect_debug_cheat_key(unsigned scanCode, unsigned skeyState)
 				box.msg( "Now all unit icons will not be displayed." );
 			break;
 */
-#ifdef DEBUG
-/*
 		case '`':
          sys.testing_session = !sys.testing_session;
 
@@ -1341,6 +1339,8 @@ void Sys::detect_debug_cheat_key(unsigned scanCode, unsigned skeyState)
          else
             box.msg( "sys.testing_session is now 0." );
          break;
+#ifdef DEBUG
+/*
 
       case '\r':
          if(debug2_enable_flag)

@@ -494,6 +494,7 @@ struct MpStructPlayerDisconnect : public MpStructBase
 // avoid creating local variable in this function
 void Game::multi_player_game(int lobbied, char *game_host)
 {
+	
 	sub_game_mode = 0;
 	info.init_random_seed(0);			// initialize the random seed
 
@@ -3696,7 +3697,7 @@ int Game::mp_select_option(NewNationPara *nationPara, int *mpPlayerCount)
 								MpStructProcessFrameDelay msgframeDelay(frameDelaySettingArray[frameDelayGroupSetting]);
 								mp_obj.send( from, &msgframeDelay, sizeof(msgframeDelay) );
 								// ##### end Gilbert 11/3 ########//
-
+								remote.sync_test_level = 2;
 								// send remote.sync_test_level
 								MpStructSyncLevel msgSyncTest(remote.sync_test_level);
 								mp_obj.send( from, &msgSyncTest, sizeof(msgSyncTest) );
