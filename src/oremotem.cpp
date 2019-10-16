@@ -3694,10 +3694,13 @@ void	RemoteMsg::compare_remote_object()
 {
 	err_when( id < MSG_COMPARE_NATION || id > MSG_COMPARE_TALK );
 
-	if( (remote.sync_test_level & 2) && (remote.sync_test_level >= 0)
+	int flg = 1<<((id-MSG_COMPARE_NATION)+2);
+	if( (remote.sync_test_level & 2) && (remote.sync_test_level >= 0) && 
+		(remote.sync_test_level & flg)
 		&& crc_store.compare_remote(id, data_buf) )
 	{
-		remote.sync_test_level = ~remote.sync_test_level;	// signal error encountered
+		// remote.sync_test_level = ~remote.sync_test_level;	// signal error encountered
+		remote.sync_test_level &= ~flg;
 		std::map<int, const char*> messages = {
 			{ MSG_COMPARE_NATION, "nation" },
 			{ MSG_COMPARE_UNIT, "unit" },
@@ -3713,7 +3716,7 @@ void	RemoteMsg::compare_remote_object()
 		String str("Multiplayer CRC Sync Error.");
 		str += messages[id];
 		if( sys.debug_session )
-			err.run( "Multiplayer Sync Error." );
+			err.run( (char*)str );
 		else
 			box.msg( (char*)str );
 	}

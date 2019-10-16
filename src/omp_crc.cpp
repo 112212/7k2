@@ -1163,7 +1163,7 @@ UCHAR NationBase::crc8()
 //----------- End of function NationBase::clear_ptr -----------//
 void NationBase::clear_ptr()
 {
-	if( nation_type != NATION_AI )
+	// if( nation_type != NATION_AI )
 		nation_type = 0;		// local setting
 	campaign_nation_recno = 0;
 	memset(nation_name_str, 0, sizeof(nation_name_str) );    // garbage may exist after the '\0'

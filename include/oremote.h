@@ -415,7 +415,7 @@ public:
 	char				save_file_name[MAX_PATH+1];
 
 	char				*common_msg_buf;
-	char				sync_test_level;			// 0=disable, bit0= random seed, bit1=crc
+	int32_t				sync_test_level;			// 0=disable, bit0= random seed, bit1=crc
 	int				process_frame_delay;
 
 	// --------- alternating send frame --------//

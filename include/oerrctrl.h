@@ -53,62 +53,58 @@ class ErrorControl
 
 private:
 	MultiPlayer *mp_ptr;
-	int	connecting_player_count;				// no. of peers
-	char	self_ec_player_id;
+	int			connecting_player_count;				// no. of peers
+	char		self_ec_player_id;
 
-	char	send_head;		// queue_head == queue_tail, empty
-	char	send_tail;		// queue_tail == queue_head -1, full
+	char		send_head;		// queue_head == queue_tail, empty
+	char		send_tail;		// queue_tail == queue_head -1, full
 	VLenQueue	send_queue[MAX_QUEUE];			// include EcMsgHeader and 8-bit CRC
-	char	ack_flag[MAX_QUEUE][MAX_PLAYER];
+	char		ack_flag[MAX_QUEUE][MAX_PLAYER];
 	uint32_t	send_time[MAX_QUEUE];
 	uint32_t	re_send_after[MAX_QUEUE];
 
 	uint32_t	dp_id[MAX_PLAYER];		// directPlay playerid, 0 if not valid
-	char	wait_to_receive[MAX_PLAYER];
-	char	recv_flag[MAX_PLAYER][MAX_QUEUE];
+	char		wait_to_receive[MAX_PLAYER];
+	char		recv_flag[MAX_PLAYER][MAX_QUEUE];
 	// char	next_send[MAX_PLAYER];
 	// char	next_ack_send[MAX_PLAYER];
 	// char	retrans_state[MAX_PLAYER];
 
-	char	recv_head;
-	char	recv_tail;
+	char		recv_head;
+	char		recv_tail;
 	VLenQueue	receive_queue[MAX_RECV_QUEUE];		// include EcMsgHeader and 8-bit CRC
 
 private:
-	static inline void inc_frame_id(char &frameId)
-		{ if(++frameId >= MAX_QUEUE) frameId = 0; }
-	static inline char next_frame_id(char frameId)
-		{ return frameId >= MAX_QUEUE-1 ? 0 : frameId+1 ; }
-	static inline char prev_frame_id(char frameId)
-		{ return frameId <= 0 ? MAX_QUEUE-1 : frameId-1 ; }
-	static int	is_between(int low, int t, int high)
-		{ return low <= high ? (low <= t && t < high) : (low <= t || t < high); }
+	static inline void 	inc_frame_id(char &frameId) { if(++frameId >= MAX_QUEUE) frameId = 0; }
+	static inline char 	next_frame_id(char frameId) { return frameId >= MAX_QUEUE-1 ? 0 : frameId+1 ; }
+	static inline char 	prev_frame_id(char frameId) { return frameId <= 0 ? MAX_QUEUE-1 : frameId-1 ; }
+	static int			is_between(int low, int t, int high) { return low <= high ? (low <= t && t < high) : (low <= t || t < high); }
 
-	int	is_send_empty();
-	int	is_send_full();
-	int	send_queue_space();
-	int	en_send_queue();									// return frameId
+	int		is_send_empty();
+	int		is_send_full();
+	int		send_queue_space();
+	int		en_send_queue();									// return frameId
 	void	de_send_queue();									// free send_head
 
-	int	is_recv_empty();
-	int	is_recv_full();
+	int		is_recv_empty();
+	int		is_recv_full();
 	void	en_recv_queue(void *dataPtr, uint32_t dataLen);
-	int	recv_queue_space();
+	int		recv_queue_space();
 
 	// functions on ack_flag
-	int	is_waiting_ack(char ecPlayerId, char frameId);
+	int		is_waiting_ack(char ecPlayerId, char frameId);
 	void	set_ack(char ecPlayerId, char frameId);
 	void	clear_ack(char frameId);
-	int	are_all_acked(char frameId);
+	int		are_all_acked(char frameId);
 	void	clear_acked_frame();
 
 	// functions on recv_flag
-	int	is_waiting_receive(char ecPlayerId, char frameId);
+	int		is_waiting_receive(char ecPlayerId, char frameId);
 	void	set_recv_flag(char ecPlayerId, char frameId);
 	void	clear_recv_flag(char ecPlayerId, char frameId);
 
 	void	mark_send_time(char frameId, uint32_t duration);
-	int	need_re_send(char frameId, int promptFactor);
+	int		need_re_send(char frameId, int promptFactor);
 
 public:
 	void	init(MultiPlayer *mp, char ecPlayerId );
@@ -116,11 +112,11 @@ public:
 	void	set_dp_id(char ecPlayerId, uint32_t dpPlayerId );
 	char	get_ec_player_id( uint32_t dpPlayerId );
 
-	int	send(char ecPlayerId, void *dataPtr, uint32_t dataLen);
-	char *receive(char *sendEcPlayerId, uint32_t *dataLen);
+	int		send(char ecPlayerId, void *dataPtr, uint32_t dataLen);
+	char*	receive(char *sendEcPlayerId, uint32_t *dataLen);
 	void	de_recv_queue();			// get the content from recv_queue[recv_head] before de_recv_queue
 
-	int	is_player_valid(char ecPlayerId);
+	int		is_player_valid(char ecPlayerId);
 	void	set_player_lost(char ecPlayerId);
 	void	yield();
 	void	re_transmit(int promptFactor=1);

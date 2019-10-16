@@ -436,7 +436,7 @@ struct MpStructChatMsg : public MpStructBase
 
 struct MpStructSyncLevel : public MpStructBase
 {
-	char sync_test_level;
+	int32_t sync_test_level;
 	MpStructSyncLevel(char syncLevel) : MpStructBase(MPMSG_SEND_SYNC_TEST_LEVEL), sync_test_level(syncLevel)
 	{
 	}
@@ -3697,7 +3697,7 @@ int Game::mp_select_option(NewNationPara *nationPara, int *mpPlayerCount)
 								MpStructProcessFrameDelay msgframeDelay(frameDelaySettingArray[frameDelayGroupSetting]);
 								mp_obj.send( from, &msgframeDelay, sizeof(msgframeDelay) );
 								// ##### end Gilbert 11/3 ########//
-								remote.sync_test_level = 2;
+								remote.sync_test_level = 0x7fff;
 								// send remote.sync_test_level
 								MpStructSyncLevel msgSyncTest(remote.sync_test_level);
 								mp_obj.send( from, &msgSyncTest, sizeof(msgSyncTest) );
