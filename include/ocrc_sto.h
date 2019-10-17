@@ -59,6 +59,16 @@ public:
 	void	record_spies();
 	void	record_sites();
 	void	record_talk_msgs();
+	
+	void dump_nations();
+	void dump_units();
+	void dump_firms();
+	void dump_towns();
+	void dump_bullets();
+	void dump_rebels();
+	void dump_spies();
+	void dump_sites();
+	// void dump_talk_msgs();
 
 	void	record_all();
 	void	send_all();

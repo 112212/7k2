@@ -437,7 +437,7 @@ struct MpStructChatMsg : public MpStructBase
 struct MpStructSyncLevel : public MpStructBase
 {
 	int32_t sync_test_level;
-	MpStructSyncLevel(char syncLevel) : MpStructBase(MPMSG_SEND_SYNC_TEST_LEVEL), sync_test_level(syncLevel)
+	MpStructSyncLevel(int32_t syncLevel) : MpStructBase(MPMSG_SEND_SYNC_TEST_LEVEL), sync_test_level(syncLevel)
 	{
 	}
 };

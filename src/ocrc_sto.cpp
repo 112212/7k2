@@ -56,6 +56,45 @@ void CrcStore::deinit()
 	sites.clear();
 	talk_msgs.clear();
 }
+#include <string>
+
+int ocrc_sto_object_size = 0;
+const char* ocrc_sto_class_name = "";
+
+void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr) {
+	size_t pos = data.find(toSearch);
+	while(pos != std::string::npos) {
+		data.replace(pos, toSearch.size(), replaceStr);
+		pos = data.find(toSearch, pos + replaceStr.size());
+	}
+}
+
+void dump_binary(std::string filename, int size, void* bin=0) {
+	
+	#define DUMP_DIR "memory_dump"
+	std::string fname(DUMP_DIR);
+	fname = fname + "/" + filename;
+	
+	// create folder path
+	std::string folder = fname;
+	size_t t = folder.rfind('/');
+	if(t != folder.npos) {
+		folder = folder.substr(0, t);
+	}
+#ifndef NO_WINDOWS
+	findAndReplaceAll(folder, "/", "\\");
+#endif
+	if(!misc.is_file_exist((char*)folder.c_str()))
+		misc.mkpath((char*)folder.c_str());
+	
+	
+	FILE* f = fopen(fname.c_str(),"wb");
+	if(f) {
+		extern void *omp_crc_ptr;
+		fwrite(bin?bin:omp_crc_ptr, size, 1, f);
+		fclose(f);
+	}
+}
 
 void CrcStore::record_nations()
 {
@@ -68,6 +107,9 @@ void CrcStore::record_nations()
 		if( !nation_array.is_deleted(nationRecno) )
 			checkNum = nation_array[nationRecno]->crc8();
 		*(CRC_TYPE *)nations.reserve(sizeof(CRC_TYPE)) = checkNum;
+		
+		
+		dump_binary(std::string("nations/") + ocrc_sto_class_name + std::to_string(nationRecno) + ".dump", ocrc_sto_object_size);
 	}
 }
 
@@ -82,6 +124,8 @@ void CrcStore::record_units()
 		if( !unit_array.is_deleted(unitRecno) )
 			checkNum = unit_array[unitRecno]->crc8();
 		*(CRC_TYPE *)units.reserve(sizeof(CRC_TYPE)) = checkNum;
+		
+		dump_binary(std::string("units/") + ocrc_sto_class_name + std::to_string(unitRecno) + ".dump", ocrc_sto_object_size);
 	}
 }
 
@@ -95,6 +139,7 @@ void CrcStore::record_firms()
 		CRC_TYPE checkNum = 0;
 		if( !firm_array.is_deleted(firmRecno) )
 			checkNum = firm_array[firmRecno]->crc8();
+		dump_binary(std::string("firms/") + ocrc_sto_class_name + std::to_string(firmRecno) + ".dump", ocrc_sto_object_size);
 		*(CRC_TYPE *)firms.reserve(sizeof(CRC_TYPE)) = checkNum;
 	}
 }
@@ -109,6 +154,7 @@ void CrcStore::record_towns()
 		CRC_TYPE checkNum = 0;
 		if( !town_array.is_deleted(townRecno) )
 			checkNum = town_array[townRecno]->crc8();
+		dump_binary(std::string("towns/") + ocrc_sto_class_name + std::to_string(townRecno) + ".dump", ocrc_sto_object_size);
 		*(CRC_TYPE *)towns.reserve(sizeof(CRC_TYPE)) = checkNum;
 	}
 }
@@ -195,18 +241,53 @@ void CrcStore::record_talk_msgs()
 	}
 }
 
-
+extern int desync_flags;
 void CrcStore::record_all()
 {
-	record_nations();
-	record_units();
-	record_firms();
-	record_towns();
-	record_bullets();
-	record_rebels();
-	record_spies();
-	record_sites();
-	record_talk_msgs();
+	int d = MSG_COMPARE_NATION;
+	if( ((1 << (MSG_COMPARE_NATION-d)) & desync_flags) == 0)
+		record_nations();
+	if( ((1 << (MSG_COMPARE_UNIT-d)) & desync_flags) == 0)
+		record_units();
+	if( ((1 << (MSG_COMPARE_FIRM-d)) & desync_flags) == 0)
+		record_firms();
+	if( ((1 << (MSG_COMPARE_TOWN-d)) & desync_flags) == 0)
+		record_towns();
+	if( ((1 << (MSG_COMPARE_BULLET-d)) & desync_flags) == 0)
+		record_bullets();
+	if( ((1 << (MSG_COMPARE_REBEL-d)) & desync_flags) == 0)
+		record_rebels();
+	if( ((1 << (MSG_COMPARE_SPY-d)) & desync_flags) == 0)
+		record_spies();
+	if( ((1 << (MSG_COMPARE_SITE-d)) & desync_flags) == 0)
+		record_sites();
+	if( ((1 << (MSG_COMPARE_TALK-d)) & desync_flags) == 0)
+		record_talk_msgs();
+}
+
+void CrcStore::dump_nations() {
+	
+}
+void CrcStore::dump_units() {
+}
+
+void CrcStore::dump_firms() {
+	
+}
+void CrcStore::dump_towns() {
+	
+}
+void CrcStore::dump_bullets() {
+	
+}
+void CrcStore::dump_rebels() {
+	
+}
+void CrcStore::dump_spies() {
+	
+}
+void CrcStore::dump_sites() {
+	
 }
 
 

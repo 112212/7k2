@@ -42,6 +42,8 @@
 #include <obox.h>
 #include <oworldmt.h>
 
+#include <iostream>
+
 //---------------- Define variable type ---------------//
 
 typedef void (RemoteMsg::*MsgProcessFP)();
@@ -1817,6 +1819,7 @@ void RemoteMsg::mobilize_worker()
 			FirmCamp *camp = firmPtr->cast_to_FirmCamp();
 			if( shortPtr[1] >= 1 && shortPtr[1] <= camp->soldier_count && !camp->soldier_array[shortPtr[1]-1].is_under_training() )
 			{
+				std::cout << "[rem] mobilize soldier: " << shortPtr[1] << "\n";
 				camp->mobilize_soldier(shortPtr[1], COMMAND_REMOTE);
 			}
 		}
@@ -1826,6 +1829,7 @@ void RemoteMsg::mobilize_worker()
 			if( shortPtr[1] == -1				// mobilize all trainee
 				|| shortPtr[1] >= 1 && shortPtr[1] <= train->trainee_count && !train->trainee_array[shortPtr[1]-1].is_under_training )
 			{
+				std::cout << "[rem] mobilize trainee: " << shortPtr[1] << "\n";
 				train->mobilize_trainee(shortPtr[1], COMMAND_REMOTE);
 			}
 		}
@@ -1835,6 +1839,7 @@ void RemoteMsg::mobilize_worker()
 			if( shortPtr[1] == -1				// mobilize all trainee
 				|| shortPtr[1] >= 1 && shortPtr[1] <= train->trainee_count && !train->trainee_array[shortPtr[1]-1].is_under_training() )
 			{
+				std::cout << "[rem] mobilize trainee: " << shortPtr[1] << "\n";
 				train->mobilize_trainee(shortPtr[1], COMMAND_REMOTE);
 			}
 		}
@@ -1862,6 +1867,7 @@ void RemoteMsg::mobilize_overseer()
 		Firm *firmPtr = firm_array[*shortPtr];
 		if( firmPtr->cast_to_FirmCamp() )
 		{
+			std::cout << "[rem] mobilize overseer\n";
 			firmPtr->cast_to_FirmCamp()->assign_overseer(0);
 		}
 		else
@@ -2232,6 +2238,7 @@ void RemoteMsg::camp_patrol()
 #ifdef DEBUG
 				long_log->printf("camp %d patrols\n", *shortPtr);
 #endif
+				std::cout << "[rem] camp patrol: " << shortPtr[1] << "\n";
 				camp->patrol(shortPtr[1]);
 			}
 		}
@@ -3687,8 +3694,13 @@ void RemoteMsg::chat()
 	}
 }
 //------- End of function RemoteMsg::chat -------//
-#include <map>
-
+#include <vector>
+int desync_flags = 0;
+const char* desync_messages[] = {
+	"nation", "unit", "firm", "town", "bullet", "rebel", "spy", "site", "talk",
+	"CRC"
+};
+#include <ose.h>
 //------- Begin of function RemoteMsg::compare_remote_object -------//
 void	RemoteMsg::compare_remote_object()
 {
@@ -3701,24 +3713,15 @@ void	RemoteMsg::compare_remote_object()
 	{
 		// remote.sync_test_level = ~remote.sync_test_level;	// signal error encountered
 		remote.sync_test_level &= ~flg;
-		std::map<int, const char*> messages = {
-			{ MSG_COMPARE_NATION, "nation" },
-			{ MSG_COMPARE_UNIT, "unit" },
-			{ MSG_COMPARE_FIRM, "firm" },
-			{ MSG_COMPARE_TOWN, "town" },
-			{ MSG_COMPARE_BULLET, "bullet" },
-			{ MSG_COMPARE_REBEL, "rebel" },
-			{ MSG_COMPARE_SPY, "spy" },
-			{ MSG_COMPARE_SITE, "site" },
-			{ MSG_COMPARE_TALK, "talk" },
-		};
-		 
-		String str("Multiplayer CRC Sync Error.");
-		str += messages[id];
-		if( sys.debug_session )
-			err.run( (char*)str );
-		else
-			box.msg( (char*)str );
+		desync_flags |= flg;
+		se_ctrl.immediate_sound("GONG");
+		sys.set_speed(0, COMMAND_REMOTE);
+		// String str("Multiplayer CRC Sync Error.");
+		// str += desync_messages[id-MSG_COMPARE_NATION];
+		// if( sys.debug_session )
+			// err.run( (char*)str );
+		// else
+			// box.msg( (char*)str );
 	}
 }
 //------- End of function RemoteMsg::compare_remote_object -------//

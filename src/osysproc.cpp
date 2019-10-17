@@ -372,7 +372,7 @@ void Sys::main_loop(int isLoadedGame)
 						LOG_END;
 
 				   // -------- compare objects' crc --------- //
-					if( remote.is_enable() && (remote.sync_test_level & 2) &&(frame_count % 10) == 0)
+					if( remote.is_enable() && (remote.sync_test_level & 2) &&(frame_count % 5) == 0)
 					{
 						// cannot compare every frame, as PROCESS_FRAME_DELAY >= 1
 						crc_store.record_all();
@@ -564,9 +564,21 @@ void Sys::main_loop(int isLoadedGame)
 			str += " sel:";
 			str += unit_array.selected_recno;
 
-			vga.active_buf->bar( ZOOM_X1, 0, ZOOM_X1+400, 30, 0xffffffff );
+			vga.active_buf->bar( ZOOM_X1, 0, ZOOM_X1+400, 45, 0xffffffff );
 			font_news.center_put( ZOOM_X1, 15, ZOOM_X1+400, 15, str, 0);
-			blt_virtual_buf_area(ZOOM_X1, 0, ZOOM_X1+400, 30);
+			
+			
+			extern int desync_flags;
+			extern const char* desync_messages[];
+			String str2("des: ");
+			for(int i =0; i < MSG_COMPARE_TALK - MSG_COMPARE_NATION; i++) {
+				if( desync_flags & (1<<(i+2))) {
+					str2 += desync_messages[i];
+					str2 += " ";
+				}
+			}
+			font_news.center_put( ZOOM_X1, 30, ZOOM_X1+400, 30, str2, 0);
+			blt_virtual_buf_area(ZOOM_X1, 0, ZOOM_X1+400, 60);
 		}
 	}
 
