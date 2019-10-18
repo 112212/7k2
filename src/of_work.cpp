@@ -38,6 +38,9 @@
 FirmWork::FirmWork()
 {
 	worker_count = 0;
+	for(int i=0; i < MAX_WORKER; i++) {
+		worker_array[i].town_recno = 0;
+	}
 	needed_worker_count = INIT_NEEDED_WORKER_COUNT;
 	selected_worker_id = 0;
 

@@ -208,7 +208,7 @@ void RegionArray::sort_region()
 
 	//----------- sort it now -----------//
 
-	qsort( region_sorted_array, region_info_count, sizeof(region_sorted_array[0]), sort_region_function );
+	game_qsort( region_sorted_array, region_info_count, sizeof(region_sorted_array[0]), sort_region_function );
 }
 //--------- End of function RegionArray::sort_region -------//
 

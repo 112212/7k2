@@ -138,7 +138,7 @@ void Translate::init()
 
    //-------- sort the translation table ----------//
 
-   qsort( translate_table, rec_count, sizeof(TranslateRec), sort_translate_table );
+   game_qsort( translate_table, rec_count, sizeof(TranslateRec), sort_translate_table );
 
    //-------- create the quick_seek_table ----------//
 

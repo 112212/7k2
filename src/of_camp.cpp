@@ -781,7 +781,7 @@ void FirmCamp::sort_soldier()
 			selectedSoldier = soldier_array[selected_soldier_id-1];
 
 		cur_firm_ptr = this;
-		qsort( soldier_array, soldier_count, sizeof(Soldier), sort_soldier_function );
+		game_qsort( soldier_array, soldier_count, sizeof(Soldier), sort_soldier_function );
 
 		//---- scan soldier_array[] for preserving the currently soldier selected ---//
 

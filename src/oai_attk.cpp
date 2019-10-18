@@ -506,7 +506,7 @@ int Nation::ai_attack_target(int targetXLoc, int targetYLoc, int targetCombatLev
 
    //---- now sort the camps based on their distances & combat levels ----//
 
-   qsort( &attack_camp_array, attack_camp_count, sizeof(attack_camp_array[0]), sort_attack_camp_function );
+   game_qsort( &attack_camp_array, attack_camp_count, sizeof(attack_camp_array[0]), sort_attack_camp_function );
 
    //----- now take out the lowest rating ones -----//
 

@@ -69,7 +69,7 @@ void findAndReplaceAll(std::string & data, std::string toSearch, std::string rep
 	}
 }
 
-void dump_binary(std::string filename, int size, void* bin=0) {
+void dump_binary(std::string filename, int size, int checknum = -9999, void* bin=0) {
 	
 	#define DUMP_DIR "memory_dump"
 	std::string fname(DUMP_DIR);
@@ -87,12 +87,21 @@ void dump_binary(std::string filename, int size, void* bin=0) {
 	if(!misc.is_file_exist((char*)folder.c_str()))
 		misc.mkpath((char*)folder.c_str());
 	
-	
-	FILE* f = fopen(fname.c_str(),"wb");
-	if(f) {
-		extern void *omp_crc_ptr;
-		fwrite(bin?bin:omp_crc_ptr, size, 1, f);
-		fclose(f);
+	if(false && checknum != -9999) {
+		fname += ".txt";
+		FILE* f = fopen(fname.c_str(), "wb");
+		if(f) {
+			auto cont = std::to_string(checknum);
+			fwrite(cont.c_str(), cont.size(), 1, f);
+			fclose(f);
+		}
+	} else {
+		FILE* f = fopen(fname.c_str(), "wb");
+		if(f) {
+			extern void *omp_crc_ptr;
+			fwrite(bin?bin:omp_crc_ptr, size, 1, f);
+			fclose(f);
+		}
 	}
 }
 
@@ -109,7 +118,7 @@ void CrcStore::record_nations()
 		*(CRC_TYPE *)nations.reserve(sizeof(CRC_TYPE)) = checkNum;
 		
 		
-		dump_binary(std::string("nations/") + ocrc_sto_class_name + std::to_string(nationRecno) + ".dump", ocrc_sto_object_size);
+		dump_binary(std::string("nations/") + ocrc_sto_class_name + std::to_string(nationRecno), ocrc_sto_object_size, checkNum);
 	}
 }
 
@@ -125,7 +134,7 @@ void CrcStore::record_units()
 			checkNum = unit_array[unitRecno]->crc8();
 		*(CRC_TYPE *)units.reserve(sizeof(CRC_TYPE)) = checkNum;
 		
-		dump_binary(std::string("units/") + ocrc_sto_class_name + std::to_string(unitRecno) + ".dump", ocrc_sto_object_size);
+		dump_binary(std::string("units/") + ocrc_sto_class_name + std::to_string(unitRecno), ocrc_sto_object_size, checkNum);
 	}
 }
 
@@ -139,7 +148,7 @@ void CrcStore::record_firms()
 		CRC_TYPE checkNum = 0;
 		if( !firm_array.is_deleted(firmRecno) )
 			checkNum = firm_array[firmRecno]->crc8();
-		dump_binary(std::string("firms/") + ocrc_sto_class_name + std::to_string(firmRecno) + ".dump", ocrc_sto_object_size);
+		dump_binary(std::string("firms/") + ocrc_sto_class_name + std::to_string(firmRecno), ocrc_sto_object_size, checkNum);
 		*(CRC_TYPE *)firms.reserve(sizeof(CRC_TYPE)) = checkNum;
 	}
 }
@@ -154,7 +163,7 @@ void CrcStore::record_towns()
 		CRC_TYPE checkNum = 0;
 		if( !town_array.is_deleted(townRecno) )
 			checkNum = town_array[townRecno]->crc8();
-		dump_binary(std::string("towns/") + ocrc_sto_class_name + std::to_string(townRecno) + ".dump", ocrc_sto_object_size);
+		dump_binary(std::string("towns/") + ocrc_sto_class_name + std::to_string(townRecno), ocrc_sto_object_size, checkNum);
 		*(CRC_TYPE *)towns.reserve(sizeof(CRC_TYPE)) = checkNum;
 	}
 }

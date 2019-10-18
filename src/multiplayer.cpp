@@ -697,7 +697,7 @@ void MultiPlayer::poll_players()
 	for ( ; i < MAX_NATION; i++)
 		player_pool[i] = NULL;
 
-	qsort(&player_pool, count, sizeof(player_pool[0]), &sort_players);
+	game_qsort(&player_pool, count, sizeof(player_pool[0]), &sort_players);
 }
 
 // retrieve the ith-1 index from the player pool array

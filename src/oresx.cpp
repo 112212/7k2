@@ -523,7 +523,7 @@ void ResourceIdx::build_sorted_index()
 
 	// ------ sort sorted_index_buf ------- //
 	if( rec_count > 1 )
-		qsort( sorted_index_buf, rec_count, sizeof(ResIndex), sort_res_index_func );
+		game_qsort( sorted_index_buf, rec_count, sizeof(ResIndex), sort_res_index_func );
 }
 // ------- end of function ResourceIdx::build_sorted_index -------//
 

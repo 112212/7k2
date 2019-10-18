@@ -166,7 +166,7 @@ int Nation::think_capture_independent(int hireCapturer)
 	err_when(capture_town_count > MAX_CAPTURE_TOWN);
 	//------ sort the capture target choices by min_resistance ----//
 
-	qsort( &capture_town_array, capture_town_count, sizeof(capture_town_array[0]), sort_capture_town_function );
+	game_qsort( &capture_town_array, capture_town_count, sizeof(capture_town_array[0]), sort_capture_town_function );
 
 	//------- try to capture the town in their resistance order ----//
 

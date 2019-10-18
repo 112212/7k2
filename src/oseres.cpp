@@ -202,7 +202,7 @@ static int seinfo_cmp(const void *r1, const void *r2)
 void SERes::sort_info()
 {
 	// notice object_id -1 are put after any other object_id 
-	qsort(se_array, se_array_count, sizeof(SEInfo), seinfo_cmp);
+	game_qsort(se_array, se_array_count, sizeof(SEInfo), seinfo_cmp);
 }
 // --------- end of function SERes::sort_info --------//
 

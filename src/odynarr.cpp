@@ -466,7 +466,7 @@ void DynArray::free_ptr( void* freebody, int *stringOffset )
 //
 void DynArray::quick_sort( int(*cmpFun)(const void*, const void*) )
 {
-   qsort( body_buf, last_ele, ele_size, cmpFun );
+   game_qsort( body_buf, last_ele, ele_size, cmpFun );
 
 }
 //------------- End of function DynArray::quick_sort --------------//

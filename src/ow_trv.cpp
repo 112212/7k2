@@ -299,7 +299,7 @@ void WorldScanTraverser::sort_by_distance( int xLoc, int yLoc, int locSize )
 	sort_center_y1 = yLoc;
 	sort_center_x2 = xLoc + locSize - 1;
 	sort_center_y2 = yLoc + locSize - 1;
-	qsort( unit_recno_array, scan_count, sizeof(*unit_recno_array), sort_unit_by_dist1 );
+	game_qsort( unit_recno_array, scan_count, sizeof(*unit_recno_array), sort_unit_by_dist1 );
 }
 // ----- end of function WorldScanTraverser::sort_by_distance -------//
 
@@ -309,7 +309,7 @@ void WorldScanTraverser::sort_by_distance( int xLoc, int yLoc, int locSize )
 void WorldScanTraverser::sort_by_distance( BaseObj *centerObj )
 {
 	sort_center_obj = centerObj;
-	qsort( unit_recno_array, scan_count, sizeof(*unit_recno_array), sort_unit_by_dist2 );
+	game_qsort( unit_recno_array, scan_count, sizeof(*unit_recno_array), sort_unit_by_dist2 );
 }
 // ----- end of function WorldScanTraverser::sort_by_distance -------//
 
@@ -318,7 +318,7 @@ void WorldScanTraverser::sort_by_distance( BaseObj *centerObj )
 //
 void WorldScanTraverser::sort_by_weight()
 {
-	qsort( unit_recno_array, scan_count, sizeof(*unit_recno_array), sort_unit_by_weight );
+	game_qsort( unit_recno_array, scan_count, sizeof(*unit_recno_array), sort_unit_by_weight );
 }
 // ----- end of function WorldScanTraverser::sort_by_weight -------//
 

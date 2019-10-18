@@ -24,6 +24,10 @@
 
 #include <stdint.h>
 
+typedef int (*compare_func)(const void*, const void*);
+
+void game_qsort(void* array, int size, int membsize, compare_func comp);
+
 #ifdef NO_WINDOWS // !WINE && !WIN32
 
 #include <ctype.h>

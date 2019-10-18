@@ -95,6 +95,8 @@ static union
 void *omp_crc_ptr = &temp_obj;
 #include <iostream>
 #include <vector>
+extern int ocrc_sto_object_size;
+extern const char* ocrc_sto_class_name;
 #define REPORT(c) \
 	ocrc_sto_object_size = sizeof(c);\
 	ocrc_sto_class_name = #c;
@@ -141,8 +143,7 @@ void show_sizes() {
 	std::cout << "sum is: " << sum << "\n";
 }
 
-extern int ocrc_sto_object_size;
-extern char* ocrc_sto_class_name;
+
 // #define CRC_FUNC ::crc8
 #define CRC_FUNC ::summation
 unsigned char summation(unsigned char* o, int size) {
@@ -152,6 +153,72 @@ unsigned char summation(unsigned char* o, int size) {
 	}
 	return s;
 }
+
+
+// my sort
+typedef int (*compare_func)(const void*, const void*);
+struct sort_context {
+	void *arr;
+	int size;
+	int membsize;
+	compare_func compare;
+};
+
+
+static void swap(sort_context* ctx, int a, int b) {
+	if (a == b) return;
+	unsigned char* ma = (unsigned char*)ctx->arr + a*ctx->membsize;
+	unsigned char* mb = (unsigned char*)ctx->arr + b*ctx->membsize;
+	for(int i=0; i < ctx->membsize; i++) {
+		ma[i] = ma[i] ^ mb[i];
+		mb[i] = mb[i] ^ ma[i];
+		ma[i] = ma[i] ^ mb[i];
+	}
+}
+
+static int partition (sort_context* ctx, int low, int high)
+{  
+    void* pivot = (char*)ctx->arr+high*ctx->membsize; // pivot  
+    int i = (low - 1); // Index of smaller element  
+  
+    for (int j = low; j <= high - 1; j++)  
+    {  
+        // If current element is smaller than the pivot
+        if (ctx->compare((char*)ctx->arr+j*ctx->membsize, pivot) < 0)
+        {  
+            i++; // increment index of smaller element
+            // std::cout << "swap: " << i << ", " << j << "\n";
+            swap(ctx, i, j);
+        }
+    }  
+    swap(ctx, i + 1, high);
+    return i + 1; 
+}  
+
+static void quickSort_impl(sort_context* ctx, int low, int high)  
+{  
+    if (low < high)  
+    {  
+        /* pi is partitioning index, arr[p] is now  
+        at right place */
+        int pi = partition(ctx, low, high); 
+  
+        // Separately sort elements before  
+        // partition and after partition  
+        quickSort_impl(ctx, low, pi - 1);
+        quickSort_impl(ctx, pi + 1, high);  
+    }
+}
+
+
+
+void game_qsort(void* array, int size, int membsize, compare_func comp) {
+	sort_context ctx = { array, size, membsize, comp };
+	quickSort_impl(&ctx, 0, size-1);
+}
+//
+
+
 //----------- Begin of function BaseObj::crc8 -----------//
 UCHAR BaseObj::crc8()
 {
@@ -518,6 +585,7 @@ UCHAR FirmBase::crc8()
 	*((char**) &dummyFirmBase) = NULL;
 
 	UCHAR c = CRC_FUNC((UCHAR*)&dummyFirmBase, sizeof(FirmBase));
+	REPORT(FirmBase)
 	return c;
 }
 //----------- End of function FirmBase::crc8 -----------//

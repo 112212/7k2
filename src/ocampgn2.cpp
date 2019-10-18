@@ -3634,7 +3634,7 @@ void Campaign::attack_animation( CampaignAnimationUnit *attackerArray,
 				sortArray[a].init( a, attackerY2[a] );
 			sortArray[a].init( a, targetY2 );
 			int sortRecCount = a + 1;
-			qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
+			game_qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
 
 			// ---------- draw sprite -----------//
 
@@ -3834,7 +3834,7 @@ void Campaign::attack_animation( CampaignAnimationUnit *attackerArray,
 				sortArray[a].init( a, attackerY2[a] );
 			sortArray[a].init( a, targetY2 );
 			int sortRecCount = a + 1;
-			qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
+			game_qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
 
 			// ---------- draw sprite -----------//
 
@@ -4010,7 +4010,7 @@ void Campaign::attack_animation( CampaignAnimationUnit *attackerArray,
 				sortArray[a].init( a, attackerY2[a] );
 			sortArray[a].init( a, targetY2 );
 			int sortRecCount = a + 1;
-			qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
+			game_qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
 
 			// ---------- draw sprite -----------//
 
@@ -4274,7 +4274,7 @@ void Campaign::attack_animation( CampaignAnimationUnit *attackerArray,
 					sortArray[a].init( a, attackerY2[a] );
 				sortArray[a].init( a, targetY2 );
 				int sortRecCount = a + 1;
-				qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
+				game_qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
 
 				// ---------- draw sprite -----------//
 
@@ -4439,7 +4439,7 @@ void Campaign::attack_animation( CampaignAnimationUnit *attackerArray,
 					sortArray[a].init( a, attackerY2[a] );
 				sortArray[a].init( a, targetY2 );
 				int sortRecCount = a + 1;
-				qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
+				game_qsort( sortArray, sortRecCount, sizeof(SortRec), sortRecFunc );
 
 				// ---------- draw sprite -----------//
 

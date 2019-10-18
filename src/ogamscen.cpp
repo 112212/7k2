@@ -135,7 +135,7 @@ int Game::select_run_scenario(int countScenarioOnly)
 
 	//-------- sort by difficulty ---------- //
 
-	qsort(scenInfoArray, scenInfoSize, sizeof(ScenInfo), sort_scenario_func);
+	game_qsort(scenInfoArray, scenInfoSize, sizeof(ScenInfo), sort_scenario_func);
 
 	//-------- select and run a scenario --------//
 
