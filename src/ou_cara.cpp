@@ -68,6 +68,7 @@ UnitCaravan::UnitCaravan()
 	wait_count			= 0;
 	stop_x_loc			= 0;
 	stop_y_loc			= 0;
+	entered_firm_recno = 0;
 	default_market_trade_mode = 1;		// 1 = auto, 0 = manual
 
 	memset(raw_qty_array, 0, sizeof(short)*MAX_RAW);

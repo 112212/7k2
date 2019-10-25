@@ -1265,7 +1265,7 @@ void Town::update_quality_of_life()
 
 	//------ return the quality of life ------//
 
-	quality_of_life = int( (float)100 * totalPurchase / (townDemand * MAX_PRODUCT) );
+	quality_of_life = int( 100.0f * totalPurchase / (townDemand * MAX_PRODUCT) );
 }
 //----------- End of function Town::update_quality_of_life ---------//
 
