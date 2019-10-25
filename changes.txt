@@ -1,0 +1,16 @@
+- defensive stance is now useful rather than behaving exactly the same as stand ground stance
+- fixed AI cash cheat bug, which caused game with aggressive AI unplayable. 
+	AI would as frythan very quickly buy lairs and buy all frythan factions.
+	Also human would quickly be merged into one giant kingdom which is undefeatable.
+	All this is caused by $4k cash increase every 15 days for aggressive AI option.
+- shift+click on breed icon breeds 5 units at time
+- Exovum: use R to select closest full mage tor
+- Exovum: Mage Tor - damage building - now less effective
+- SDL2: scrolling is now smooth
+- SDL2: mouse speed is fixed
+- shift+R repairs all buildings
+- shift+click on Town Wall icon - builds wall on all towns
+- OGG music
+- 32bit and 64bit game version multiplayer compatibility
+- fixed 1600x900 resolution game crash while selecting units
+- fixed game freeze when minimizing game
