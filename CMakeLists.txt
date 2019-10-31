@@ -15,11 +15,16 @@ if(${MSVC})
 endif()
 add_definitions(-DUSE_OPENAL)
 
-set(DEBUG 1)
+# if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+	# set(DEBUG 1)
+# endif()
 
 if(DEBUG EQUAL 1)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+else()
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 endif()
 
 

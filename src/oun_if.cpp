@@ -1070,7 +1070,10 @@ void Unit::disp_button(int refreshFlag)
 			if( firmId<=MAX_FIRM_TYPE &&
 				 nation_recno == nation_array.player_recno ) 	// a spy cannot build structure for another nation
 			{
-				button_build.enable_flag = 1;
+				// TODO: check if monster using civilian
+				if(!(is_civilian() && (~nation_array)->is_monster())) {
+					button_build.enable_flag = 1;
+				}
 			}
 		}
 		button_build.paint();

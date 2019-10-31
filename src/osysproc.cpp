@@ -172,7 +172,7 @@ void Sys::run(int isLoadedGame)
 }
 //--------- End of function Sys::run --------//
 
-
+extern int my_multiplayer_debug_shown;
 //-------- Begin of function Sys::main_loop --------//
 //
 void Sys::main_loop(int isLoadedGame)
@@ -264,8 +264,6 @@ void Sys::main_loop(int isLoadedGame)
 	uint32_t exceededDispTime = 0;
 
 	DWORD firstUnreadyTime = 0;
-	Button lol;
-	lol.create_text(100, 100, "yaaay", 1, 0,1);
 	
 	while( 1 )
 	{
@@ -372,7 +370,7 @@ void Sys::main_loop(int isLoadedGame)
 						LOG_END;
 
 				   // -------- compare objects' crc --------- //
-					if( remote.is_enable() && (remote.sync_test_level & 2) &&(frame_count % 10) == 0)
+					if( remote.is_enable() && (remote.sync_test_level & 2) &&(frame_count % 50) == 0)
 					{
 						// cannot compare every frame, as PROCESS_FRAME_DELAY >= 1
 						crc_store.record_all();
@@ -546,7 +544,7 @@ void Sys::main_loop(int isLoadedGame)
 #endif
 		}
 		
-		if( remote.is_enable() && (testing_session || debug_session) || true )
+		if( remote.is_enable() && (testing_session || debug_session) || my_multiplayer_debug_shown )
 		{
 			String str;
 

@@ -1290,7 +1290,7 @@ int Firm::process_upgrade()
 //
 int Firm::should_show_info()
 {
-	config.show_ai_info = 1;
+	// config.show_ai_info = 1;
 	if( config.show_ai_info || nation_recno==nation_array.player_recno
 		|| reveal_info
 		// ###### begin gilbert 9/3 ######//

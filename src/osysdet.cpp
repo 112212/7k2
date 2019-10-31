@@ -75,6 +75,8 @@ static int	filter_unit( FilterUnitFunc filterFunc, int para1, int negate=0);
 
 static void select_full_magic_tower(int nationRecno);
 
+int my_multiplayer_debug_shown = 0;
+
 //-------- Begin of function Sys::detect --------//
 //
 void Sys::detect()
@@ -517,6 +519,7 @@ void Sys::detect_letter_key(unsigned scanCode, unsigned skeyState)
 
       case 'o':		// bring up the option menu  
 			option_menu.enter(!remote.is_enable());
+			my_multiplayer_debug_shown ^= 1;
 			break;
 
 		// case 'p':		// pause

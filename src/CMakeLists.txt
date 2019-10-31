@@ -469,7 +469,7 @@ add_library(7k2_lib STATIC ${7k2_SOURCES})
 
 add_executable(7k2 WIN32 am.cpp)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-  set(EXTRA_LIBS "ws2_32;winmm;imm32;version;mingw32;sndfile;-static-libstdc++;-static-libgcc;")
+  set(EXTRA_LIBS "ws2_32;winmm;imm32;version;mingw32;sndfile;-static-libstdc++;-static-libgcc;-s")
 endif()
 target_link_libraries(7k2 7k2_lib cimgfun ${ENET_LIBRARIES} ${JPEG_LIBRARIES} ${OPENAL_LIBRARY} ${EXTRA_LIBS} ${SDL2_LIBRARY} -lsndfile) # -s
 
