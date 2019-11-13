@@ -251,27 +251,45 @@ void CrcStore::record_talk_msgs()
 }
 
 extern int desync_flags;
-void CrcStore::record_all()
+void CrcStore::record_all(int n)
 {
 	int d = MSG_COMPARE_NATION;
-	if( ((1 << (MSG_COMPARE_NATION-d)) & desync_flags) == 0)
-		record_nations();
-	if( ((1 << (MSG_COMPARE_UNIT-d)) & desync_flags) == 0)
-		record_units();
-	if( ((1 << (MSG_COMPARE_FIRM-d)) & desync_flags) == 0)
-		record_firms();
-	if( ((1 << (MSG_COMPARE_TOWN-d)) & desync_flags) == 0)
-		record_towns();
-	if( ((1 << (MSG_COMPARE_BULLET-d)) & desync_flags) == 0)
-		record_bullets();
-	if( ((1 << (MSG_COMPARE_REBEL-d)) & desync_flags) == 0)
-		record_rebels();
-	if( ((1 << (MSG_COMPARE_SPY-d)) & desync_flags) == 0)
-		record_spies();
-	if( ((1 << (MSG_COMPARE_SITE-d)) & desync_flags) == 0)
-		record_sites();
-	if( ((1 << (MSG_COMPARE_TALK-d)) & desync_flags) == 0)
-		record_talk_msgs();
+	switch(n) {
+		case 0:
+			if( ((1 << (MSG_COMPARE_NATION-d)) & desync_flags) == 0)
+				record_nations();
+		break;
+		case 1:
+			if( ((1 << (MSG_COMPARE_UNIT-d)) & desync_flags) == 0)
+				record_units();
+		break;
+		case 2:
+			if( ((1 << (MSG_COMPARE_FIRM-d)) & desync_flags) == 0)
+				record_firms();
+		break;
+		case 3:
+			if( ((1 << (MSG_COMPARE_TOWN-d)) & desync_flags) == 0)
+				record_towns();
+		break;
+		case 4:
+			if( ((1 << (MSG_COMPARE_BULLET-d)) & desync_flags) == 0)
+				record_bullets();
+		break;
+		case 5:
+			if( ((1 << (MSG_COMPARE_REBEL-d)) & desync_flags) == 0)
+				record_rebels();
+		break;
+		case 6:
+			if( ((1 << (MSG_COMPARE_SPY-d)) & desync_flags) == 0)
+				record_spies();
+		break;
+		case 7:
+			if( ((1 << (MSG_COMPARE_SITE-d)) & desync_flags) == 0)
+				record_sites();
+		case 8:
+			if( ((1 << (MSG_COMPARE_TALK-d)) & desync_flags) == 0)
+				record_talk_msgs();
+	}
 }
 
 void CrcStore::dump_nations() {
@@ -300,35 +318,46 @@ void CrcStore::dump_sites() {
 }
 
 
-void CrcStore::send_all()
+void CrcStore::send_all(int n)
 {
 	char *charPtr;
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_NATION, nations.length() );
-	memcpy(charPtr, nations.queue_buf, nations.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_UNIT, units.length() );
-	memcpy(charPtr, units.queue_buf, units.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_FIRM, firms.length() );
-	memcpy(charPtr, firms.queue_buf, firms.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_TOWN, towns.length() );
-	memcpy(charPtr, towns.queue_buf, towns.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_BULLET, bullets.length() );
-	memcpy(charPtr, bullets.queue_buf, bullets.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_REBEL, rebels.length() );
-	memcpy(charPtr, rebels.queue_buf, rebels.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_SPY, spies.length() );
-	memcpy(charPtr, spies.queue_buf, spies.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_SITE, sites.length() );
-	memcpy(charPtr, sites.queue_buf, sites.length() );
-
-	charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_TALK, talk_msgs.length() );
-	memcpy(charPtr, talk_msgs.queue_buf, talk_msgs.length() );
+	switch(n) {
+		case 0:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_NATION, nations.length() );
+		memcpy(charPtr, nations.queue_buf, nations.length() );
+		break;
+		case 1:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_UNIT, units.length() );
+		memcpy(charPtr, units.queue_buf, units.length() );
+		break;
+		case 2:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_FIRM, firms.length() );
+		memcpy(charPtr, firms.queue_buf, firms.length() );
+		break;
+		case 3:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_TOWN, towns.length() );
+		memcpy(charPtr, towns.queue_buf, towns.length() );
+		break;
+		case 4:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_BULLET, bullets.length() );
+		memcpy(charPtr, bullets.queue_buf, bullets.length() );
+		break;
+		case 5:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_REBEL, rebels.length() );
+		memcpy(charPtr, rebels.queue_buf, rebels.length() );
+		break;
+		case 6:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_SPY, spies.length() );
+		memcpy(charPtr, spies.queue_buf, spies.length() );
+		break;
+		case 7:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_SITE, sites.length() );
+		memcpy(charPtr, sites.queue_buf, sites.length() );
+		break;
+		case 8:
+		charPtr = (char *)remote.new_send_queue_msg(MSG_COMPARE_TALK, talk_msgs.length() );
+		memcpy(charPtr, talk_msgs.queue_buf, talk_msgs.length() );
+	}
 }
 
 // return 0 if equal

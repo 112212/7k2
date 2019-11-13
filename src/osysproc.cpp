@@ -365,16 +365,19 @@ void Sys::main_loop(int isLoadedGame)
 					processTime = misc.get_time() - processTime;
 #endif
 
-				   if(remote.is_enable() )
+				   if(remote.is_enable() ) {
 						misc.lock_seed();    // such that random seed is unchanged outside sys::process()
 						LOG_END;
+					}
 
 				   // -------- compare objects' crc --------- //
-					if( remote.is_enable() && (remote.sync_test_level & 2) &&(frame_count % 50) == 0)
+				   #define CRC_PERIOD 50
+					if( remote.is_enable() && (remote.sync_test_level & 2) && (frame_count % CRC_PERIOD) == 0)
 					{
 						// cannot compare every frame, as PROCESS_FRAME_DELAY >= 1
-						crc_store.record_all();
-						crc_store.send_all();
+						int n = frame_count/CRC_PERIOD % 9;
+						crc_store.record_all(n);
+						crc_store.send_all(n);
 					}
 
 				}

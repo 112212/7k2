@@ -70,8 +70,8 @@ public:
 	void dump_sites();
 	// void dump_talk_msgs();
 
-	void	record_all();
-	void	send_all();
+	void	record_all(int n);
+	void	send_all(int n);
 	int	compare_remote(DWORD remoteMsgId, char *);
 };
 
