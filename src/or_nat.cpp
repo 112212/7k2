@@ -211,6 +211,7 @@ void Info::disp_nation(int refreshFlag)
 	//	font_bld.put( x+465, y   , "Trade" );
 	//	font_bld.put( x+465, y+13, "Amount" );
 		font_bld.put_paragraph( x+465, y, x+525, y+28, text_reports.str_nat_trade_amount(), 0 );
+		font_bld.put_paragraph( x+465+60, y, x+525+60, y+28, "Relation", 0 );
 #endif
 		//SXM
 	}
@@ -402,7 +403,7 @@ static void put_nation_rec(int recNo, int x, int y, int refreshFlag)
 			if( nationPtr->nation_type == NATION_AI )
 			{
 				str += " (";
-				str += nationRelation->ai_relation_level;
+				str += nationPtr->get_relation(info.viewing_nation_recno)->ai_relation_level;
 				str += ")";
 			}
 		}
@@ -423,12 +424,13 @@ static void put_nation_rec(int recNo, int x, int y, int refreshFlag)
 		{
 			font_bld.put( x+465, y, misc.format( (int) viewingNation->total_year_trade(nationRecno),2) );
 		}
+		
 		// ###### end Gilbert 11/5 ########//
 
-		if( config.show_debug_info )
+		if( true || config.show_debug_info )
 		{
-			font_bld.put( x+510, y, misc.format(nationPtr->get_relation(info.viewing_nation_recno)->ai_relation_level) );
-			font_bld.put( x+180, y, misc.format( (int) nationPtr->get_relation(info.viewing_nation_recno)->good_relation_duration_rating) );
+			font_bld.put( x+510+30, y, misc.format(nationPtr->get_relation(info.viewing_nation_recno)->ai_relation_level) );
+			font_bld.put( x+510+30+30, y, misc.format( (int) nationPtr->get_relation(info.viewing_nation_recno)->good_relation_duration_rating) );
 		}
 	}
 }
@@ -648,6 +650,8 @@ static void disp_nation_info()
 		// font_bld.field( x1, y+=lineSpacing, str, x2, nationPtr->peace_duration_str(), x3, INFO_REPAINT, "PEACE" );
 		font_bld.field( x1, y+=lineSpacing, text_reports.str_enemy_peace_time(nationPtr->nation_name()),
 			x2, nationPtr->peace_duration_str(), x3, INFO_REPAINT, "PEACE" );
+			
+		
 
 		//--------- duration of current status ----------//
 

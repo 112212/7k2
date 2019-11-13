@@ -478,7 +478,7 @@ void VgaSDL::update_screen()
 {
    static Uint32 ticks = 0;
    Uint32 cur_ticks = SDL_GetTicks();
-   if (cur_ticks > ticks + 20 || cur_ticks < ticks) {
+   if (cur_ticks > ticks + 15 || cur_ticks < ticks) {
       ticks = cur_ticks;
       SDL_BlitSurface(screen, NULL, target, NULL);
       SDL_UpdateTexture(texture, NULL, target->pixels, window_pitch);
