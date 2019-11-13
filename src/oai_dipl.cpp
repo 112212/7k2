@@ -810,7 +810,7 @@ int Nation::think_demand_tribute_aid()
 {
 	if( info.game_date < info.game_start_date + 180 + nation_recno*50 )		// don't ask for tribute too soon, as in the beginning, the ranking are all the same for all nations
 		return 0;
-
+	return 0; // TODO: make this optional
 	//--------------------------------------//
 
 	Nation* nationPtr;
